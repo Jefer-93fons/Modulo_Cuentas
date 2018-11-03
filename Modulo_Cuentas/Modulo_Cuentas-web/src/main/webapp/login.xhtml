@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Proyecto Arquitectura</title>
+    </h:head>
+    <h:body>
+        <p:growl id="growl" sticky="true" showDetail="true" />
+        <h:form>
+            <p:messages autoUpdate="true"/>
+            <h:panelGrid columns="2">
+                <p:outputLabel for="txtUsuario" value="Usuario"/>
+                <p:inputText id="txtUsuario" value="#{usuarioController.usuario.nombreUsuario}" required="true"/>
+                
+                <p:outputLabel for="txtClave" value="Clave"/>
+                <p:password id="txtClave" value="#{usuarioController.usuario.claveUsuario}" required="true"/>
+                
+                <h:column/>
+                <f:facet name="footer">
+                    <p:commandButton value="Iniciar" action="#{usuarioController.iniciarSesion()}"/>
+                </f:facet>
+                                
+                
+            </h:panelGrid>
+            
+            <p:separator/>
+        </h:form>
+    </h:body>
+</html>
+
