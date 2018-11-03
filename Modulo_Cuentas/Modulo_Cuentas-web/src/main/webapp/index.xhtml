@@ -15,6 +15,7 @@
                 Proyecto Arquitectura
             </ui:insert>
         </title>
+        <f:event type="preRenderView" listener="#{usuarioController.verificarSesion()}" />
     </h:head>
 
     <h:body>

@@ -80,4 +80,15 @@ public class UsuarioController implements Serializable {
         
     }
     
+    public void verificarSesion(){
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            Usuario us = (Usuario) context.getExternalContext().getSessionMap().get("usuario");
+       
+            if (us==null){
+                context.getExternalContext().redirect("/Modulo_Cuentas-web/");
+            }
+        } catch (Exception e) {
+        }
+    }
 }
