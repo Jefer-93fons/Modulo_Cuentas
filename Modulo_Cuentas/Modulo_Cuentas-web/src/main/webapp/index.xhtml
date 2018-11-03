@@ -21,25 +21,43 @@
         <p:growl id="growl" life="3000" />
             <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
                 <h:form>
-                    <p:tabMenu activeIndex="#{param.i}">
-                        <p:menuitem value="Principal" outcome="/index.xhtml" icon="fa fa-home">
-                            <f:param name="i" value="0" />
-                        </p:menuitem>
-                        <p:menuitem value="Transacciones" icon="fa fa-th-list">
-                            <f:param name="i" value="1" />
-                        </p:menuitem>
-                        <p:menuitem value="Cuentas" outcome="/cuenta.xhtml" icon="fa fa-th-list">
-                            <f:param name="i" value="2" />
-                        </p:menuitem>
-                        <p:menuitem value="Productos" icon="fa fa-th-list">
-                            <f:param name="i" value="3" />
-                            <c:set var="guess" value="11"/>
-                        </p:menuitem>
-                    </p:tabMenu>
-                    <b>Usuario: #{usuario}</b>
-                    <br></br>                   
+                    <p:menubar>
+                        <p:menuitem value="Principal" url="/faces/index.xhtml" icon="ui-icon-home" />
+                        <p:submenu label="Transaciones" icon="ui-icon-gear ">
+                            <p:menuitem value="T1" url="#" />
+                            <p:separator />
+                            <p:menuitem value="T2" url="#" />
+                        </p:submenu>
+                        <p:submenu label="Cuentas" icon="ui-icon-circle-arrow-e">
+                            <p:menuitem value="Movimientos" url="/faces/Cuenta/movimientos.xhtml" />
+                            <p:separator />
+                            <p:menuitem value="C2" url="#" />
+                        </p:submenu>
+                        <p:submenu label="Producos" icon="ui-icon-pencil">
+                            <p:menuitem value="P1" url="#" />
+                            <p:separator />
+                            <p:menuitem value="P2" url="#" />
+                        </p:submenu>
+                        <p:submenu label="Cierre" icon="ui-icon-circle-arrow-s">
+                            <p:menuitem value="C1" url="#" />
+                            <p:separator />
+                            <p:menuitem value="C2" url="#" />
+                        </p:submenu>
+                        <f:facet name="options">
+                            <label><b>Usuario: #{usuario} </b></label>
+                            <p:commandButton actionListener="#{usuarioController.cerrarSesion()}" action="/login.xhtml" title="Cerrar sesión" icon="ui-icon-power"/>
+                        </f:facet>
+                    </p:menubar>                  
                     
                 </h:form>
+            </p:layoutUnit>
+        
+            <p:layoutUnit position="center">
+                <ui:insert name="body"/>
+                <div class="ui-layout-unit-content ui-widget-content" style="margin-right: auto">
+                    
+                </div>
+
             </p:layoutUnit>
     </h:body>
 

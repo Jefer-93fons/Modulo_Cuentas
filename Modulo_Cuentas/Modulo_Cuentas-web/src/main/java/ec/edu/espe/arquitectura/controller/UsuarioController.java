@@ -75,5 +75,9 @@ public class UsuarioController implements Serializable {
         return redireccion;
     } 
     
+    public void cerrarSesion(){
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        
+    }
     
 }
