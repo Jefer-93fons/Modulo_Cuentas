@@ -7,44 +7,29 @@ package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Entity
-@Table(name = "CUENTA")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Cuenta.findAll", query = "SELECT c FROM Cuenta c")
-    , @NamedQuery(name = "Cuenta.findByIdCuenta", query = "SELECT c FROM Cuenta c WHERE c.idCuenta = :idCuenta")
-    , @NamedQuery(name = "Cuenta.findByIdCliente", query = "SELECT c FROM Cuenta c WHERE c.idCliente = :idCliente")
-    , @NamedQuery(name = "Cuenta.findBySaldoCuenta", query = "SELECT c FROM Cuenta c WHERE c.saldoCuenta = :saldoCuenta")})
+@Table(name = "CUENTA", catalog = "", schema = "AGENTECUENTAS")
+
 public class Cuenta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_CUENTA")
     private Integer idCuenta;
-    @Column(name = "ID_CLIENTE")
-    private BigInteger idCliente;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "SALDO_CUENTA")
     private BigDecimal saldoCuenta;
@@ -52,6 +37,9 @@ public class Cuenta implements Serializable {
     private List<Historico> historicoList;
     @OneToMany(mappedBy = "idCuenta")
     private List<Transaccion> transaccionList;
+    @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID_CLIENTE")
+    @ManyToOne
+    private Cliente idCliente;
     @JoinColumn(name = "ID_PRODUCTO", referencedColumnName = "ID_PRODUCTO")
     @ManyToOne
     private Producto idProducto;
@@ -69,14 +57,6 @@ public class Cuenta implements Serializable {
 
     public void setIdCuenta(Integer idCuenta) {
         this.idCuenta = idCuenta;
-    }
-
-    public BigInteger getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(BigInteger idCliente) {
-        this.idCliente = idCliente;
     }
 
     public BigDecimal getSaldoCuenta() {
@@ -103,6 +83,14 @@ public class Cuenta implements Serializable {
 
     public void setTransaccionList(List<Transaccion> transaccionList) {
         this.transaccionList = transaccionList;
+    }
+
+    public Cliente getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Cliente idCliente) {
+        this.idCliente = idCliente;
     }
 
     public Producto getIdProducto() {

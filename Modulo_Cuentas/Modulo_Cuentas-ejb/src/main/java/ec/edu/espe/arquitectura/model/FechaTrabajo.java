@@ -7,35 +7,24 @@ package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Entity
-@Table(name = "FECHA_TRABAJO")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "FechaTrabajo.findAll", query = "SELECT f FROM FechaTrabajo f")
-    , @NamedQuery(name = "FechaTrabajo.findByIdFecha", query = "SELECT f FROM FechaTrabajo f WHERE f.idFecha = :idFecha")
-    , @NamedQuery(name = "FechaTrabajo.findByFechaProceso", query = "SELECT f FROM FechaTrabajo f WHERE f.fechaProceso = :fechaProceso")})
+@Table(name = "FECHA_TRABAJO", catalog = "", schema = "AGENTECUENTAS")
+
 public class FechaTrabajo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_FECHA")
     private Integer idFecha;
     @Column(name = "FECHA_PROCESO")

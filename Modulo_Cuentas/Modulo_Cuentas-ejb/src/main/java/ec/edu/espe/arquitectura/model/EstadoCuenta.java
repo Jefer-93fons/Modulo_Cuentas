@@ -7,41 +7,26 @@ package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Entity
-@Table(name = "ESTADO_CUENTA")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "EstadoCuenta.findAll", query = "SELECT e FROM EstadoCuenta e")
-    , @NamedQuery(name = "EstadoCuenta.findByIdEstadoCuenta", query = "SELECT e FROM EstadoCuenta e WHERE e.idEstadoCuenta = :idEstadoCuenta")
-    , @NamedQuery(name = "EstadoCuenta.findByNombreEstadoCuenta", query = "SELECT e FROM EstadoCuenta e WHERE e.nombreEstadoCuenta = :nombreEstadoCuenta")})
+@Table(name = "ESTADO_CUENTA", catalog = "", schema = "AGENTECUENTAS")
 public class EstadoCuenta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_ESTADO_CUENTA")
     private Integer idEstadoCuenta;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+   
     @Column(name = "NOMBRE_ESTADO_CUENTA")
     private String nombreEstadoCuenta;
     @OneToMany(mappedBy = "idEstadoCuenta")

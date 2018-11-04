@@ -7,41 +7,28 @@ package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Entity
-@Table(name = "HISTORICO")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Historico.findAll", query = "SELECT h FROM Historico h")
-    , @NamedQuery(name = "Historico.findByIdHistorico", query = "SELECT h FROM Historico h WHERE h.idHistorico = :idHistorico")
-    , @NamedQuery(name = "Historico.findByFechaHistorico", query = "SELECT h FROM Historico h WHERE h.fechaHistorico = :fechaHistorico")})
+@Table(name = "HISTORICO", catalog = "", schema = "AGENTECUENTAS")
+
 public class Historico implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_HISTORICO")
     private Integer idHistorico;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "FECHA_HISTORICO")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHistorico;
