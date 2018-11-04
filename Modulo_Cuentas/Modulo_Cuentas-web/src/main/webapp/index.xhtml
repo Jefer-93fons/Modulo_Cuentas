@@ -15,53 +15,10 @@
                 Proyecto Arquitectura
             </ui:insert>
         </title>
-        <f:event type="preRenderView" listener="#{usuarioController.verificarSesion()}" />
     </h:head>
 
     <h:body>
         <p:growl id="growl" life="3000" />
-            <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
-                <h:form>
-                    <p:menubar>
-                        <p:menuitem value="Principal" url="/faces/index.xhtml" icon="ui-icon-home" />
-                        <p:submenu label="Transaciones" icon="ui-icon-gear ">
-                            <p:menuitem value="T1" url="#" />
-                            <p:separator />
-                            <p:menuitem value="T2" url="#" />
-                        </p:submenu>
-                        <p:submenu label="Cuentas" icon="ui-icon-circle-arrow-e">
-                            <p:menuitem value="Movimientos" url="/faces/Cuenta/movimientos.xhtml" />
-                            <p:separator />
-                            <p:menuitem value="C2" url="#" />
-                        </p:submenu>
-                        <p:submenu label="Producos" icon="ui-icon-pencil">
-                            <p:menuitem value="P1" url="#" />
-                            <p:separator />
-                            <p:menuitem value="P2" url="#" />
-                        </p:submenu>
-                        <p:submenu label="Cierre" icon="ui-icon-circle-arrow-s">
-                            <p:menuitem value="C1" url="#" />
-                            <p:separator />
-                            <p:menuitem value="C2" url="#" />
-                        </p:submenu>
-                        <f:facet name="options">
-                            <label><b>Usuario: #{usuario} </b></label>
-                            <p:commandButton actionListener="#{usuarioController.cerrarSesion()}" action="/login.xhtml" title="Cerrar sesión" icon="ui-icon-power"/>
-                        </f:facet>
-                    </p:menubar>                  
-                    
-                </h:form>
-            </p:layoutUnit>
-        
-            <p:layoutUnit position="center">
-                <ui:insert name="body"/>
-                <div class="ui-layout-unit-content ui-widget-content" style="margin-right: auto">
-                    
-                </div>
-
-            </p:layoutUnit>
-    </h:body>
-
-
-
+        Index
+     </h:body>
 </html>

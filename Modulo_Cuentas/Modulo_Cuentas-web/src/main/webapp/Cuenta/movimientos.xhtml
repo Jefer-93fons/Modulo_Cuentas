@@ -5,14 +5,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     
-    test
-    <ui:composition template="/index.xhtml">
-        <ui:define name="title">
-            <h:outputText value="Movimientos"></h:outputText>
-        </ui:define>
-        
-        <ui:define name="body">
-            <h:form id="MovimientoListForm">
+    <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+        <ui:define name="content">
+                        <h:form id="MovimientoListForm">
                 <h1><h:outputText value="List"/></h1>
                 <h:dataTable value="#{cuentaController.listarTodasCuentas()}" var="item">
                     <h:column>
@@ -41,9 +37,8 @@
                     </h:column>
                 </h:dataTable>
             </h:form>
-            
         </ui:define>
-        
+
     </ui:composition>
 </html>
 

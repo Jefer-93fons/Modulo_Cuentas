@@ -62,7 +62,7 @@ public class UsuarioController implements Serializable {
             if (us!=null){
                 //Almacenar Sesión
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", us);
-                redireccion = "index.xhtml?faces-redirect=true";
+                redireccion = "protected/principal.xhtml?faces-redirect=true";
                 
             }else{
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Usuario no Registrado",null));

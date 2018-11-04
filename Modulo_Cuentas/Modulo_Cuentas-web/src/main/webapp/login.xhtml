@@ -8,31 +8,53 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Proyecto Arquitectura</title>
+        <h:outputStylesheet name="css/Estilos.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        <p:growl id="growl" sticky="true" showDetail="true" />
-        <h:form>
-            <p:messages autoUpdate="true"/>
-            <h:panelGrid columns="2">
-                <p:outputLabel for="txtUsuario" value="Usuario"/>
-                <p:inputText id="txtUsuario" value="#{usuarioController.usuario.nombreUsuario}" required="true"/>
-                
-                <p:outputLabel for="txtClave" value="Clave"/>
-                <p:password id="txtClave" value="#{usuarioController.usuario.claveUsuario}" required="true"/>
-                
-                <h:column/>
-                <f:facet name="footer">
-                    <p:commandButton value="Iniciar" action="#{usuarioController.iniciarSesion()}"/>
+                <div style="width: auto;">
+            <p:menubar >
+                <f:facet name="options">
+                    <p:outputLabel value="No a Iniciado Sesión" style="margin-right:10px"/>
+
                 </f:facet>
-                                
-                
-            </h:panelGrid>
-            
-            <p:separator/>
-        </h:form>
+            </p:menubar>
+        </div>
+        <div class="portada">
+            <div id="transparencia">
+                <div id="contenido" >
+                    <ui:insert name="content">
+                        <img src="resources/img/user.png" />
+                    </ui:insert>
+                    <br/><br/>
+                    <h:form>
+                        
+                        <h:panelGrid columns="2" style="margin: 0 auto">
+                            <p:outputLabel for="txtUsuario" value="Usuario"/>
+                            <p:inputText id="txtUsuario" value="#{usuarioController.usuario.nombreUsuario}" required="true"/>
+
+                            <p:outputLabel for="txtClave" value="Clave"/>
+                            <p:password id="txtClave" value="#{usuarioController.usuario.claveUsuario}" required="true" requiredMessage="La Contraseña es requerida."/>
+                        </h:panelGrid>
+                        <br/>
+                        <p:commandButton icon="ui-icon-key" value="Ingresar" action="#{usuarioController.iniciarSesion()}"/>
+                        <p:messages autoUpdate="true" showDetail="true"/>
+
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <div id="bottom" align="center">
+            <ui:insert name="bottom">
+                <h:outputLink value="http://saacdevelopers.com/" style="color: #EEF4F2">© 2018 SAAC-Developers</h:outputLink>
+            </ui:insert>
+        </div>
+        
     </h:body>
 </html>
+
 
