@@ -8,7 +8,6 @@ package ec.edu.espe.arquitectura.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -16,37 +15,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Entity
-@Table(name = "INTERES")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Interes.findAll", query = "SELECT i FROM Interes i")
-    , @NamedQuery(name = "Interes.findByIdInteres", query = "SELECT i FROM Interes i WHERE i.idInteres = :idInteres")
-    , @NamedQuery(name = "Interes.findByPorcentajeInteres", query = "SELECT i FROM Interes i WHERE i.porcentajeInteres = :porcentajeInteres")
-    , @NamedQuery(name = "Interes.findByValorMax", query = "SELECT i FROM Interes i WHERE i.valorMax = :valorMax")
-    , @NamedQuery(name = "Interes.findByValorMin", query = "SELECT i FROM Interes i WHERE i.valorMin = :valorMin")})
+@Table(name = "INTERES", catalog = "", schema = "AGENTECUENTAS")
+
 public class Interes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_INTERES")
     private Integer idInteres;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "PORCENTAJE_INTERES")
     private BigDecimal porcentajeInteres;
     @Column(name = "VALOR_MAX")

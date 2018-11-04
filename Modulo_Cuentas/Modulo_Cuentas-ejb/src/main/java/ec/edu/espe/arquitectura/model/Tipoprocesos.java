@@ -7,41 +7,26 @@ package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Entity
-@Table(name = "TIPOPROCESOS")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Tipoprocesos.findAll", query = "SELECT t FROM Tipoprocesos t")
-    , @NamedQuery(name = "Tipoprocesos.findByIdtipoproceso", query = "SELECT t FROM Tipoprocesos t WHERE t.idtipoproceso = :idtipoproceso")
-    , @NamedQuery(name = "Tipoprocesos.findByProceso", query = "SELECT t FROM Tipoprocesos t WHERE t.proceso = :proceso")})
+@Table(name = "TIPOPROCESOS", catalog = "", schema = "AGENTECUENTAS")
+
 public class Tipoprocesos implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "IDTIPOPROCESO")
     private Integer idtipoproceso;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
     @Column(name = "PROCESO")
     private String proceso;
     @OneToMany(mappedBy = "idtipoproceso")
