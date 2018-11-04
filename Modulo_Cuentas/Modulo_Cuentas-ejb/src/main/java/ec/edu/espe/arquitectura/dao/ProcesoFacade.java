@@ -5,7 +5,7 @@
  */
 package ec.edu.espe.arquitectura.dao;
 
-import ec.edu.espe.arquitectura.model.EstadoProducto;
+import ec.edu.espe.arquitectura.model.Proceso;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Juan
  */
 @Stateless
-public class EstadoProductoFacade extends AbstractFacade<EstadoProducto> {
+public class ProcesoFacade extends AbstractFacade<Proceso> {
 
     @PersistenceContext(unitName = "com.mycompany_Modulo_Cuentas-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class EstadoProductoFacade extends AbstractFacade<EstadoProducto> {
         return em;
     }
 
-    public EstadoProductoFacade() {
-        super(EstadoProducto.class);
+    public ProcesoFacade() {
+        super(Proceso.class);
     }
     
 }

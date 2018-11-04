@@ -36,10 +36,10 @@
                             <p:menuitem value="Estado de Cuenta" url="#" />
                         </p:submenu>
                         <p:submenu label="Procesos" icon="ui-icon-refresh">
-                            <p:menuitem value="Cierre del Dia" url="#" />
+                            <p:menuitem value="Cierre del Dia" url="./../Proceso/cierre.xhtml" />
                         </p:submenu>
                         <f:facet name="options">
-                            <p:outputLabel value="Nom Usu" style="margin-right:10px"/>
+
                             <label><b>Usuario: #{usuario} </b></label>
                             <p:commandButton actionListener="#{usuarioController.cerrarSesion()}" action="/login.xhtml" title="Cerrar sesión" icon="ui-icon-power"/>
                         </f:facet>
