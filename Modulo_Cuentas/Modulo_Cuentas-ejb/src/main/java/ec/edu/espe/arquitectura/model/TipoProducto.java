@@ -7,40 +7,27 @@ package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Entity
-@Table(name = "TIPO_PRODUCTO")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "TipoProducto.findAll", query = "SELECT t FROM TipoProducto t")
-    , @NamedQuery(name = "TipoProducto.findByIdTipoProducto", query = "SELECT t FROM TipoProducto t WHERE t.idTipoProducto = :idTipoProducto")
-    , @NamedQuery(name = "TipoProducto.findByNombreTipoProducto", query = "SELECT t FROM TipoProducto t WHERE t.nombreTipoProducto = :nombreTipoProducto")})
+@Table(name = "TIPO_PRODUCTO", catalog = "", schema = "AGENTECUENTAS")
+
 public class TipoProducto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_TIPO_PRODUCTO")
     private Integer idTipoProducto;
-    @Size(max = 50)
-    @Column(name = "NOMBRE_TIPO_PRODUCTO")
+   @Column(name = "NOMBRE_TIPO_PRODUCTO")
     private String nombreTipoProducto;
     @OneToMany(mappedBy = "idTipoProducto")
     private List<Producto> productoList;
