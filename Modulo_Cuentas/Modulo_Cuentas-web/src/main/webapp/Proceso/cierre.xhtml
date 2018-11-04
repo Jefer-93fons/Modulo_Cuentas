@@ -13,26 +13,26 @@
             <ui:define name="content">
                 <p:growl id="growl" life="2000" />
                 <h:form>
-               <p:messages id="mensaje" autoUpdate="false" severity="info, fatal" showSummary="true" showDetail="true"/> 
-               <p:fieldset legend="Sistema">
-                   <h:panelGrid columns="3" id="pgDatos">
-                       <p:outputLabel for="txtFechaActual" value="Fecha Actual"/>
-                       <p:calendar  id="txtFechaActual" value="#{fechaController.actualFecha.fechaProceso}" pattern="dd/MM/yyyy" disabled="true"/>
-                       <p:message for="txtFechaActual"/>
-                        
-                        <p:outputLabel for="txtFechaNueva" value="Nueva Fecha"/>
-                        <p:calendar id="txtFechaNueva" value="#{fechaController.nuevaFecha.fechaProceso}" showOn="button"  locale="es" pattern="dd/MM/yyyy" mindate="#{fechaController.fechaMin}"/>
-                        <p:message for="txtFechaNueva"/>
-                        
-                        
-                   </h:panelGrid>
-                       
-               </p:fieldset>
-               <br></br>
-               <p:commandButton value="Guardar Fecha" action="#{fechaController.mensaje()}" update="growl"/>
-               <p:commandButton icon="ui-con-check" value="Cerrar Dia" update="mensaje"/>
-        </h:form>
-        <h:outputScript library="js" name="spanishLocale.js"/>
+                    <p:messages id="mensaje" autoUpdate="false" severity="info, fatal" showSummary="true" showDetail="true"/> 
+                    <p:fieldset legend="Sistema">
+                        <h:panelGrid columns="3" id="pgDatos">
+                            <p:outputLabel for="txtFechaActual" value="Fecha Actual"/>
+                            <p:calendar  id="txtFechaActual" value="#{fechaController.actualFecha.fechaProceso}" pattern="dd/MM/yyyy" disabled="true"/>
+                            <p:message for="txtFechaActual"/>
+
+                            <p:outputLabel for="txtFechaNueva" value="Nueva Fecha"/>
+                            <p:calendar id="txtFechaNueva" value="#{fechaController.nuevaFecha.fechaProceso}" showOn="button"  locale="es" pattern="dd/MM/yyyy" mindate="#{fechaController.fechaMin}"/>
+                            <p:message for="txtFechaNueva"/>
+
+
+                        </h:panelGrid>
+
+                    </p:fieldset>
+                    <br></br>
+                    <p:commandButton value="Guardar Fecha" action="#{fechaController.mensaje()}" update="growl"/>
+                    <p:commandButton icon="ui-con-check" value="Cerrar Dia" update="mensaje"/>
+                </h:form>
+                <h:outputScript library="js" name="spanishLocale.js"/>
             </ui:define>
 
         </ui:composition>

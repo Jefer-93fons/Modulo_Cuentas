@@ -11,6 +11,7 @@ import ec.edu.espe.arquitectura.web.util.FacesUtil;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -37,26 +39,27 @@ public class FechaController extends BaseController implements Serializable {
 
     public FechaController() {
     }
-    
+
     @PostConstruct
-    public void init(){
-        this.fechasTrabajo=fechaTrabajoService.obtenerTodos();
-        this.fechaTrabajo=new FechaTrabajo();
-        this.nuevaFecha=new FechaTrabajo();
+    public void init() {
+        this.fechasTrabajo = fechaTrabajoService.obtenerTodos();
+        this.fechaTrabajo = new FechaTrabajo();
+        this.nuevaFecha = new FechaTrabajo();
         if (!fechasTrabajo.isEmpty()) {
-            this.actualFecha=this.fechasTrabajo.get(0);
-        }else{
+            this.actualFecha = this.fechasTrabajo.get(0);
+        } else {
             this.actualFecha.setIdFecha(13);
             this.actualFecha.setFechaProceso(new Date());
         }
     }
-    
-    public Date getFechaMin(){
+
+    public Date getFechaMin() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(actualFecha.getFechaProceso());
         calendar.add(calendar.DAY_OF_YEAR, 1);
         return calendar.getTime();
     }
+
     public FechaTrabajo getActualFecha() {
         return actualFecha;
     }
@@ -64,8 +67,6 @@ public class FechaController extends BaseController implements Serializable {
     public void setActualFecha(FechaTrabajo actualFecha) {
         this.actualFecha = actualFecha;
     }
-
-
 
     public List<FechaTrabajo> getFechasTrabajo() {
         return fechasTrabajo;
@@ -85,28 +86,29 @@ public class FechaController extends BaseController implements Serializable {
 
     public void setNuevaFecha(FechaTrabajo nuevaFecha) {
         this.nuevaFecha = nuevaFecha;
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Fecha Seleccionada", format.format(this.nuevaFecha.getFechaProceso())));
+
     }
-
-
-
-
 
     @Override
     public void modificar() {
         super.modificar(); //To change body of generated methods, choose Tools | Templates.
-        this.fechaTrabajo=new FechaTrabajo();
+        this.fechaTrabajo = new FechaTrabajo();
         this.fechaTrabajo.setIdFecha(1);
         this.fechaTrabajo.setFechaProceso(nuevaFecha.getFechaProceso());
     }
 
     @Override
     public void agregar() {
-        this.fechaTrabajo=new FechaTrabajo();
+        this.fechaTrabajo = new FechaTrabajo();
         super.agregar(); //To change body of generated methods, choose Tools | Templates.
     }
-     public void cancelar() {
+
+    public void cancelar() {
         super.reset();
-        this.fechaTrabajo=new FechaTrabajo();
+        this.fechaTrabajo = new FechaTrabajo();
     }
 
     public void guardar() {
@@ -117,10 +119,12 @@ public class FechaController extends BaseController implements Serializable {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
         super.reset();
-        this.fechaTrabajo=new FechaTrabajo();
-        this.fechasTrabajo=fechaTrabajoService.obtenerTodos();
-    }   
-    public void mensaje(){
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Mensaje Boton",null));
+        this.fechaTrabajo = new FechaTrabajo();
+        this.fechasTrabajo = fechaTrabajoService.obtenerTodos();
     }
+
+    public void mensaje() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Mensaje Boton", null));
+    }
+
 }
