@@ -1,0 +1,96 @@
+#fondo{
+    
+    width: auto;
+}
+#transparencia{
+   position: relative;
+    height: 325px;
+    width: 400px;
+    border-radius: 5px;
+
+    background-color: #415B76;
+    border-style:solid;
+    border-width: 1px;
+    top: 25%;
+    float: right;
+
+}
+#contenido{
+    padding: 25px 0 0 0;
+    height: 450px;
+    width: 400px;
+    top: 100px;
+    float: right;
+    text-align: center;
+    align-content: center;
+}
+
+html,body{
+    color:white;
+    font-family:'Opens Sans',helvetica;  
+    height:93%;
+    width:100%;
+    margin: 0px;
+}
+
+.portada{
+
+    background: url(https://www.cci.com.ec/wp-content/uploads/2014/09/BANCO-GUAYAQUIL.jpg) no-repeat fixed center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+    width: 100% ;
+
+}
+p.sugerencia{
+    color: white;
+}
+
+#top {
+    position: relative;
+    background-color: #233656;
+    color: white;
+    padding: 5px;
+    margin: 0px 0px 0px 0px;
+}
+
+#bottom {
+    position: relative;
+    background-color: #233656;
+    padding: 5px;
+    margin: 5px 0px 0px 0px;
+    color: black;
+}
+
+body{
+    background-color: #233656;
+}
+
+
+
+.center_content {
+    position: relative;
+    background-color: black;
+    margin: 15px 5px 0px 5px;
+    padding: 5px;
+    border-radius: 5px;
+    height: 60%;
+    
+}
+
+
+#top a:link, #top a:visited {
+    color: white;
+    font-weight : bold;
+    text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+    color: black;
+    font-weight : bold;
+    text-decoration : underline;
+}
+
+

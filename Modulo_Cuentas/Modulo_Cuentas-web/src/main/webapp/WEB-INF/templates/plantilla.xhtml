@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <title>Facelets Template</title>
+
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <!--<f:event type="preRenderView" listener="#{usuarioController.verificarSesion()}" />-->
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top">
+                <h:form>
+                    <p:menubar model="">
+                        <p:submenu label="Transacciones" icon="ui-icon-transferthick-e-w">
+                            <p:menuitem value="Realizar Transacción" url="#" />
+                            <p:menuitem value="Ver Transacciones" url="#" />
+                        </p:submenu>
+                        <p:submenu label="Productos" icon="ui-icon-document">
+                            <p:menuitem value="Ver Productos" url="#" />
+                        </p:submenu>
+                        <p:submenu label="Cuentas" icon="ui-icon-note">
+                            <p:menuitem value="Movimientos" url="./../Cuenta/movimientos.xhtml" />
+                            <p:menuitem value="Asignacción de Cuentas" url="#" />
+                            <p:menuitem value="Estado de Cuenta" url="#" />
+                        </p:submenu>
+                        <p:submenu label="Procesos" icon="ui-icon-refresh">
+                            <p:menuitem value="Cierre del Dia" url="#" />
+                        </p:submenu>
+                        <f:facet name="options">
+                            <p:outputLabel value="Nom Usu" style="margin-right:10px"/>
+                            <label><b>Usuario: #{usuario} </b></label>
+                            <p:commandButton actionListener="#{usuarioController.cerrarSesion()}" action="/login.xhtml" title="Cerrar sesión" icon="ui-icon-power"/>
+                        </f:facet>
+                    </p:menubar>
+                </h:form>
+            </ui:insert>
+
+        </div>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom" align="center">
+            <ui:insert name="bottom">
+                <h:outputLink value="http://saacdevelopers.com/">© 2018 SAAC-Developers</h:outputLink>
+            </ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

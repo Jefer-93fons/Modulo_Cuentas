@@ -1,0 +1,46 @@
+
+#top {
+    position: relative;
+    color: white;
+    padding: 5px;
+    margin: 0px 0px 0px 0px;
+}
+
+#bottom {
+    position: relative;
+    padding: 5px;
+    margin: 5px 0px 0px 0px;
+}
+
+body{
+    position: absolute;
+     background-color: #233656;
+     height: 98%;
+     width: 99%;
+}
+
+
+.center_content {
+    position: relative;
+    background-color: #415B76;
+    margin: 15px 5px 0px 5px;
+    padding: 5px;
+    border-radius: 5px;
+    height: 85%;
+}
+
+
+#top a:link, #top a:visited {
+  color: white;
+  font-weight : bold;
+  text-decoration: none;
+}
+
+#top a:link:hover, #top a:visited:hover  {
+  color: black;
+  font-weight : bold;
+  text-decoration : underline;
+}
+
+
+
