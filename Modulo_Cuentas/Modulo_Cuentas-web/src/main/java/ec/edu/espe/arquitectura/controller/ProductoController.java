@@ -22,41 +22,42 @@ import javax.inject.Named;
 @Named
 @ViewScoped
 public class ProductoController extends BaseController implements Serializable {
+
     private List<Producto> productos;
-    
+
     private Producto producto;
-    
+
     private Producto productoSel;
-    
+
     @Inject
     private ProductoService productoService;
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         this.productos = this.productoService.obtenerTodos();
         this.producto = new Producto();
-        
+
     }
 
     public List<Producto> getProductos() {
         return productos;
     }
-    
-    @Override 
-    public void agregar(){
+
+    @Override
+    public void agregar() {
         this.producto = new Producto();
         super.agregar();
     }
-    
+
     @Override
-    public void modificar(){
+    public void modificar() {
         super.modificar();
         this.producto = new Producto();
         this.producto.setNombreProducto(this.productoSel.getNombreProducto());
         //this.producto.setIdEstadoProducto(this.productoSel.getIdEstadoProducto());
         this.producto.setRestriccionProducto(this.productoSel.getRestriccionProducto());
     }
-    
+
     @Override
     public void detalles() {
         super.detalles();
@@ -70,8 +71,13 @@ public class ProductoController extends BaseController implements Serializable {
 
     public void guardar() {
         try {
-            this.productoService.crear(this.producto);
-            FacesUtil.addMessageInfo("Se agregó el Producto: " + this.producto.getNombreProducto());
+            if (this.enAgregar) {
+                this.productoService.crear(this.producto);
+                FacesUtil.addMessageInfo("Se agreg\u00f3 el Producto: " + this.producto.getNombreProducto());
+            } else {
+                this.productoService.modificar(this.producto);
+                FacesUtil.addMessageInfo("Se modific\u00f3 el Producto: " + this.producto.getNombreProducto());
+            }
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
@@ -103,6 +109,5 @@ public class ProductoController extends BaseController implements Serializable {
     public void setProductoService(ProductoService productoService) {
         this.productoService = productoService;
     }
-    
-    
+
 }

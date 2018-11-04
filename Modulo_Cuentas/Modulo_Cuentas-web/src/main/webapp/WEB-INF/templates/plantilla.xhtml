@@ -27,7 +27,8 @@
                             <p:menuitem value="Ver Transacciones" url="#" />
                         </p:submenu>
                         <p:submenu label="Productos" icon="ui-icon-document">
-                            <p:menuitem value="Ver Productos" url="#" />
+                            <p:menuitem value="Ver Productos" url="./../Producto/producto.xhtml" />
+
                         </p:submenu>
                         <p:submenu label="Cuentas" icon="ui-icon-note">
                             <p:menuitem value="Movimientos" url="./../Cuenta/movimientos.xhtml" />
@@ -47,11 +48,11 @@
             </ui:insert>
 
         </div>
-
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
-
+        <h:form>
+            <div id="content" class="center_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </h:form>
         <div id="bottom" align="center">
             <ui:insert name="bottom">
                 <h:outputLink value="http://saacdevelopers.com/">© 2018 SAAC-Developers</h:outputLink>
