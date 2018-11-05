@@ -28,16 +28,16 @@ public class ProductoController extends BaseController implements Serializable {
     private List<Producto> productos;
 
     private Producto producto;
-    
+
     private TipoProducto tipo;
 
     private Producto productoSel;
-    
+
     private List<TipoProducto> tiposProducto;
 
     @Inject
     private ProductoService productoService;
-    
+
     @Inject
     private TipoProductoService tipoProductoService;
 
@@ -68,12 +68,12 @@ public class ProductoController extends BaseController implements Serializable {
     public void modificar() {
         super.modificar();
         this.producto = new Producto();
-         this.producto.setIdProducto(this.productoSel.getIdProducto());
+        this.producto.setIdProducto(this.productoSel.getIdProducto());
         this.producto.setNombreProducto(this.productoSel.getNombreProducto());
         this.producto.setRestriccionProducto(this.productoSel.getRestriccionProducto());
         this.producto.setCodTipoProducto(this.tipo.getCodigo());
     }
-    
+
     public void eliminar() {
         try {
             this.productoService.eliminar(this.productoSel.getIdProducto());
@@ -93,7 +93,7 @@ public class ProductoController extends BaseController implements Serializable {
     public void guardar() {
         try {
             if (this.enAgregar) {
-                
+
                 this.producto.setNombreProducto(this.producto.getNombreProducto());
                 this.producto.setRestriccionProducto(this.producto.getRestriccionProducto());
                 this.producto.setCodTipoProducto(this.tipo.getCodigo());
@@ -106,7 +106,7 @@ public class ProductoController extends BaseController implements Serializable {
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
-        System.out.println("Tipo Producto: "+ this.producto.getIdTipoProducto());
+        System.out.println("Tipo Producto: " + this.producto.getIdTipoProducto());
         super.reset();
         this.producto = new Producto();
         this.productos = this.productoService.obtenerTodos();
@@ -143,8 +143,6 @@ public class ProductoController extends BaseController implements Serializable {
     public void setTipoProductoService(TipoProductoService tipoProductoService) {
         this.tipoProductoService = tipoProductoService;
     }
-    
-    
 
     public TipoProducto getTipo() {
         return tipo;
@@ -154,6 +152,4 @@ public class ProductoController extends BaseController implements Serializable {
         this.tipo = tipo;
     }
 
-
-   
 }
