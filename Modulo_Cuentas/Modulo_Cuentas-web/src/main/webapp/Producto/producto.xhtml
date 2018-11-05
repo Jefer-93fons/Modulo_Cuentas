@@ -32,7 +32,9 @@ and open the template in the editor.
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                 <p:commandButton value="Agregar" actionListener="#{productoController.agregar()}" update="@form"  />
                 <p:commandButton id="modBtn" value="Modificar" actionListener="#{productoController.modificar()}" update="@form" disabled="#{productoController.productoSel eq null}"/>
-
+                <p:commandButton value="Eliminar" actionListener="#{productoController.eliminar()}" update="@form" disabled="#{productoController.productoSel eq null}" >
+                     <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el Producto: #{productoController.productoSel.nombreProducto}" icon="ui-icon-alert" />
+                </p:commandButton>
                 <p:panel header="#{productoController.titulo} Producto" visible="#{productoController.habilitaForm}">
                     <p:panelGrid columns="2">
                         <p:outputLabel for="nombre" value="Nombre" />

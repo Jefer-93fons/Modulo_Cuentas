@@ -35,8 +35,9 @@ public class ProductoService {
         this.productoFacade.edit(producto);
     }
     
-    public void eliminar(String codigo){
+    public void eliminar(Integer codigo){
         Producto producto = this.productoFacade.find(codigo);
         this.productoFacade.remove(producto);
     }
+    
 }

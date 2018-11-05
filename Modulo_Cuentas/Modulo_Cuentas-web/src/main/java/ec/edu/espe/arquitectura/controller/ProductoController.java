@@ -68,9 +68,21 @@ public class ProductoController extends BaseController implements Serializable {
     public void modificar() {
         super.modificar();
         this.producto = new Producto();
+         this.producto.setIdProducto(this.productoSel.getIdProducto());
         this.producto.setNombreProducto(this.productoSel.getNombreProducto());
-        //this.producto.setIdEstadoProducto(this.productoSel.getIdEstadoProducto());
         this.producto.setRestriccionProducto(this.productoSel.getRestriccionProducto());
+        this.producto.setCodTipoProducto(this.tipo.getCodigo());
+    }
+    
+    public void eliminar() {
+        try {
+            this.productoService.eliminar(this.productoSel.getIdProducto());
+            this.productos = this.productoService.obtenerTodos();
+            FacesUtil.addMessageInfo("Se elimino el registro.");
+            this.productoSel = null;
+        } catch (Exception e) {
+            FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado. Verifique que no tenga informacion relacionada.");
+        }
     }
 
     public void cancelar() {
