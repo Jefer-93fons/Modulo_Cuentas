@@ -6,7 +6,9 @@
 package ec.edu.espe.arquitectura.controller;
 
 import ec.edu.espe.arquitectura.model.Producto;
+import ec.edu.espe.arquitectura.model.TipoProducto;
 import ec.edu.espe.arquitectura.service.ProductoService;
+import ec.edu.espe.arquitectura.service.TipoProductoService;
 import ec.edu.espe.arquitectura.web.util.FacesUtil;
 import java.io.Serializable;
 import java.util.List;
@@ -22,45 +24,65 @@ import javax.inject.Named;
 @Named
 @ViewScoped
 public class ProductoController extends BaseController implements Serializable {
+
     private List<Producto> productos;
-    
+
     private Producto producto;
-    
+
+    private TipoProducto tipo;
+
     private Producto productoSel;
-    
+
+    private List<TipoProducto> tiposProducto;
+
     @Inject
     private ProductoService productoService;
-    
+
+    @Inject
+    private TipoProductoService tipoProductoService;
+
     @PostConstruct
-    public void init(){
-        this.productos = this.productoService.obtenerTodos();
+    public void init() {
         this.producto = new Producto();
-        
+        this.tipo = new TipoProducto();
+        this.productos = this.productoService.obtenerTodos();
+        this.tiposProducto = this.tipoProductoService.obtenerTodos();
+
+    }
+
+    public List<TipoProducto> getTiposProducto() {
+        return tiposProducto;
     }
 
     public List<Producto> getProductos() {
         return productos;
     }
-    
-    @Override 
-    public void agregar(){
+
+    @Override
+    public void agregar() {
         this.producto = new Producto();
         super.agregar();
     }
-    
+
     @Override
-    public void modificar(){
+    public void modificar() {
         super.modificar();
         this.producto = new Producto();
+        this.producto.setIdProducto(this.productoSel.getIdProducto());
         this.producto.setNombreProducto(this.productoSel.getNombreProducto());
-        //this.producto.setIdEstadoProducto(this.productoSel.getIdEstadoProducto());
         this.producto.setRestriccionProducto(this.productoSel.getRestriccionProducto());
+        this.producto.setCodTipoProducto(this.tipo.getCodigo());
     }
-    
-    @Override
-    public void detalles() {
-        super.detalles();
-        this.producto = this.productoSel;
+
+    public void eliminar() {
+        try {
+            this.productoService.eliminar(this.productoSel.getIdProducto());
+            this.productos = this.productoService.obtenerTodos();
+            FacesUtil.addMessageInfo("Se elimino el registro.");
+            this.productoSel = null;
+        } catch (Exception e) {
+            FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado. Verifique que no tenga informacion relacionada.");
+        }
     }
 
     public void cancelar() {
@@ -70,11 +92,21 @@ public class ProductoController extends BaseController implements Serializable {
 
     public void guardar() {
         try {
-            this.productoService.crear(this.producto);
-            FacesUtil.addMessageInfo("Se agregó el Producto: " + this.producto.getNombreProducto());
+            if (this.enAgregar) {
+
+                this.producto.setNombreProducto(this.producto.getNombreProducto());
+                this.producto.setRestriccionProducto(this.producto.getRestriccionProducto());
+                this.producto.setCodTipoProducto(this.tipo.getCodigo());
+                this.productoService.crear(this.producto);
+                FacesUtil.addMessageInfo("Se agreg\u00f3 el Producto: " + this.producto.getNombreProducto());
+            } else {
+                this.productoService.modificar(this.producto);
+                FacesUtil.addMessageInfo("Se modific\u00f3 el Producto: " + this.producto.getNombreProducto());
+            }
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
+        System.out.println("Tipo Producto: " + this.producto.getIdTipoProducto());
         super.reset();
         this.producto = new Producto();
         this.productos = this.productoService.obtenerTodos();
@@ -103,6 +135,21 @@ public class ProductoController extends BaseController implements Serializable {
     public void setProductoService(ProductoService productoService) {
         this.productoService = productoService;
     }
-    
-    
+
+    public TipoProductoService getTipoProductoService() {
+        return tipoProductoService;
+    }
+
+    public void setTipoProductoService(TipoProductoService tipoProductoService) {
+        this.tipoProductoService = tipoProductoService;
+    }
+
+    public TipoProducto getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoProducto tipo) {
+        this.tipo = tipo;
+    }
+
 }

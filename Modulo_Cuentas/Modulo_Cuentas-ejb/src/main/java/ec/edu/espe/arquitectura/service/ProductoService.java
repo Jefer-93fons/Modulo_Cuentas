@@ -26,7 +26,9 @@ public class ProductoService {
     public List<Producto> obtenerTodos(){
         return this.productoFacade.findAll();
     }
-    
+    public Producto obtenerPorCodigo(Integer codigo) {
+        return this.productoFacade.find(codigo);
+    }
     public void crear(Producto producto){
         this.productoFacade.create(producto);
     }
@@ -35,8 +37,9 @@ public class ProductoService {
         this.productoFacade.edit(producto);
     }
     
-    public void eliminar(String codigo){
+    public void eliminar(Integer codigo){
         Producto producto = this.productoFacade.find(codigo);
         this.productoFacade.remove(producto);
     }
+    
 }
