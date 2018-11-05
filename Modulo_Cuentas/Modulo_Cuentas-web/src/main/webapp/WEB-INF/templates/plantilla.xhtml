@@ -24,14 +24,15 @@
                         <p:submenu label="Transacciones" icon="ui-icon-transferthick-e-w">
                             <p:menuitem value="Realizar Transacción" url="#" />
                             <p:menuitem value="Ver Transacciones" url="#" />
+                            <p:menuitem value="Movimientos" url="#" />
                         </p:submenu>
                         <p:submenu label="Productos" icon="ui-icon-document">
-                            <p:menuitem value="Ver Productos" url="#" />
+                            <p:menuitem value="Ver Productos" url="./../Producto/producto.xhtml" />
+
                         </p:submenu>
                         <p:submenu label="Cuentas" icon="ui-icon-note">
-                            <p:menuitem value="Movimientos" url="./../Cuenta/movimientos.xhtml" />
                             <p:menuitem value="Asignacción de Cuentas" url="#" />
-                            <p:menuitem value="Estado de Cuenta" url="#" />
+                            <p:menuitem value="Estado de Cuenta" url="./../Cuenta/estado_de_cuenta.xhtml" />
                         </p:submenu>
                         <p:submenu label="Procesos" icon="ui-icon-refresh">
                             <p:menuitem value="Cierre del Dia" url="./../Proceso/cierre.xhtml" />
@@ -46,11 +47,11 @@
             </ui:insert>
 
         </div>
-
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
-
+        <h:form>
+            <div id="content" class="center_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+        </h:form>
         <div id="bottom" align="center">
             <ui:insert name="bottom">
                 <h:outputLink value="http://saacdevelopers.com/">© 2018 SAAC-Developers</h:outputLink>
