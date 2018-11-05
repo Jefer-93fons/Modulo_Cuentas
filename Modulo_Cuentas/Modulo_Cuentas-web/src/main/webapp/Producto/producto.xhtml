@@ -10,8 +10,8 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-     <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
-        
+    <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
         <ui:define name="content">
 
             <p:panel id="mainPnl" header="Producto:" style="width: 50%; margin: auto;">
@@ -32,14 +32,17 @@ and open the template in the editor.
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                 <p:commandButton value="Agregar" actionListener="#{productoController.agregar()}" update="@form"  />
                 <p:commandButton id="modBtn" value="Modificar" actionListener="#{productoController.modificar()}" update="@form" disabled="#{productoController.productoSel eq null}"/>
-               
+
                 <p:panel header="#{productoController.titulo} Producto" visible="#{productoController.habilitaForm}">
                     <p:panelGrid columns="2">
                         <p:outputLabel for="nombre" value="Nombre" />
                         <p:inputTextarea id="nombre" value="#{productoController.producto.nombreProducto}" rows="2" cols="20" />
-                       
-                        
-                       
+                        <p:outputLabel for="tipoProductocmb" value="Tipo Producto" />
+                        <p:selectOneMenu id="tipoProductocmb" value="#{productoController.tipo.codigo}">
+                            <f:selectItems value="#{productoController.tiposProducto}" var="tipo" itemValue="#{tipo.codigo}" itemLabel="#{tipo.nombreTipoProducto}"/>
+                        </p:selectOneMenu>
+
+
                         <p:outputLabel for="restriccion" value="Restriccion" />
                         <p:inputText id="restriccion" value="#{productoController.producto.restriccionProducto}"  />
                     </p:panelGrid>
