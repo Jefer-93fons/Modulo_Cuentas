@@ -25,9 +25,6 @@ and open the template in the editor.
                     <p:column headerText="Restriccion">
                         <h:outputText value="#{producto.restriccionProducto}" />
                     </p:column>
-                    <p:column headerText="Estado">
-                        <h:outputText value="#{producto.idEstadoProducto.nombreEstadoProducto}" />
-                    </p:column>
                     <p:column headerText="Tipo">
                         <h:outputText value="#{producto.idTipoProducto.nombreTipoProducto}" />
                     </p:column>
@@ -40,7 +37,11 @@ and open the template in the editor.
                     <p:panelGrid columns="2">
                         <p:outputLabel for="nombre" value="Nombre" />
                         <p:inputTextarea id="nombre" value="#{productoController.producto.nombreProducto}" rows="2" cols="20" />
+                       
                         
+                       
+                        <p:outputLabel for="restriccion" value="Restriccion" />
+                        <p:inputText id="restriccion" value="#{productoController.producto.restriccionProducto}"  />
                     </p:panelGrid>
                     <p:commandButton value="Aceptar" actionListener="#{productoController.guardar}" update="@form" />
                     <p:commandButton value="Cancelar" actionListener="#{productoController.cancelar}" update="@form" />

@@ -6,58 +6,38 @@
 package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Juan
  */
 @Entity
-@Table(name = "PRODUCTO")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Producto.findAll", query = "SELECT p FROM Producto p")
-    , @NamedQuery(name = "Producto.findByIdProducto", query = "SELECT p FROM Producto p WHERE p.idProducto = :idProducto")
-    , @NamedQuery(name = "Producto.findByNombreProducto", query = "SELECT p FROM Producto p WHERE p.nombreProducto = :nombreProducto")
-    , @NamedQuery(name = "Producto.findByRestriccionProducto", query = "SELECT p FROM Producto p WHERE p.restriccionProducto = :restriccionProducto")})
+@Table(name = "PRODUCTO", catalog = "", schema = "AGENTECUENTAS")
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
+    
     @Column(name = "ID_PRODUCTO")
     private Integer idProducto;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    
     @Column(name = "NOMBRE_PRODUCTO")
     private String nombreProducto;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    
+    @Column(name = "ID_TIPO_PRODUCTO", nullable = false)
+    private Integer codTipoProducto;
+    
     @Column(name = "RESTRICCION_PRODUCTO")
     private String restriccionProducto;
-    @ManyToMany(mappedBy = "productoList")
-    private List<Interes> interesList;
-    @OneToMany(mappedBy = "idProducto")
-    private List<HistoricoProducto> historicoProductoList;
-    @JoinColumn(name = "ID_TIPO_PRODUCTO", referencedColumnName = "ID_TIPO_PRODUCTO")
+   
+    
+    @JoinColumn(name = "ID_TIPO_PRODUCTO", referencedColumnName = "ID_TIPO_PRODUCTO", insertable = false, updatable = false)
     @ManyToOne
     private TipoProducto idTipoProducto;
 
@@ -98,23 +78,7 @@ public class Producto implements Serializable {
         this.restriccionProducto = restriccionProducto;
     }
 
-    @XmlTransient
-    public List<Interes> getInteresList() {
-        return interesList;
-    }
-
-    public void setInteresList(List<Interes> interesList) {
-        this.interesList = interesList;
-    }
-
-    @XmlTransient
-    public List<HistoricoProducto> getHistoricoProductoList() {
-        return historicoProductoList;
-    }
-
-    public void setHistoricoProductoList(List<HistoricoProducto> historicoProductoList) {
-        this.historicoProductoList = historicoProductoList;
-    }
+ 
 
     public TipoProducto getIdTipoProducto() {
         return idTipoProducto;
@@ -123,6 +87,16 @@ public class Producto implements Serializable {
     public void setIdTipoProducto(TipoProducto idTipoProducto) {
         this.idTipoProducto = idTipoProducto;
     }
+
+    public Integer getCodTipoProducto() {
+        return codTipoProducto;
+    }
+
+    public void setCodTipoProducto(Integer codTipoProducto) {
+        this.codTipoProducto = codTipoProducto;
+    }
+
+   
 
     @Override
     public int hashCode() {

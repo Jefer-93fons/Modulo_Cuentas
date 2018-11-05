@@ -6,13 +6,10 @@
 package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -26,26 +23,30 @@ public class TipoProducto implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "ID_TIPO_PRODUCTO")
-    private Integer idTipoProducto;
+    private Integer codigo;
+    
    @Column(name = "NOMBRE_TIPO_PRODUCTO")
     private String nombreTipoProducto;
-    @OneToMany(mappedBy = "idTipoProducto")
-    private List<Producto> productoList;
+   
+  
 
     public TipoProducto() {
     }
 
-    public TipoProducto(Integer idTipoProducto) {
-        this.idTipoProducto = idTipoProducto;
+    public TipoProducto(Integer codigo) {
+        this.codigo = codigo;
     }
 
-    public Integer getIdTipoProducto() {
-        return idTipoProducto;
+    
+
+    public Integer getCodigo() {
+        return codigo;
     }
 
-    public void setIdTipoProducto(Integer idTipoProducto) {
-        this.idTipoProducto = idTipoProducto;
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
     }
+
 
     public String getNombreTipoProducto() {
         return nombreTipoProducto;
@@ -55,19 +56,12 @@ public class TipoProducto implements Serializable {
         this.nombreTipoProducto = nombreTipoProducto;
     }
 
-    @XmlTransient
-    public List<Producto> getProductoList() {
-        return productoList;
-    }
-
-    public void setProductoList(List<Producto> productoList) {
-        this.productoList = productoList;
-    }
+ 
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idTipoProducto != null ? idTipoProducto.hashCode() : 0);
+        hash += (codigo != null ? codigo.hashCode() : 0);
         return hash;
     }
 
@@ -78,7 +72,7 @@ public class TipoProducto implements Serializable {
             return false;
         }
         TipoProducto other = (TipoProducto) object;
-        if ((this.idTipoProducto == null && other.idTipoProducto != null) || (this.idTipoProducto != null && !this.idTipoProducto.equals(other.idTipoProducto))) {
+        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
             return false;
         }
         return true;
@@ -86,7 +80,7 @@ public class TipoProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.arquitectura.model.TipoProducto[ idTipoProducto=" + idTipoProducto + " ]";
+        return "ec.edu.espe.arquitectura.model.TipoProducto[ idTipoProducto=" + codigo + " ]";
     }
     
 }
