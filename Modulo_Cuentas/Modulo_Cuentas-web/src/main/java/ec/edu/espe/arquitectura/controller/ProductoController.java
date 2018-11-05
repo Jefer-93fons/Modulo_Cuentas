@@ -84,7 +84,7 @@ public class ProductoController extends BaseController implements Serializable {
             FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado. Verifique que no tenga informacion relacionada.");
         }
     }
-
+    
     public void cancelar() {
         super.reset();
         this.producto = new Producto();
@@ -111,7 +111,7 @@ public class ProductoController extends BaseController implements Serializable {
         this.producto = new Producto();
         this.productos = this.productoService.obtenerTodos();
     }
-
+       
     public Producto getProducto() {
         return producto;
     }

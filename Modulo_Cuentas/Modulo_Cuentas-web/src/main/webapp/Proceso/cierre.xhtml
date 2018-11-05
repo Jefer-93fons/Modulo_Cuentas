@@ -12,40 +12,41 @@
 
             <ui:define name="content">
 
-                <h:form>
-                    <p:growl id="growl" life="3500" showSummary="true" showDetail="true"/>
-                    <p:messages id="mensaje" autoUpdate="false" severity="info, fatal" showSummary="true" showDetail="true"/> 
-                    <p:fieldset legend="Sistema">
-                        <h:panelGrid columns="4" id="pgDatos">
-                            <p:outputLabel for="txtFechaActual" value="Fecha Actual"/>
-                            <p:calendar  id="txtFechaActual" value="#{fechaController.actualFecha.fechaProceso}" pattern="dd/MM/yyyy"/>
-                            <p:message for="txtFechaActual"/>
-                            <p:commandButton action="#{fechaController.mostrar()}" id="btnEditar" update="growl" icon="ui-icon-disk" title="Icon Only" >
-                                <f:ajax execute="@form" render="@form"/>
-                            </p:commandButton>
+                <p:growl id="growl" life="3500" showSummary="true" showDetail="true"/>
+
+                <p:panel id="mainPnl" header="Sistema:" style="width: 40%; height: 100%; margin: auto;">
+                    <p:dataTable var="fecha" value="#{fechaController.fechas}" 
+                                 selectionMode="single" selection="#{fechaController.fechaSel}" rowKey="#{fecha.idFecha}">
+                        <p:ajax event="rowSelect" update="@form" />
+                        <p:ajax event="rowUnselect" update="@form"  />
+                        <p:column headerText="Num" style="width: 30%">
+                            <h:outputText value="#{fecha.idFecha}" />
+                        </p:column>
+                        <p:column headerText="Fecha">
+                            <h:outputText value="#{fechaController.transformar(fecha.fechaProceso)}"/>
+                        </p:column>
+                    </p:dataTable>
 
 
-
-                            <p:outputLabel for="txtFechaNueva" value="Nueva Fecha" rendered="#{fechaController.visible}"/>
-                            <p:calendar id="txtFechaNueva" value="#{fechaController.fechaSel.fechaProceso}" locale="es" pattern="dd/MM/yyyy" mindate="#{fechaController.fechaMin}" rendered="#{fechaController.visible}"/>
-                            <p:message for="txtFechaNueva" rendered="#{fechaController.visible}"/>
-
-                            <p:column></p:column>
-                            <p:commandButton value="Guardar Fecha" action="#{fechaController.cambiarFecha()}" update="growl" rendered="#{fechaController.visible}">
-
-                            </p:commandButton>
-
-                        </h:panelGrid>
-
-                    </p:fieldset>
-                    <br></br>
-
-
-                    <p:commandButton value="Cerrar Dia"  actionListener="#{fechaController.cerrarDia()}"  update="@form" >
+                    <!--<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> -->
+                    <p:commandButton id="modBtn" value="Modificar" actionListener="#{fechaController.modificar()}" update="@form" disabled="#{fechaController.fechaSel eq null}"/>
+                    <p:commandButton value="Cerrar Dia" actionListener="#{fechaController.pasar()}" update="@form" disabled="#{fechaController.fechas eq null}" >
+                        <p:confirm header="Confirmaci&#243;n" message="Desea cerrar el dia: #{fechaController.fechaSel.fechaProceso}" icon="ui-icon-alert" />
                     </p:commandButton>
-                    
-                    
-                </h:form>
+
+                    <p:panel header="#{fechaController.titulo} Producto" visible="#{fechaController.habilitaForm}">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel for="txtFechaNueva" value="Nombre" />
+                            <p:calendar id="txtFechaNueva" value="#{fechaController.fecha.fechaProceso}" locale="es" pattern="dd/MM/yyyy" mindate="#{fechaController.fechaMin}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" actionListener="#{fechaController.guardar}" update="@form" />
+                        <p:commandButton value="Cancelar" actionListener="#{fechaController.cancelar}" update="@form" />
+                    </p:panel>
+                </p:panel>
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
                 <h:outputScript library="js" name="spanishLocale.js"/>
             </ui:define>
 

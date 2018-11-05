@@ -15,8 +15,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.RequestScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
@@ -28,10 +26,9 @@ import javax.inject.Inject;
 @ViewScoped
 public class FechaController extends BaseController implements Serializable {
 
-    private List<FechaTrabajo> fechasTrabajo;
-    private FechaTrabajo fechaTrabajo;
+    private List<FechaTrabajo> fechas;
+    private FechaTrabajo fecha;
     private FechaTrabajo fechaSel;
-    private FechaTrabajo actualFecha;
 
     private boolean visible;
 
@@ -43,34 +40,38 @@ public class FechaController extends BaseController implements Serializable {
 
     @PostConstruct
     public void init() {
-        visible=false;
-        this.fechasTrabajo = fechaTrabajoService.obtenerTodos();
-        this.fechaTrabajo = new FechaTrabajo();
-        this.actualFecha = new FechaTrabajo();
-        this.fechaSel=new FechaTrabajo();
-        if (!fechasTrabajo.isEmpty()) {
-            this.actualFecha = this.fechasTrabajo.get(0);
-        } else {
-            this.fechaTrabajo.setIdFecha(1);
-            this.fechaTrabajo.setFechaProceso(new Date("02/03/2018"));
-            crear();
-        }
+        visible = false;
+        this.fechas = fechaTrabajoService.obtenerTodos();
+        this.fecha = new FechaTrabajo();
     }
-
-    public Date getFechaMin() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(actualFecha.getFechaProceso());
-        calendar.add(calendar.DAY_OF_YEAR, 1);
-        return calendar.getTime();
-    }
+    // <editor-fold defaultstate="collapsed" desc="Getters & Setters">
 
     public List<FechaTrabajo> getFechasTrabajo() {
-        return fechasTrabajo;
+        return fechas;
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Getters & Setters">
-    public void setFechasTrabajo(List<FechaTrabajo> fechasTrabajo) {
-        this.fechasTrabajo = fechasTrabajo;
+    public List<FechaTrabajo> getFechas() {
+        return fechas;
+    }
+
+    public void setFechas(List<FechaTrabajo> fechas) {
+        this.fechas = fechas;
+    }
+
+    public FechaTrabajo getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(FechaTrabajo fecha) {
+        this.fecha = fecha;
+    }
+
+    public FechaTrabajo getFechaSel() {
+        return fechaSel;
+    }
+
+    public void setFechaSel(FechaTrabajo fechaSel) {
+        this.fechaSel = fechaSel;
     }
 
     public boolean isVisible() {
@@ -81,97 +82,75 @@ public class FechaController extends BaseController implements Serializable {
         this.visible = visible;
     }
 
-   
-
-    public FechaTrabajo getFechaTrabajo() {
-        return fechaTrabajo;
-    }
-
-    public void setFechaTrabajo(FechaTrabajo fechaTrabajo) {
-        this.fechaTrabajo = fechaTrabajo;
-    }
-
-    public FechaTrabajo getActualFecha() {
-        return actualFecha;
-    }
-
-    public void setActualFecha(FechaTrabajo actualFecha) {
-        this.actualFecha = actualFecha;
-    }
-
-    public FechaTrabajo getFechaSel() {
-        return fechaSel;
-    }
-
-    public void setFechaSel(FechaTrabajo fechaSel) {
-        this.fechaSel = fechaSel;
-    }
     // </editor-fold>
-    
-    
-    public void mostrar() {
-        this.visible = !this.visible;
-        modificar();
-    }
-    
-
-
     @Override
     public void modificar() {
         super.modificar(); //To change body of generated methods, choose Tools | Templates.
-        this.fechaTrabajo = new FechaTrabajo();
-        this.fechaTrabajo.setIdFecha(1);
-        this.fechaTrabajo.setFechaProceso(fechaSel.getFechaProceso());
+        this.fecha = new FechaTrabajo();
+        this.fecha.setIdFecha(fechaSel.getIdFecha());
+        this.fecha.setFechaProceso(fechaSel.getFechaProceso());
     }
 
     @Override
     public void agregar() {
-        this.fechaTrabajo = new FechaTrabajo();
+        this.fecha = new FechaTrabajo();
         super.agregar(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void pasar() {
+        try {
+            this.fechaSel = this.fechas.get(0);
+            this.fechaSel = this.fechas.get(0);
+            this.fechaSel.setFechaProceso(getFechaMin());
+            this.fechaTrabajoService.modificar(this.fechaSel);
+            this.fechas = this.fechaTrabajoService.obtenerTodos();
+            this.fechaSel = null;
+            FacesUtil.addMessageInfo("Se realizo el cierre del dia.");
+
+        } catch (Exception e) {
+            FacesUtil.addMessageError(null, "No se puede realizar el cierre del dia. Verifique que no tenga informacion relacionada.");
+        }
     }
 
     public void cancelar() {
         super.reset();
-        this.fechaTrabajo = new FechaTrabajo();
-    }
-
-    public void crear() {
-        try {
-            agregar();
-            this.fechaTrabajoService.crear(fechaTrabajo);
-        } catch (Exception ex) {
-            FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error guardar la informaci\u00f3n");
-        }
-        super.reset();
-        this.fechaTrabajo = new FechaTrabajo();
-        this.fechasTrabajo = fechaTrabajoService.obtenerTodos();
-        this.actualFecha = fechasTrabajo.get(0);
+        this.fecha = new FechaTrabajo();
     }
 
     public void guardar() {
 
         try {
-            this.fechaTrabajoService.modificar(fechaTrabajo);
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            FacesUtil.addMessageInfo("Se cambio la fecha del sistema a : " + format.format(this.fechaTrabajo.getFechaProceso()));
+            if (enAgregar) {
+                this.fecha.setFechaProceso(this.fecha.getFechaProceso());
+                this.fechaTrabajoService.crear(this.fecha);
+                FacesUtil.addMessageInfo("Se agreg\u00f3 la nueva fecha: " + this.fecha.getFechaProceso());
+            } else {
+
+                this.fechaTrabajoService.modificar(fecha);
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                FacesUtil.addMessageInfo("Se cambio la fecha del sistema a : " + format.format(this.fecha.getFechaProceso()));
+
+            }
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
+
         super.reset();
-        this.fechaTrabajo = new FechaTrabajo();
-        this.fechasTrabajo = fechaTrabajoService.obtenerTodos();
-        this.actualFecha = fechasTrabajo.get(0);
-        FacesUtil.addMessageInfo("asda lkasjd"+this.actualFecha.getFechaProceso());
+
+        this.fecha = new FechaTrabajo();
+
+        this.fechas = fechaTrabajoService.obtenerTodos();
     }
-    public void cerrarDia(){
-        Date fechaNueva=getFechaMin();
-        modificar();
-        this.fechaTrabajo.setFechaProceso(fechaNueva);
-        guardar();
-        this.setActualFecha(fechaTrabajo);
+
+    public Date getFechaMin() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechas.get(0).getFechaProceso());
+        calendar.add(calendar.DAY_OF_YEAR, 1);
+        return calendar.getTime();
     }
-    public void cambiarFecha(){
-        modificar();
-        guardar();
+
+    public String transformar(Date fecha) {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        return format.format(fecha);
     }
 }
