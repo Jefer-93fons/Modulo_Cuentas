@@ -17,7 +17,7 @@ import javax.persistence.Query;
  * @author Juan
  */
 @Stateless
-public class ProductoFacade extends AbstractFacade<Producto>{
+public class ProductoFacade extends AbstractFacade<Producto> {
 
     @PersistenceContext(unitName = "com.mycompany_Modulo_Cuentas-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -30,12 +30,11 @@ public class ProductoFacade extends AbstractFacade<Producto>{
     public ProductoFacade() {
         super(Producto.class);
     }
-    
-        public List<Producto> findByCodigo(Integer codigo) {
+
+    public List<Producto> findByCodigo(Integer codigo) {
         Query qry = this.em.createQuery("SELECT obj FROM Producto obj WHERE obj.idProducto=?1");
         qry.setParameter(1, codigo);
         return qry.getResultList();
     }
 
-    
 }

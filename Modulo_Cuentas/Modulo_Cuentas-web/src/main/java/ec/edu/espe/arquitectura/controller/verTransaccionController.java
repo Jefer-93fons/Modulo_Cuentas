@@ -5,9 +5,12 @@
  */
 package ec.edu.espe.arquitectura.controller;
 
+import ec.edu.espe.arquitectura.model.Cliente;
 import ec.edu.espe.arquitectura.model.TipoTransaccion;
 import ec.edu.espe.arquitectura.model.Cuenta;
+import ec.edu.espe.arquitectura.model.Producto;
 import ec.edu.espe.arquitectura.model.Transaccion;
+import ec.edu.espe.arquitectura.service.CuentaService;
 import ec.edu.espe.arquitectura.service.TransaccionService;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -23,16 +26,22 @@ import javax.inject.Inject;
 @Named(value = "verTransaccionController")
 @ViewScoped
 public class verTransaccionController extends BaseController implements Serializable {
+
     List<Transaccion> transacciones;
-    
+    private int cuentaDigitada;
+    private Cuenta cuenta;
+    private List<Cuenta> cuentas;
     @Inject
     private TransaccionService transaccionService;
+    @Inject
+    private CuentaService cuentaService;
+
     public verTransaccionController() {
     }
 
     @PostConstruct
     public void init() {
-        this.transacciones=transaccionService.obtenerTodos();
+        resetData();
     }
 
     @Override
@@ -43,9 +52,45 @@ public class verTransaccionController extends BaseController implements Serializ
 
     @Override
     public void agregar() {
+        super.agregar(); //To change body of generated methods, choose Tools | Templates
+        buscarCuenta();
+        if (buscarCuenta()) {
+            this.transacciones = this.transaccionService.porCuenta(cuentaDigitada);
+        }    
+    }
 
-        super.agregar(); //To change body of generated methods, choose Tools | Templates.
+    public Boolean buscarCuenta() {
+        for (Cuenta auxXuenta : cuentas) {
+            if (auxXuenta.getIdCuenta() == cuentaDigitada) {
+                this.cuenta = auxXuenta;
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    public List<Cuenta> getCuentas() {
+        return cuentas;
+    }
+
+    public void setCuentas(List<Cuenta> cuentas) {
+        this.cuentas = cuentas;
+    }
+
+    public int getCuentaDigitada() {
+        return cuentaDigitada;
+    }
+
+    public void setCuentaDigitada(int cuentaDigitada) {
+        this.cuentaDigitada = cuentaDigitada;
     }
 
     public List<Transaccion> getTransacciones() {
@@ -64,4 +109,11 @@ public class verTransaccionController extends BaseController implements Serializ
         this.transaccionService = transaccionService;
     }
 
+    public void resetData() {
+        this.cuentaDigitada = 0;
+        this.cuentas = cuentaService.obtenerTodos();
+        this.cuenta = new Cuenta();
+        this.cuenta.setIdCliente(new Cliente());
+        this.cuenta.setIdProducto(new Producto());
+    }
 }

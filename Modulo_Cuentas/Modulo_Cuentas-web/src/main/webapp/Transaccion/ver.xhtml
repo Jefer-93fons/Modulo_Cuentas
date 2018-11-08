@@ -13,8 +13,31 @@
             <ui:define name="content">
 
                 <p:growl id="growl" life="3500" showSummary="true" showDetail="true"/>
+                <p:panel id="dataPnl" header="Cuenta:" style="width: 40%; height: 100%; margin: auto;">
+                    <p:panelGrid columns="3" layout="grid">
+                        <p:outputLabel for="txtNumCuenta" value="Cuenta" />
+                        <p:inputText id="txtNumCuenta" value="#{verTransaccionController.cuentaDigitada}"/>
+                        <p:commandButton icon="ui-icon-search" actionListener="#{verTransaccionController.agregar()}" update="@form"  />
+                    </p:panelGrid>
+                    <p:panel visible="#{verTransaccionController.habilitaForm}" >
+                        <p:panelGrid columns="2" layout="grid">
+                            <p:outputLabel for="txtNomCuenta" value="Cliente" />
+                            <p:inputText id="txtNomCuenta" value="#{verTransaccionController.cuenta.idCliente.nombreCliente}"/>
 
-                <p:panel id="mainPnl" header="Sistema:" style="width: 40%; height: 100%; margin: auto;">
+                            <p:outputLabel for="txtProducto" value="Producto" />
+                            <p:inputText id="txtProducto" value="#{verTransaccionController.cuenta.idProducto.nombreProducto}"/>
+                            
+                            <p:outputLabel for="txtSaldo" value="Saldo Actual" />
+                            <p:inputText id="txtSaldo" value="#{verTransaccionController.cuenta.saldoCuenta}"/>
+
+                        </p:panelGrid>
+
+
+                    </p:panel>
+
+                </p:panel>
+
+                <p:panel id="mainPnl" header="Movimientos:" style="width: 60%; height: 100%; margin: auto;">
                     <h:form>
                         <p:dataTable id="tbl" var="trans" value="#{verTransaccionController.transacciones}"
                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
@@ -22,53 +45,53 @@
 
                             <f:facet name="{Exporters}">
                                 <h:commandLink>
-                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:graphicImage name="/img/excel.png" width="24"/>
                                     <p:dataExporter type="xls" target="tbl" fileName="cars" />
                                 </h:commandLink>
 
                                 <h:commandLink>
-                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:graphicImage name="/img/pdf.png" width="24"/>
                                     <p:dataExporter type="pdf" target="tbl" fileName="cars"/>
                                 </h:commandLink>
 
                                 <h:commandLink>
-                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:graphicImage name="/img/csv.png" width="24"/>
                                     <p:dataExporter type="csv" target="tbl" fileName="cars" />
                                 </h:commandLink>
 
                                 <h:commandLink>
-                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:graphicImage name="/img/xml.png" width="24"/>
                                     <p:dataExporter type="xml" target="tbl" fileName="cars" />
                                 </h:commandLink>
                             </f:facet>
-
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Id" />
+                                    <h:outputText value="Num." />
+                                </f:facet>
+                                <h:outputText value="1" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tipo de Transacción" />
                                 </f:facet>
                                 <h:outputText value="#{trans.idTipoTransaccion.nombreTipoTransaccion}" />
                             </p:column>
 
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Year"/>
+                                    <h:outputText value="valor"/>
                                 </f:facet>
-                                <h:outputText value="#{trans.valorTransaccion}" />
+                                <h:outputText value="$ #{trans.valorTransaccion}" />
                             </p:column>
 
                             <p:column>
                                 <f:facet name="header">
-                                    <h:outputText value="Brand" />
+                                    <h:outputText value="Fecha" />
                                 </f:facet>
                                 <h:outputText value="#{trans.fechaTransaccion}" />
                             </p:column>
 
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Color" />
-                                </f:facet>
-                                <h:outputText value="#{car.color}" />
-                            </p:column>
+
                         </p:dataTable>
 
                         <h3>Export Page Data Only</h3>

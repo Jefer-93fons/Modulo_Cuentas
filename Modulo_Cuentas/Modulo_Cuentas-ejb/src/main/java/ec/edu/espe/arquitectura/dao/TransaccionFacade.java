@@ -5,10 +5,13 @@
  */
 package ec.edu.espe.arquitectura.dao;
 
+import ec.edu.espe.arquitectura.model.Cuenta;
 import ec.edu.espe.arquitectura.model.Transaccion;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +31,4 @@ public class TransaccionFacade extends AbstractFacade<Transaccion> {
     public TransaccionFacade() {
         super(Transaccion.class);
     }
-    
 }

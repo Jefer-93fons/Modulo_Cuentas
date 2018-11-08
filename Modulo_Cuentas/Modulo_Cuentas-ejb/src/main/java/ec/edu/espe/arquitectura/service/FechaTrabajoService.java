@@ -26,6 +26,11 @@ public class FechaTrabajoService {
     public List<FechaTrabajo> obtenerTodos(){
         return this.fechaTrabajoFacade.findAll();
     }
+     public FechaTrabajo obtenerActual(){
+         List<FechaTrabajo>fechaTrabajos=this.fechaTrabajoFacade.findAll();
+         FechaTrabajo fechaTrabajo=fechaTrabajos.get(0);
+        return fechaTrabajo;
+    }
     
     public void crear(FechaTrabajo fechaTrabajo){
         this.fechaTrabajoFacade.create(fechaTrabajo);

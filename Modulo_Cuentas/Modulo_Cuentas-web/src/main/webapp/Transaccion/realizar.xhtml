@@ -15,31 +15,39 @@
 
 
                 <p:growl id="growl" life="3500" showSummary="true" showDetail="true"/>
-                <p:panel id="mainPnl" header="Sistema:" style="width: 40%; height: 100%; margin: auto;">
-                    <p:panelGrid columns="2">
+                <p:panel id="mainPnl" header="Sistema:" style="width: 40%; margin: auto;">
+                    <p:panelGrid columns="3" layout="grid">
                         <p:outputLabel for="cmbTransaccion" value="Tipo de Transaccion" />
                         <p:selectOneMenu id="cmbTransaccion" value="#{cuentaRController.tipoTransaccion}" style="width:125px">
                             <f:selectItem itemLabel="Depositos" itemValue="1" />
                             <f:selectItem itemLabel="Retiros" itemValue="2" />
                         </p:selectOneMenu>
+                        <p:column></p:column>
 
                         <p:outputLabel for="txtNumCuenta" value="Cuenta" />
                         <p:inputText id="txtNumCuenta" value="#{cuentaRController.cuentaDigitada}"/>
-
-                        <p:outputLabel for="txtNomCuenta" value="CLiente" />
-                        <p:inputText id="txtNomCuenta" value="#{cuentaRController.cuenta.idCliente.nombreCliente}"/>
-
-                        <p:outputLabel for="txtProducto" value="Producto" />
-                        <p:inputText id="txtProducto" value="#{cuentaRController.cuenta.idProducto.nombreProducto}"/>
-                        
-                        <p:outputLabel for="txtValor" value="Valor" />
-                        <p:inputText id="txtValor" value="#{cuentaRController.transaccion.valorTransaccion}"/>
-
+                        <p:commandButton icon="ui-icon-search" actionListener="#{cuentaRController.agregar()}" update="@form"  />
                     </p:panelGrid>
+
+                    <p:panel header="#{cuentaRController.titulo} Transacción" visible="#{cuentaRController.habilitaForm}">
+                        <p:panelGrid columns="2" layout="grid">
+                            <p:outputLabel for="txtNomCuenta" value="CLiente" />
+                            <p:inputText id="txtNomCuenta" value="#{cuentaRController.cuenta.idCliente.nombreCliente}"/>
+
+                            <p:outputLabel for="txtProducto" value="Producto" />
+                            <p:inputText id="txtProducto" value="#{cuentaRController.cuenta.idProducto.nombreProducto}"/>
+
+                            <p:outputLabel for="txtValor" value="Valor" />
+                            <p:inputText id="txtValor" value="#{cuentaRController.valor}"/>
+                        </p:panelGrid>
+                        <p:commandButton value="Aceptar" actionListener="#{cuentaRController.guardar}" update="@form" />
+                        <p:commandButton value="Cancelar" actionListener="#{fechaController.cancelar}" update="@form" />
+                    </p:panel>
                 </p:panel>
 
-                <p:commandButton value="Agregar" actionListener="#{cuentaRController.agregar()}" update="@form"  />
-                <p:commandButton value="Aceptar" actionListener="#{cuentaRController.guardar}" update="@form" />
+
+
+
 
 
 
