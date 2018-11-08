@@ -36,14 +36,10 @@ public class Producto implements Serializable {
     @NotNull
     @Column(name = "ID_PRODUCTO")
     private Integer idProducto;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+
     @Column(name = "NOMBRE_PRODUCTO")
     private String nombreProducto;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+
     @Column(name = "RESTRICCION_PRODUCTO")
     private String restriccionProducto;
     @OneToMany(mappedBy = "idProducto")

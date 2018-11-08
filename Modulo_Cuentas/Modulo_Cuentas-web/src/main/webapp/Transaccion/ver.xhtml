@@ -15,42 +15,89 @@
                 <p:growl id="growl" life="3500" showSummary="true" showDetail="true"/>
 
                 <p:panel id="mainPnl" header="Sistema:" style="width: 40%; height: 100%; margin: auto;">
-                    <p:dataTable var="fecha" value="#{fechaController.fechas}" 
-                                 selectionMode="single" selection="#{fechaController.fechaSel}" rowKey="#{fecha.idFecha}">
-                        <p:ajax event="rowSelect" update="@form" />
-                        <p:ajax event="rowUnselect" update="@form"  />
-                        <p:column headerText="Num" style="width: 30%">
-                            <h:outputText value="#{fecha.idFecha}" />
-                        </p:column>
-                        <p:column headerText="Fecha">
-                            <h:outputText value="#{fechaController.transformar(fecha.fechaProceso)}"/>
-                        </p:column>
-                    </p:dataTable>
+                    <h:form>
+                        <p:dataTable id="tbl" var="trans" value="#{verTransaccionController.transacciones}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     paginator="true" rows="10" style="margin-bottom:20px">
+
+                            <f:facet name="{Exporters}">
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="tbl" fileName="cars" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="tbl" fileName="cars"/>
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="tbl" fileName="cars" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/demo/images/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="tbl" fileName="cars" />
+                                </h:commandLink>
+                            </f:facet>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id" />
+                                </f:facet>
+                                <h:outputText value="#{trans.idTipoTransaccion.nombreTipoTransaccion}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Year"/>
+                                </f:facet>
+                                <h:outputText value="#{trans.valorTransaccion}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Brand" />
+                                </f:facet>
+                                <h:outputText value="#{trans.fechaTransaccion}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Color" />
+                                </f:facet>
+                                <h:outputText value="#{car.color}" />
+                            </p:column>
+                        </p:dataTable>
+
+                        <h3>Export Page Data Only</h3>
+                        <h:commandLink>
+                            <p:graphicImage name="/demo/images/excel.png" />
+                            <p:dataExporter type="xls" target="tbl" fileName="cars" pageOnly="true"/>
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/demo/images/pdf.png" />
+                            <p:dataExporter type="pdf" target="tbl" fileName="cars" pageOnly="true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/demo/images/csv.png" />
+                            <p:dataExporter type="csv" target="tbl" fileName="cars" pageOnly="true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/demo/images/xml.png" />
+                            <p:dataExporter type="xml" target="tbl" fileName="cars" pageOnly="true" />
+                        </h:commandLink>
+                    </h:form>
 
 
-                    <!--<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" /> -->
-                    <p:commandButton id="modBtn" value="Modificar" actionListener="#{fechaController.modificar()}" update="@form" disabled="#{fechaController.fechaSel eq null}"/>
-                    <p:commandButton value="Cerrar Dia" actionListener="#{fechaController.pasar()}" update="@form" disabled="#{fechaController.fechas eq null}" >
-                        <p:confirm header="Confirmaci&#243;n" message="Desea cerrar el dia: #{fechaController.fechaSel.fechaProceso}" icon="ui-icon-alert" />
-                    </p:commandButton>
-
-                    <p:panel header="#{fechaController.titulo} Producto" visible="#{fechaController.habilitaForm}">
-                        <p:panelGrid columns="2">
-                            <p:outputLabel for="txtFechaNueva" value="Nombre" />
-                            <p:calendar id="txtFechaNueva" value="#{fechaController.fecha.fechaProceso}" locale="es" pattern="dd/MM/yyyy" mindate="#{fechaController.fechaMin}"/>
-                        </p:panelGrid>
-                        <p:commandButton value="Aceptar" actionListener="#{fechaController.guardar}" update="@form" />
-                        <p:commandButton value="Cancelar" actionListener="#{fechaController.cancelar}" update="@form" />
-                    </p:panel>
                 </p:panel>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                </p:confirmDialog>
-                <h:outputScript library="js" name="spanishLocale.js"/>
-                <p:commandButton value="Otros" actionListener="#{procesosController.CerrarDias()}" />
+
             </ui:define>
-            
+
         </ui:composition>
 
     </body>

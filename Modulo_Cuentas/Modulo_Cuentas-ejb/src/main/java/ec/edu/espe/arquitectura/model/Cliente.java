@@ -41,9 +41,7 @@ public class Cliente implements Serializable {
     @Size(min = 1, max = 13)
     @Column(name = "COD_CLIENTE")
     private String codCliente;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    
     @Column(name = "NOMBRE_CLIENTE")
     private String nombreCliente;
     @Size(max = 50)

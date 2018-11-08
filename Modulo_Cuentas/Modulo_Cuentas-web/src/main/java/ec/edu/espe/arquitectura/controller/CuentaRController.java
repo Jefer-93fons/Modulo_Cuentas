@@ -5,13 +5,17 @@
  */
 package ec.edu.espe.arquitectura.controller;
 
+import ec.edu.espe.arquitectura.model.Cliente;
+import ec.edu.espe.arquitectura.model.TipoTransaccion;
 import ec.edu.espe.arquitectura.model.Cuenta;
+import ec.edu.espe.arquitectura.model.Producto;
 import ec.edu.espe.arquitectura.model.Transaccion;
 import ec.edu.espe.arquitectura.service.CuentaService;
 import ec.edu.espe.arquitectura.service.TransaccionService;
 import ec.edu.espe.arquitectura.web.util.FacesUtil;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,8 +35,9 @@ public class CuentaRController extends BaseController implements Serializable {
     private List<Cuenta> cuentas;
     private Cuenta cuenta;
     private Cuenta cuentaSel;
-    
+    private int cuentaDigitada;
     private Transaccion transaccion;
+    private int tipoTransaccion;
 
     private boolean visible;
 
@@ -48,9 +53,35 @@ public class CuentaRController extends BaseController implements Serializable {
     public void init() {
         visible = false;
         this.cuentas = cuentaService.obtenerTodos();
+        for(Cuenta cnt:cuentas){
+            System.out.println("asd: "+cnt.getIdCliente().getNombreCliente());
+        }
+
+        
         this.cuenta=new Cuenta();
+        this.transaccion=new Transaccion();
+        this.transaccion.setIdTipoTransaccion(new TipoTransaccion());
+        this.transaccion.setValorTransaccion(BigDecimal.valueOf(0,00));
+        this.cuenta.setIdCliente(new Cliente());
+        this.cuenta.setIdProducto(new Producto());
     }
     // <editor-fold defaultstate="collapsed" desc="Getters & Setters">
+
+    public int getTipoTransaccion() {
+        return tipoTransaccion;
+    }
+
+    public void setTipoTransaccion(int tipoTransaccion) {
+        this.tipoTransaccion = tipoTransaccion;
+    }
+
+    public int getCuentaDigitada() {
+        return cuentaDigitada;
+    }
+
+    public void setCuentaDigitada(int cuentaDigitada) {
+        this.cuentaDigitada = cuentaDigitada;
+    }
 
     public List<Cuenta> getCuentas() {
         return cuentas;
@@ -95,6 +126,7 @@ public class CuentaRController extends BaseController implements Serializable {
     }
 
     // </editor-fold>
+    
     @Override
     public void modificar() {
         super.modificar(); //To change body of generated methods, choose Tools | Templates.
@@ -106,21 +138,41 @@ public class CuentaRController extends BaseController implements Serializable {
     @Override
     public void agregar() {
         this.transaccion = new Transaccion();
+        this.transaccion.setIdTipoTransaccion(new TipoTransaccion());
+        this.transaccion.setValorTransaccion(BigDecimal.valueOf(0,00));
         super.agregar(); //To change body of generated methods, choose Tools | Templates.
+        buscarCuenta();
+        
     }
 
-
+    public void buscarCuenta(){   
+        for(Cuenta auxXuenta:cuentas){
+            if (auxXuenta.getIdCuenta()==cuentaDigitada) {
+                this.cuenta=auxXuenta;
+            }
+        }
+    }
     public void cancelar() {
         super.reset();
         this.transaccion = new Transaccion();
     }
 
     public void guardar() {
-
+        
         try {
             if (enAgregar) {
-                this.transaccion.setIdTransaccion(0);
-                this.transaccionService.crear(this.transaccion);
+                System.out.println("ENTRO");
+                    transaccion = new Transaccion();
+                    Date date = new Date(2018, 11, 8);
+                    transaccion.setFechaTransaccion(date);
+                    TipoTransaccion tipoTransaccion = new TipoTransaccion();
+                    tipoTransaccion.setIdTipoTransaccion(1);
+                    transaccion.setIdTipoTransaccion(tipoTransaccion);
+                    transaccion.setValorTransaccion(BigDecimal.valueOf(50));
+                    transaccion.setIdCuenta(this.cuenta);
+                    transaccion.setIdTransaccion(6);
+                    transaccionService.crear(transaccion);
+                //this.transaccionService.crear(this.transaccion);
                 FacesUtil.addMessageInfo("Se realiz\u00f3 la transacci\u00f3n con un valor de : " + this.transaccion.getValorTransaccion());
             }
         } catch (Exception ex) {
@@ -130,7 +182,6 @@ public class CuentaRController extends BaseController implements Serializable {
         super.reset();
 
         this.transaccion = new Transaccion();
-
         this.cuentas = cuentaService.obtenerTodos();
     }
 

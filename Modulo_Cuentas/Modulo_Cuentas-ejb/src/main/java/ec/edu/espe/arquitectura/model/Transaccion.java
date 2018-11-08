@@ -38,8 +38,8 @@ public class Transaccion implements Serializable {
     @Column(name = "ID_TRANSACCION")
     private Integer idTransaccion;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Basic(optional = false)
-    @NotNull
+    //@Basic(optional = false)
+    //@NotNull
     @Column(name = "VALOR_TRANSACCION")
     private BigDecimal valorTransaccion;
     @Basic(optional = false)
