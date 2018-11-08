@@ -5,10 +5,17 @@
  */
 package ec.edu.espe.arquitectura.controller;
 
+import ec.edu.espe.arquitectura.dao.ClienteFacade;
 import ec.edu.espe.arquitectura.dao.CuentaFacade;
+import ec.edu.espe.arquitectura.dao.ProductoFacade;
+import ec.edu.espe.arquitectura.dao.TipoProductoFacade;
+import ec.edu.espe.arquitectura.model.Cliente;
 import ec.edu.espe.arquitectura.model.Cuenta;
+import ec.edu.espe.arquitectura.model.Producto;
+import ec.edu.espe.arquitectura.model.TipoProducto;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -28,13 +35,52 @@ import javax.swing.JOptionPane;
 public class CuentaController implements Serializable{
     @EJB
     private CuentaFacade cuentaFacade;
+    private ClienteFacade clienteFacade;
+    private ProductoFacade productoFacade;
+    
     private Cuenta cuenta;
+    private Cliente cliente;
+    private Producto producto;
+    
     private String periodo;
     private List<String> periodos;
     private String rango;
     private List<String> rangos;
     private String identificacion;
     private String clientenombre;
+
+    public CuentaFacade getCuentaFacade() {
+        return cuentaFacade;
+    }
+
+    public void setCuentaFacade(CuentaFacade cuentaFacade) {
+        this.cuentaFacade = cuentaFacade;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
+
+    public ProductoFacade getProductoFacade() {
+        return productoFacade;
+    }
+
+    public void setProductoFacade(ProductoFacade productoFacade) {
+        this.productoFacade = productoFacade;
+    }
+    
+
+    public ClienteFacade getClienteFacade() {
+        return clienteFacade;
+    }
+
+    public void setClienteFacade(ClienteFacade clienteFacade) {
+        this.clienteFacade = clienteFacade;
+    }
 
     public String getIdentificacion() {
         return identificacion;
@@ -51,8 +97,22 @@ public class CuentaController implements Serializable{
     public void setClientenombre(String clientenombre) {
         this.clientenombre = clientenombre;
     }
-    
-    
+
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
     
 
     public String getRango() {
@@ -94,9 +154,10 @@ public class CuentaController implements Serializable{
     @PostConstruct
     public void init(){
         cuenta = new Cuenta();
+        producto = new Producto();
+       
         
         periodos = new ArrayList<String>();
-        periodos.add("Diario");
         periodos.add("Mensual");
         periodos.add("Anual"); 
         
@@ -109,6 +170,36 @@ public class CuentaController implements Serializable{
     
     public List<Cuenta> listarTodasCuentas (){
         return cuentaFacade.findAll();
+    }
+    
+    
+    public List<Producto> listarTodosProductos (){
+        return productoFacade.findAll();
+    }
+     
+    public void buscarCliente (){
+        List<Cliente> clientes;
+        
+        clientes = cuentaFacade.buscarCliente(identificacion);
+        
+        Iterator<Cliente> it = clientes.iterator();
+        // mientras al iterador queda proximo juego
+        while(it.hasNext()){
+            Cliente cli = it.next();
+            clientenombre = cli.getNombreCliente();
+        }
+        
+//        try{
+//
+//            if (clientes!=null){
+//                clientenombre = cliente.getNombreCliente() + " " + cliente.getApellidoCliente();
+//            }else{
+//                clientenombre = "No exit coincidencia";
+//            }
+//            
+//        }catch(Exception e){
+//            
+//        }
     }
     
     public void cargarDatos(){
