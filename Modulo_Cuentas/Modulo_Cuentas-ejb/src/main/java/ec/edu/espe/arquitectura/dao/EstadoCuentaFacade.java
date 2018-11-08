@@ -12,10 +12,10 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Stateless
-public class EstadoCuentaFacade extends AbstractFacade<EstadoCuenta> {
+public class EstadoCuentaFacade extends AbstractFacade<EstadoCuenta>  {
 
     @PersistenceContext(unitName = "com.mycompany_Modulo_Cuentas-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;

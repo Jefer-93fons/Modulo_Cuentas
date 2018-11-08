@@ -23,27 +23,35 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class ProductoController extends BaseController implements Serializable {
+public class ProductoControllerOri extends BaseController implements Serializable {
 
     private List<Producto> productos;
-    
-    private List<TipoProducto> tiposProducto;
-    
 
     private Producto producto;
 
+    private TipoProducto tipo;
+
     private Producto productoSel;
+
+    private List<TipoProducto> tiposProducto;
 
     @Inject
     private ProductoService productoService;
+
     @Inject
     private TipoProductoService tipoProductoService;
 
     @PostConstruct
     public void init() {
         this.producto = new Producto();
+        this.tipo = new TipoProducto();
         this.productos = this.productoService.obtenerTodos();
-        this.tiposProducto=this.tipoProductoService.obtenerTodos();
+        this.tiposProducto = this.tipoProductoService.obtenerTodos();
+
+    }
+
+    public List<TipoProducto> getTiposProducto() {
+        return tiposProducto;
     }
 
     public List<Producto> getProductos() {
@@ -63,7 +71,7 @@ public class ProductoController extends BaseController implements Serializable {
         this.producto.setIdProducto(this.productoSel.getIdProducto());
         this.producto.setNombreProducto(this.productoSel.getNombreProducto());
         this.producto.setRestriccionProducto(this.productoSel.getRestriccionProducto());
-        this.producto.setIdTipoProducto(this.productoSel.getIdTipoProducto());
+        this.producto.setIdTipoProducto(this.tipo);
 
     }
 
@@ -77,7 +85,7 @@ public class ProductoController extends BaseController implements Serializable {
             FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado. Verifique que no tenga informacion relacionada.");
         }
     }
-
+    
     public void cancelar() {
         super.reset();
         this.producto = new Producto();
@@ -89,7 +97,7 @@ public class ProductoController extends BaseController implements Serializable {
 
                 this.producto.setNombreProducto(this.producto.getNombreProducto());
                 this.producto.setRestriccionProducto(this.producto.getRestriccionProducto());
-                this.producto.setIdTipoProducto(this.producto.getIdTipoProducto());
+                this.producto.setIdTipoProducto(this.tipo);
                 this.productoService.crear(this.producto);
                 FacesUtil.addMessageInfo("Se agreg\u00f3 el Producto: " + this.producto.getNombreProducto());
             } else {
@@ -104,7 +112,7 @@ public class ProductoController extends BaseController implements Serializable {
         this.producto = new Producto();
         this.productos = this.productoService.obtenerTodos();
     }
-
+       
     public Producto getProducto() {
         return producto;
     }
@@ -129,12 +137,20 @@ public class ProductoController extends BaseController implements Serializable {
         this.productoService = productoService;
     }
 
-    public List<TipoProducto> getTiposProducto() {
-        return tiposProducto;
+    public TipoProductoService getTipoProductoService() {
+        return tipoProductoService;
     }
 
-    public void setTiposProducto(List<TipoProducto> tiposProducto) {
-        this.tiposProducto = tiposProducto;
+    public void setTipoProductoService(TipoProductoService tipoProductoService) {
+        this.tipoProductoService = tipoProductoService;
+    }
+
+    public TipoProducto getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoProducto tipo) {
+        this.tipo = tipo;
     }
 
 }

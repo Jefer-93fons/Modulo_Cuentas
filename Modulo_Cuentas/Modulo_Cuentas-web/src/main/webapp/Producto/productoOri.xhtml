@@ -15,8 +15,8 @@ and open the template in the editor.
         <ui:define name="content">
 
             <p:panel id="mainPnl" header="Producto:" style="width: 50%; margin: auto;">
-                <p:dataTable var="producto" value="#{productoController.productos}" 
-                             selectionMode="single" selection="#{productoController.productoSel}" rowKey="#{producto.idProducto}">
+                <p:dataTable var="producto" value="#{productoControllerOri.productos}" 
+                             selectionMode="single" selection="#{productoControllerOri.productoSel}" rowKey="#{producto.idProducto}">
                     <p:ajax event="rowSelect" update="@form" />
                     <p:ajax event="rowUnselect" update="@form"  />
                     <p:column headerText="Nombre">
@@ -30,19 +30,26 @@ and open the template in the editor.
                     </p:column>
                 </p:dataTable>
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-                <p:commandButton value="Agregar" actionListener="#{productoController.agregar()}" update="@form"  />
-                <p:commandButton id="modBtn" value="Modificar" actionListener="#{productoController.modificar()}" update="@form" disabled="#{productoController.productoSel eq null}"/>
-                <p:commandButton value="Eliminar" actionListener="#{productoController.eliminar()}" update="@form" disabled="#{productoController.productoSel eq null}" >
-                     <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el Producto: #{productoController.productoSel.nombreProducto}" icon="ui-icon-alert" />
+                <p:commandButton value="Agregar" actionListener="#{productoControllerOri.agregar()}" update="@form"  />
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{productoControllerOri.modificar()}" update="@form" disabled="#{productoControllerOri.productoSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{productoControllerOri.eliminar()}" update="@form" disabled="#{productoControllerOri.productoSel eq null}" >
+                     <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el Producto: #{productoControllerOri.productoSel.nombreProducto}" icon="ui-icon-alert" />
                 </p:commandButton>
-                <p:panel header="#{productoController.titulo} Producto" visible="#{productoController.habilitaForm}">
+                <p:panel header="#{productoControllerOri.titulo} Producto" visible="#{productoControllerOri.habilitaForm}">
                     <p:panelGrid columns="2">
                         <p:outputLabel for="nombre" value="Nombre" />
-                        <p:inputTextarea id="nombre" value="#{productoController.producto.nombreProducto}"  />
+                        <p:inputTextarea id="nombre" value="#{productoControllerOri.producto.nombreProducto}" rows="2" cols="20" />
+                        <p:outputLabel for="tipoProductocmb" value="Tipo Producto" />
+                        <p:selectOneMenu id="tipoProductocmb" value="#{productoControllerOri.tipo.idTipoProducto}">
+                            <f:selectItems value="#{productoControllerOri.tiposProducto}" var="tipo" itemValue="#{tipo.idTipoProducto}" itemLabel="#{tipo.nombreTipoProducto}"/>
+                        </p:selectOneMenu>
 
+
+                        <p:outputLabel for="restriccion" value="Restriccion" />
+                        <p:inputText id="restriccion" value="#{productoControllerOri.producto.restriccionProducto}"  />
                     </p:panelGrid>
-                    <p:commandButton value="Aceptar" actionListener="#{productoController.guardar}" update="@form" />
-                    <p:commandButton value="Cancelar" actionListener="#{productoController.cancelar}" update="@form" />
+                    <p:commandButton value="Aceptar" actionListener="#{productoControllerOri.guardar}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{productoControllerOri.cancelar}" update="@form" />
                 </p:panel>
             </p:panel>
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">

@@ -7,24 +7,31 @@ package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Juan
  */
 @Entity
-@Table(name = "FECHA_TRABAJO", catalog = "", schema = "AGENTECUENTAS")
-
+@Table(name = "FECHA_TRABAJO")
+@NamedQueries({
+    @NamedQuery(name = "FechaTrabajo.findAll", query = "SELECT f FROM FechaTrabajo f")})
 public class FechaTrabajo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_FECHA")
     private Integer idFecha;
     @Column(name = "FECHA_PROCESO")
