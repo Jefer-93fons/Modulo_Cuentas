@@ -27,11 +27,11 @@ public class Producto implements Serializable {
     @Column(name = "ID_PRODUCTO")
     private Integer idProducto;
     
-    @Column(name = "NOMBRE_PRODUCTO")
-    private String nombreProducto;
-    
     @Column(name = "ID_TIPO_PRODUCTO", nullable = false)
     private Integer codTipoProducto;
+    
+    @Column(name = "NOMBRE_PRODUCTO")
+    private String nombreProducto;
     
     @Column(name = "RESTRICCION_PRODUCTO")
     private String restriccionProducto;

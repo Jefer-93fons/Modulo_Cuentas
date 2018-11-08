@@ -69,9 +69,13 @@ public class ProductoController extends BaseController implements Serializable {
         super.modificar();
         this.producto = new Producto();
         this.producto.setIdProducto(this.productoSel.getIdProducto());
+        this.producto.setIdTipoProducto(tipo);
+        this.producto.setCodTipoProducto(this.tipo.getCodigo());
+        
         this.producto.setNombreProducto(this.productoSel.getNombreProducto());
         this.producto.setRestriccionProducto(this.productoSel.getRestriccionProducto());
-        this.producto.setCodTipoProducto(this.tipo.getCodigo());
+        
+        
     }
 
     public void eliminar() {
@@ -106,7 +110,7 @@ public class ProductoController extends BaseController implements Serializable {
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
-        System.out.println("Tipo Producto: " + this.producto.getIdTipoProducto());
+        System.out.println("Tipo Producto: " + this.producto.getCodTipoProducto());
         super.reset();
         this.producto = new Producto();
         this.productos = this.productoService.obtenerTodos();

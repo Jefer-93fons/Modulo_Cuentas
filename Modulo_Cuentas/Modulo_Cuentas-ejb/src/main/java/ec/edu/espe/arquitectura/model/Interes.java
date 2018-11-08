@@ -31,18 +31,26 @@ public class Interes implements Serializable {
     @Id
     @Column(name = "ID_INTERES")
     private Integer idInteres;
+    @Column(name = "ID_PERIODO", nullable = false)
+    private Integer codPeriodo;
     @Column(name = "PORCENTAJE_INTERES")
     private BigDecimal porcentajeInteres;
     @Column(name = "VALOR_MAX")
     private BigDecimal valorMax;
     @Column(name = "VALOR_MIN")
     private BigDecimal valorMin;
+    
+    
+    
+    
+    
     @JoinTable(name = "INTERES_PRODUCTO", joinColumns = {
         @JoinColumn(name = "ID_INTERES", referencedColumnName = "ID_INTERES")}, inverseJoinColumns = {
         @JoinColumn(name = "ID_PRODUCTO", referencedColumnName = "ID_PRODUCTO")})
     @ManyToMany
     private List<Producto> productoList;
-    @JoinColumn(name = "ID_PERIODO", referencedColumnName = "ID_PERIODO")
+    
+    @JoinColumn(name = "ID_PERIODO", referencedColumnName = "ID_PERIODO", insertable = false, updatable = false)
     @ManyToOne
     private Periodo idPeriodo;
 
@@ -106,6 +114,17 @@ public class Interes implements Serializable {
     public void setIdPeriodo(Periodo idPeriodo) {
         this.idPeriodo = idPeriodo;
     }
+
+    public Integer getCodPeriodo() {
+        return codPeriodo;
+    }
+
+    public void setCodPeriodo(Integer codPeriodo) {
+        this.codPeriodo = codPeriodo;
+    }
+
+   
+    
 
     @Override
     public int hashCode() {
