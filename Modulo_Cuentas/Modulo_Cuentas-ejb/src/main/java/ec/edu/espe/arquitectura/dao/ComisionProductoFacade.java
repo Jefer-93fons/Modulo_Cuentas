@@ -5,20 +5,17 @@
  */
 package ec.edu.espe.arquitectura.dao;
 
-import ec.edu.espe.arquitectura.model.Cuenta;
-import ec.edu.espe.arquitectura.model.Transaccion;
-import java.util.List;
+import ec.edu.espe.arquitectura.model.ComisionProducto;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 /**
  *
  * @author Juan
  */
 @Stateless
-public class TransaccionFacade extends AbstractFacade<Transaccion> {
+public class ComisionProductoFacade extends AbstractFacade<ComisionProducto>  {
 
     @PersistenceContext(unitName = "com.mycompany_Modulo_Cuentas-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -28,7 +25,8 @@ public class TransaccionFacade extends AbstractFacade<Transaccion> {
         return em;
     }
 
-    public TransaccionFacade() {
-        super(Transaccion.class);
+    public ComisionProductoFacade() {
+        super(ComisionProducto.class);
     }
+    
 }

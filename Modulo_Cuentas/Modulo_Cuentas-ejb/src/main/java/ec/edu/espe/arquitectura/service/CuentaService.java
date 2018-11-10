@@ -5,12 +5,13 @@
  */
 package ec.edu.espe.arquitectura.service;
 
+
+
 import ec.edu.espe.arquitectura.dao.ClienteFacade;
 import ec.edu.espe.arquitectura.dao.CuentaFacade;
-import ec.edu.espe.arquitectura.dao.ProductoFacade;
 import ec.edu.espe.arquitectura.model.Cliente;
 import ec.edu.espe.arquitectura.model.Cuenta;
-import ec.edu.espe.arquitectura.model.Producto;
+
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -49,4 +50,5 @@ public class CuentaService {
         Cuenta cuenta = this.cuentaFacade.find(codigo);
         this.cuentaFacade.remove(cuenta);
     }
+
 }
