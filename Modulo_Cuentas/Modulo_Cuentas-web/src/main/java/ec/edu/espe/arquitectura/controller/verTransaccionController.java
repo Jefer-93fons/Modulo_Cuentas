@@ -60,6 +60,7 @@ public class verTransaccionController extends BaseController implements Serializ
     }
 
     public Boolean buscarCuenta() {
+        this.cuentas=this.cuentaService.obtenerTodos();
         for (Cuenta auxXuenta : cuentas) {
             if (auxXuenta.getIdCuenta() == cuentaDigitada) {
                 this.cuenta = auxXuenta;

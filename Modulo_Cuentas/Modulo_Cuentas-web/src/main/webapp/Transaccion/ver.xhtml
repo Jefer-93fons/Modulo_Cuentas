@@ -46,22 +46,22 @@
                             <f:facet name="{Exporters}">
                                 <h:commandLink>
                                     <p:graphicImage name="/img/excel.png" width="24"/>
-                                    <p:dataExporter type="xls" target="tbl" fileName="cars" />
+                                    <p:dataExporter type="xls" target="tbl" fileName="trans-export" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/img/pdf.png" width="24"/>
-                                    <p:dataExporter type="pdf" target="tbl" fileName="cars"/>
+                                    <p:dataExporter type="pdf" target="tbl" fileName="trans"/>
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/img/csv.png" width="24"/>
-                                    <p:dataExporter type="csv" target="tbl" fileName="cars" />
+                                    <p:dataExporter type="csv" target="tbl" fileName="trans" />
                                 </h:commandLink>
 
                                 <h:commandLink>
                                     <p:graphicImage name="/img/xml.png" width="24"/>
-                                    <p:dataExporter type="xml" target="tbl" fileName="cars" />
+                                    <p:dataExporter type="xml" target="tbl" fileName="trans" />
                                 </h:commandLink>
                             </f:facet>
                             <p:column>
@@ -96,22 +96,22 @@
 
                         <h3>Export Page Data Only</h3>
                         <h:commandLink>
-                            <p:graphicImage name="/demo/images/excel.png" />
+                            <p:graphicImage name="/img/excel.png" width="30px"/>
                             <p:dataExporter type="xls" target="tbl" fileName="cars" pageOnly="true"/>
                         </h:commandLink>
 
                         <h:commandLink>
-                            <p:graphicImage name="/demo/images/pdf.png" />
+                            <p:graphicImage name="img/pdf.png" width="30px"/>
                             <p:dataExporter type="pdf" target="tbl" fileName="cars" pageOnly="true" />
                         </h:commandLink>
 
                         <h:commandLink>
-                            <p:graphicImage name="/demo/images/csv.png" />
+                            <p:graphicImage name="/img/csv.png" width="30px" />
                             <p:dataExporter type="csv" target="tbl" fileName="cars" pageOnly="true" />
                         </h:commandLink>
 
                         <h:commandLink>
-                            <p:graphicImage name="/demo/images/xml.png" />
+                            <p:graphicImage name="/img/xml.png" width="30px"/>
                             <p:dataExporter type="xml" target="tbl" fileName="cars" pageOnly="true" />
                         </h:commandLink>
                     </h:form>
