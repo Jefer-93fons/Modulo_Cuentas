@@ -6,28 +6,45 @@
 package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Juan
  */
 @Entity
-@Table(name = "USUARIO", catalog = "", schema = "AGENTECUENTAS")
-
+@Table(name = "USUARIO")
+@NamedQueries({
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_USUARIO")
     private Integer idUsuario;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "NOMBRE_USUARIO")
     private String nombreUsuario;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "CLAVE_USUARIO")
     private String claveUsuario;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
     @Column(name = "CORREO_USUARIO")
     private String correoUsuario;
 

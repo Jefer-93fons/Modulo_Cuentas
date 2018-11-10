@@ -6,47 +6,54 @@
 package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Juan
  */
 @Entity
-@Table(name = "TIPO_PRODUCTO", catalog = "", schema = "AGENTECUENTAS")
-
+@Table(name = "TIPO_PRODUCTO")
+@NamedQueries({
+    @NamedQuery(name = "TipoProducto.findAll", query = "SELECT t FROM TipoProducto t")})
 public class TipoProducto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_TIPO_PRODUCTO")
-    private Integer codigo;
-    
-   @Column(name = "NOMBRE_TIPO_PRODUCTO")
+    private Integer idTipoProducto;
+    @Size(max = 50)
+    @Column(name = "NOMBRE_TIPO_PRODUCTO")
     private String nombreTipoProducto;
-   
-  
+    @OneToMany(mappedBy = "idTipoProducto")
+    private List<Producto> productoList;
 
     public TipoProducto() {
     }
 
-    public TipoProducto(Integer codigo) {
-        this.codigo = codigo;
+    public TipoProducto(Integer idTipoProducto) {
+        this.idTipoProducto = idTipoProducto;
     }
 
-    
-
-    public Integer getCodigo() {
-        return codigo;
+    public Integer getIdTipoProducto() {
+        return idTipoProducto;
     }
 
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
+    public void setIdTipoProducto(Integer idTipoProducto) {
+        this.idTipoProducto = idTipoProducto;
     }
-
 
     public String getNombreTipoProducto() {
         return nombreTipoProducto;
@@ -56,12 +63,18 @@ public class TipoProducto implements Serializable {
         this.nombreTipoProducto = nombreTipoProducto;
     }
 
- 
+    public List<Producto> getProductoList() {
+        return productoList;
+    }
+
+    public void setProductoList(List<Producto> productoList) {
+        this.productoList = productoList;
+    }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codigo != null ? codigo.hashCode() : 0);
+        hash += (idTipoProducto != null ? idTipoProducto.hashCode() : 0);
         return hash;
     }
 
@@ -72,7 +85,7 @@ public class TipoProducto implements Serializable {
             return false;
         }
         TipoProducto other = (TipoProducto) object;
-        if ((this.codigo == null && other.codigo != null) || (this.codigo != null && !this.codigo.equals(other.codigo))) {
+        if ((this.idTipoProducto == null && other.idTipoProducto != null) || (this.idTipoProducto != null && !this.idTipoProducto.equals(other.idTipoProducto))) {
             return false;
         }
         return true;
@@ -80,7 +93,7 @@ public class TipoProducto implements Serializable {
 
     @Override
     public String toString() {
-        return "ec.edu.espe.arquitectura.model.TipoProducto[ idTipoProducto=" + codigo + " ]";
+        return "ec.edu.espe.arquitectura.model.TipoProducto[ idTipoProducto=" + idTipoProducto + " ]";
     }
     
 }

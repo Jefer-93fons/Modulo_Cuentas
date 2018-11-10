@@ -8,26 +8,32 @@ package ec.edu.espe.arquitectura.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Juan
  */
 @Entity
-@Table(name = "CUENTA", catalog = "", schema = "AGENTECUENTAS")
-
+@Table(name = "CUENTA")
+@NamedQueries({
+    @NamedQuery(name = "Cuenta.findAll", query = "SELECT c FROM Cuenta c")})
 public class Cuenta implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_CUENTA")
     private Integer idCuenta;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -67,7 +73,6 @@ public class Cuenta implements Serializable {
         this.saldoCuenta = saldoCuenta;
     }
 
-    @XmlTransient
     public List<Historico> getHistoricoList() {
         return historicoList;
     }
@@ -76,7 +81,6 @@ public class Cuenta implements Serializable {
         this.historicoList = historicoList;
     }
 
-    @XmlTransient
     public List<Transaccion> getTransaccionList() {
         return transaccionList;
     }
