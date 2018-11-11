@@ -80,13 +80,13 @@
                             <f:facet name="header">
                                 <h:outputText value="Saldo Cuenta"/>
                             </f:facet>
-                            <h:outputText value="#{item.saldoCuenta}"/>
+                            <h:outputText value="#{cuentaController.saldo}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Interes"/>
                             </f:facet>
-                            <h:outputText value="0.45"/>
+                            <h:outputText value="#{cuentaController.interes}"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
