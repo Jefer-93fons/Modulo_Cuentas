@@ -8,11 +8,14 @@ package ec.edu.espe.arquitectura.controller;
 import ec.edu.espe.arquitectura.dao.ClienteFacade;
 import ec.edu.espe.arquitectura.dao.CuentaFacade;
 import ec.edu.espe.arquitectura.dao.ProductoFacade;
-import ec.edu.espe.arquitectura.dao.TipoProductoFacade;
 import ec.edu.espe.arquitectura.model.Cliente;
 import ec.edu.espe.arquitectura.model.Cuenta;
 import ec.edu.espe.arquitectura.model.Producto;
 import ec.edu.espe.arquitectura.model.TipoProducto;
+import ec.edu.espe.arquitectura.service.ClienteService;
+import ec.edu.espe.arquitectura.service.CuentaService;
+import ec.edu.espe.arquitectura.service.ProductoService;
+import ec.edu.espe.arquitectura.service.TipoProductoService;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,6 +26,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,54 +36,96 @@ import javax.swing.JOptionPane;
 
 @ManagedBean (name = "cuentaController")
 @SessionScoped
-public class CuentaController implements Serializable{
-    @EJB
-    private CuentaFacade cuentaFacade;
-    private ClienteFacade clienteFacade;
-    private ProductoFacade productoFacade;
-    
+public class CuentaController extends BaseController implements Serializable{
     private Cuenta cuenta;
     private Cliente cliente;
     private Producto producto;
+    private TipoProducto tipo;
+    private TipoProducto tipos;
+
+    public TipoProducto getTipos() {
+        return tipos;
+    }
+
+    public void setTipos(TipoProducto tipos) {
+        this.tipos = tipos;
+    }
     
-    private String periodo;
-    private List<String> periodos;
-    private String rango;
-    private List<String> rangos;
+    
+    
+    private String mes;
+    private List<String>meses;
+    private String anio;
+    private List<String> anios;
     private String identificacion;
     private String clientenombre;
+    
+    private boolean formCuenta;
+    
+    private List<Cliente> clientes;
+    private List<Cuenta> cuentas;
+    private List<Producto> productos;
+    private List<TipoProducto> tiposProducto;
+    private List<Cuenta> cuentasSelec;
 
-    public CuentaFacade getCuentaFacade() {
-        return cuentaFacade;
+    @Inject
+    private CuentaService cuentaService;
+    
+    @Inject
+    private ClienteService clienteService;
+    
+    @Inject
+    private ProductoService productoService;
+    
+    @Inject
+    private TipoProductoService tipoProductoService;
+
+    /**
+     * Creates a new instance of CuentaController
+     */
+    @PostConstruct
+    public void init(){
+        cuenta = new Cuenta();
+        producto = new Producto();
+        tipo = new TipoProducto();
+        clientes = clienteService.obtenerTodos();
+        cuentas = cuentaService.obtenerTodos();
+        tiposProducto = tipoProductoService.obtenerTodos();
+        productos = productoService.obtenerTodos();
+        
+        
+        meses = new ArrayList<String>();
+        anios = new ArrayList<String>();
+        cuentasSelec = new ArrayList<Cuenta>();
+        
+        meses.add("Enero");
+        meses.add("Febrero");
+        meses.add("Marzo");
+        meses.add("Abril");
+        meses.add("Mayo");
+        meses.add("Junio");
+        meses.add("Julio");
+        meses.add("Agosto");
+        meses.add("Septiembre");
+        meses.add("Octubre");
+        meses.add("Noviembre");
+        meses.add("Diciembre");
+       
+        anios.add("2016");
+        anios.add("2017");
+        anios.add("2018");
+            
     }
-
-    public void setCuentaFacade(CuentaFacade cuentaFacade) {
-        this.cuentaFacade = cuentaFacade;
+    
+    public CuentaController() {
     }
-
+    
     public Producto getProducto() {
         return producto;
     }
 
     public void setProducto(Producto producto) {
         this.producto = producto;
-    }
-
-    public ProductoFacade getProductoFacade() {
-        return productoFacade;
-    }
-
-    public void setProductoFacade(ProductoFacade productoFacade) {
-        this.productoFacade = productoFacade;
-    }
-    
-
-    public ClienteFacade getClienteFacade() {
-        return clienteFacade;
-    }
-
-    public void setClienteFacade(ClienteFacade clienteFacade) {
-        this.clienteFacade = clienteFacade;
     }
 
     public String getIdentificacion() {
@@ -113,116 +159,157 @@ public class CuentaController implements Serializable{
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public List<String> getMeses() {
+        return meses;
+    }
+
+    public void setMeses(List<String> meses) {
+        this.meses = meses;
+    }
+
+    public String getAnio() {
+        return anio;
+    }
+
+    public void setAnio(String anio) {
+        this.anio = anio;
+    }
+
+    public List<String> getAnios() {
+        return anios;
+    }
+
+    public void setAnios(List<String> anios) {
+        this.anios = anios;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public boolean isFormCuenta() {
+        return formCuenta;
+    }
+
+    public void setFormCuenta(boolean formCuenta) {
+        this.formCuenta = formCuenta;
+    }
+
+    public List<Cuenta> getCuentas() {
+        return cuentas;
+    }
+
+    public void setCuentas(List<Cuenta> cuentas) {
+        this.cuentas = cuentas;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public List<TipoProducto> getTiposProducto() {
+        return tiposProducto;
+    }
+
+    public void setTiposProducto(List<TipoProducto> tiposProducto) {
+        this.tiposProducto = tiposProducto;
+    }
+
+    public TipoProducto getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoProducto tipo) {
+        this.tipo = tipo;
+    }
     
-
-    public String getRango() {
-        return rango;
+    public List<Cuenta> getCuentasSelec() {
+        return cuentasSelec;
     }
 
-    public void setRango(String rango) {
-        this.rango = rango;
-    }
-
-    public List<String> getRangos() {
-        return rangos;
-    }
-
-    public void setRangos(List<String> rangos) {
-        this.rangos = rangos;
-    }
-    
-    public String getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
-    }
-
-    public List<String> getPeriodos() {
-        return periodos;
-    }
-
-    public void setPeriodos(List<String> periodos) {
-        this.periodos = periodos;
-    }
-    
-    
-    /**
-     * Creates a new instance of CuentaController
-     */
-    @PostConstruct
-    public void init(){
-        cuenta = new Cuenta();
-        producto = new Producto();
-       
-        
-        periodos = new ArrayList<String>();
-        periodos.add("Mensual");
-        periodos.add("Anual"); 
-        
-        rangos = new ArrayList<String>();
-            
-    }
-
-    public CuentaController() {
-    }
-    
-    public List<Cuenta> listarTodasCuentas (){
-        return cuentaFacade.findAll();
-    }
-    
-    
-    public List<Producto> listarTodosProductos (){
-        return productoFacade.findAll();
+    public void setCuentasSelec(List<Cuenta> cuentasSelec) {
+        this.cuentasSelec = cuentasSelec;
     }
      
-    public void buscarCliente (){
-        List<Cliente> clientes;
+    
+    
+    
+    @Override
+    public void buscar(){
+        super.buscar();
+        formCuenta = buscarCliente ();
+    }
+    
+    public void filtrarProductos(){
+        //productos = productoService.obtenerTodos();
+        List<Producto> auxproductos  = new ArrayList<Producto>();
         
-        clientes = cuentaFacade.buscarCliente(identificacion);
+        for (Producto pro : productos){
+          if(tipo.getIdTipoProducto() == pro.getIdTipoProducto().getIdTipoProducto()){
+              auxproductos.add(pro);
+          }
+        }
+        productos = auxproductos;
+    }
+    
+    
+    public void buscarCuenta() {
         
-        Iterator<Cliente> it = clientes.iterator();
-        // mientras al iterador queda proximo juego
-        while(it.hasNext()){
-            Cliente cli = it.next();
-            clientenombre = cli.getNombreCliente();
+        for (Cuenta cunt : cuentas){
+           // cuentasSelec.add(cunt);
+            if (cunt.getIdCliente().getCodCliente().equals(identificacion)) { 
+                cuentasSelec.add(cunt);
+            }
+        }
+    }
+     
+    public boolean buscarCliente(){
+        boolean flag = false;
+        for (Cliente auxCliente : clientes) {
+            if (auxCliente.getCodCliente().equals(identificacion)) {
+                this.cliente = auxCliente;
+                flag = true;
+            }
         }
         
-//        try{
-//
-//            if (clientes!=null){
-//                clientenombre = cliente.getNombreCliente() + " " + cliente.getApellidoCliente();
-//            }else{
-//                clientenombre = "No exit coincidencia";
-//            }
-//            
-//        }catch(Exception e){
-//            
-//        }
+        return flag;
+
     }
     
     public void cargarDatos(){
-        if(periodo.equals("Mensual")){
-            rangos.add("Enero");
-            rangos.add("Febrero");
-            rangos.add("Marzo");
-            rangos.add("Abril");
-            rangos.add("Mayo");
-            rangos.add("Junio");
-            rangos.add("Julio");
-            rangos.add("Agosto");
-            rangos.add("Septiembre");
-            rangos.add("Octubre");
-            rangos.add("Noviembre");
-            rangos.add("Diciembre");
-        }
-        
-        if(periodo.equals("Anual")){
-            rangos.add("2016");
-            rangos.add("2017");
-            rangos.add("2018");
-        }
+            anios.add("Enero");
+            anios.add("Febrero");
+            anios.add("Marzo");
+            anios.add("Abril");
+            anios.add("Mayo");
+            anios.add("Junio");
+            anios.add("Julio");
+            anios.add("Agosto");
+            anios.add("Septiembre");
+            anios.add("Octubre");
+            anios.add("Noviembre");
+            anios.add("Diciembre");
+       
+            meses.add("2016");
+            meses.add("2017");
+            meses.add("2018");
             
     }
 }

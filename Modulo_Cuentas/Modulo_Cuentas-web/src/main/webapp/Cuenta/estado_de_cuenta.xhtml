@@ -9,76 +9,84 @@
     
     <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
         <ui:define name="content">
-                    <div>
-                        <h2>Estado de Cuentas</h2>
-                    </div>
-                    <div>
-                        <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto;">
-                            <p:column>
-                                <p:outputLabel style="margin-right: 25px" >CI/RUC*</p:outputLabel>
-                                <p:inputText value="#{cuentaController.identificacion}"></p:inputText>
-                                 <p:commandButton actionListener="#{cuentaController.buscarCliente()}" icon="ui-icon-search" update="@form">
-                                </p:commandButton>
+            <p:panel id="mainPnl" header="Estado de Cuenta" style="width: 40%; margin: auto;">
+                <p:panelGrid columns="2" style="margin: 0 auto;" layout="grid">
+                    <p:column>
+                        <p:outputLabel style="margin-right: 25px" >CI/RUC*</p:outputLabel>
+                        <p:inputText value="#{cuentaController.identificacion}"></p:inputText>
+                        <p:commandButton actionListener="#{cuentaController.buscar()}" icon="ui-icon-search" update="@form">
+                        </p:commandButton>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel style="margin-right: 25px">Cliente</p:outputLabel>
+                    <p:inputText value="#{cuentaController.cliente.nombreCliente} #{cuentaController.cliente.apellidoCliente}" disabled="true"></p:inputText>
+                    </p:column>
+                </p:panelGrid>
+                    <p:panel id="mainRango" header="Fecha" visible="#{cuentaController.habilitaForm}">
+                        <p:panelGrid columns="2" style="margin: 0 auto;" layout="grid">
+                            <p:column colspan="2">
+                                <p:outputLabel style="margin-right: 30px" for="mes" value="Mes" />
+                                <p:selectOneMenu id="mes" value="#{cuentaController.mes}" style="width:150px">
+                                 <f:selectItem itemLabel="Seleccione el periodo" itemValue="" />
+                                 <f:selectItems value="#{cuentaController.meses}" />
+                            <!-- <p:ajax listener="#{cuentaController.cargarDatos()}" process="mes" update="anio">
+                             </p:ajax> -->
+                                </p:selectOneMenu> 
                             </p:column>
                             <p:column>
-                                <p:outputLabel style="margin-left: 25px; margin-right: 25px">Cliente</p:outputLabel>
-                            <p:inputText value="#{cuentaController.clientenombre}" disabled="true"></p:inputText>
-                            </p:column>
-                           <p:column>
-                               <p:outputLabel style="margin-right: 30px" for="periodo" value="Periodo" />
-                            <p:selectOneMenu id="periodo" value="#{cuentaController.periodo}" style="width:150px">
-                                <f:selectItem itemLabel="Seleccione el periodo" itemValue="" />
-                                <f:selectItems value="#{cuentaController.periodos}" />
-                                <p:ajax listener="#{cuentaController.cargarDatos()}" process="periodo" update="rango">
-                                </p:ajax>
-                            </p:selectOneMenu> 
-                            </p:column>
-                            <p:column>
-                            </p:column>
-                            <p:column>
-                                <p:outputLabel style="margin-right: 32px" for="rango" value="Rango " />
-                            <p:selectOneMenu id="rango" value="#{cuentaController.rango}" style="width:150px">
-                                <f:selectItem itemLabel="Seleccione el rango" itemValue="" />
-                                <f:selectItems value="#{cuentaController.rangos}"/>
-                            </p:selectOneMenu>
-                            </p:column>
-                            <p:column>
+                                <p:outputLabel style="margin-right: 32px" for="anio" value="Año " />
+                                <p:selectOneMenu id="anio" value="#{cuentaController.anio}" style="width:150px">
+                                 <f:selectItem itemLabel="Seleccione el año" itemValue="" />
+                                 <f:selectItems value="#{cuentaController.anios}"/>
+                                </p:selectOneMenu>
                             </p:column>
                             
                             <p:column>
+              
                             </p:column>
-                            <p:commandButton style="margin-left: 180px" value="Buscar" actionListener="#{cuentaController.buscarCliente()}" icon="ui-icon-star" update="@form">
-                            </p:commandButton>
-                        </h:panelGrid>
-                    </div>
-                    <p:panel id="mainPnlEstadoCuenta" header="Estado de Cuenta" style="width: 50%; margin: auto; margin-top: 40px">
-                            <p:dataTable value="#{cuentaController.listarTodasCuentas()}" var="item">
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Cuenta"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.idCuenta}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Cliente"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.idCliente.nombreCliente} #{item.idCliente.apellidoCliente}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Producto"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.idProducto.nombreProducto}"/>
-                                </p:column>
-                                <p:column>
-                                    <f:facet name="header">
-                                        <h:outputText value="Saldo Cuenta"/>
-                                    </f:facet>
-                                    <h:outputText value="#{item.saldoCuenta}"/>
-                                </p:column>
-                            </p:dataTable>
-                        </p:panel>
+           
+                            <p:column>
+                                <p:commandButton style="margin-left : auto; display: block" value="Buscar" actionListener="#{cuentaController.buscarCuenta()}" icon="ui-icon-star" update="mainPnlEstadoCuenta">
+                                </p:commandButton>
+                            </p:column>
+                        </p:panelGrid>
+                    </p:panel>
+                
+                <p:panel id="mainPnlEstadoCuenta" header="Estado de Cuenta" >
+                    <p:dataTable value="#{cuentaController.cuentasSelec}" var="item">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cuenta"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCuenta}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cliente"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idCliente.nombreCliente} #{item.idCliente.apellidoCliente}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Producto"/>
+                            </f:facet>
+                            <h:outputText value="#{item.idProducto.nombreProducto}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Saldo Cuenta"/>
+                            </f:facet>
+                            <h:outputText value="#{item.saldoCuenta}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Interes"/>
+                            </f:facet>
+                            <h:outputText value="0.45"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </p:panel>
         </ui:define>
 
     </ui:composition>
