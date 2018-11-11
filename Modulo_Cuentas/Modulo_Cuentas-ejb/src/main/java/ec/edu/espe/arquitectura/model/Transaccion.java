@@ -8,30 +8,42 @@ package ec.edu.espe.arquitectura.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Juan
  */
 @Entity
-@Table(name = "TRANSACCION", catalog = "", schema = "AGENTECUENTAS")
-
+@Table(name = "TRANSACCION")
+@NamedQueries({
+    @NamedQuery(name = "Transaccion.findAll", query = "SELECT t FROM Transaccion t")})
 public class Transaccion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_TRANSACCION")
     private Integer idTransaccion;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    //@Basic(optional = false)
+    //@NotNull
     @Column(name = "VALOR_TRANSACCION")
     private BigDecimal valorTransaccion;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "FECHA_TRANSACCION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaTransaccion;

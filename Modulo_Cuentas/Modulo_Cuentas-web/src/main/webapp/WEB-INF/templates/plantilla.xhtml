@@ -10,10 +10,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
         <title>Facelets Template</title>
-
+        <f:event type="preRenderView" listener="#{usuarioController.verificarSesion()}"/>
         <h:outputStylesheet name="css/default.css"/>
         <h:outputStylesheet name="css/cssLayout.css"/>
-        <!--<f:event type="preRenderView" listener="#{usuarioController.verificarSesion()}" />-->
     </h:head>
 
     <h:body>
@@ -23,9 +22,8 @@
                 <h:form>
                     <p:menubar model="">
                         <p:submenu label="Transacciones" icon="ui-icon-transferthick-e-w">
-                            <p:menuitem value="Realizar Transacción" url="#" />
-                            <p:menuitem value="Ver Transacciones" url="#" />
-                            <p:menuitem value="Movimientos" url="#" />
+                            <p:menuitem value="Realizar Transacción" url="./../Transaccion/realizar.xhtml" />
+                            <p:menuitem value="Ver Transacciones" url="./../Transaccion/ver.xhtml" />
                         </p:submenu>
                         <p:submenu label="Productos" icon="ui-icon-document">
                             <p:menuitem value="Administrar Productos" url="./../Producto/producto.xhtml" />
@@ -42,7 +40,7 @@
                         <f:facet name="options">
 
                             <label><b>Usuario: #{usuario} </b></label>
-                            <p:commandButton actionListener="#{usuarioController.cerrarSesion()}" action="/login.xhtml" title="Cerrar sesión" icon="ui-icon-power"/>
+                            <p:commandButton actionListener="#{usuarioController.cerrarSesion()}" action="login.xhtml" title="Cerrar sesión" icon="ui-icon-power"/>
                         </f:facet>
                     </p:menubar>
                 </h:form>

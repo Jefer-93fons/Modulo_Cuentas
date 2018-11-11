@@ -47,7 +47,7 @@ public class InteresController extends BaseController implements Serializable {
         this.interes = new Interes();
         this.tipo = new Periodo();
         this.intereses = this.interesService.obtenerTodos();
-        this.tiposPeriodo = this.tipoService.obtenerTodos();
+        
 
     }
 

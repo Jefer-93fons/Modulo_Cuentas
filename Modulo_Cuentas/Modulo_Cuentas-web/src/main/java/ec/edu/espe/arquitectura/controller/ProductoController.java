@@ -70,12 +70,13 @@ public class ProductoController extends BaseController implements Serializable {
         this.producto = new Producto();
         this.producto.setIdProducto(this.productoSel.getIdProducto());
         this.producto.setIdTipoProducto(tipo);
-        this.producto.setCodTipoProducto(this.tipo.getCodigo());
+       // this.producto.setCodTipoProducto(this.tipo.getIdTipoProducto());
         
         this.producto.setNombreProducto(this.productoSel.getNombreProducto());
         this.producto.setRestriccionProducto(this.productoSel.getRestriccionProducto());
-        
-        
+
+       // this.producto.setIdTipoProducto(this.tipo);
+
     }
 
     public void eliminar() {
@@ -88,7 +89,7 @@ public class ProductoController extends BaseController implements Serializable {
             FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado. Verifique que no tenga informacion relacionada.");
         }
     }
-
+    
     public void cancelar() {
         super.reset();
         this.producto = new Producto();
@@ -97,10 +98,10 @@ public class ProductoController extends BaseController implements Serializable {
     public void guardar() {
         try {
             if (this.enAgregar) {
-
+                this.producto.setIdProducto(0);
                 this.producto.setNombreProducto(this.producto.getNombreProducto());
                 this.producto.setRestriccionProducto(this.producto.getRestriccionProducto());
-                this.producto.setCodTipoProducto(this.tipo.getCodigo());
+                this.producto.setIdTipoProducto(this.tipo);
                 this.productoService.crear(this.producto);
                 FacesUtil.addMessageInfo("Se agreg\u00f3 el Producto: " + this.producto.getNombreProducto());
             } else {
@@ -110,12 +111,12 @@ public class ProductoController extends BaseController implements Serializable {
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
-        System.out.println("Tipo Producto: " + this.producto.getCodTipoProducto());
+
         super.reset();
         this.producto = new Producto();
         this.productos = this.productoService.obtenerTodos();
     }
-
+       
     public Producto getProducto() {
         return producto;
     }

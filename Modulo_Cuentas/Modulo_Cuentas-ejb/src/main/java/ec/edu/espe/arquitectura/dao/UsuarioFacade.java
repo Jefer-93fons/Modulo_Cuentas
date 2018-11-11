@@ -6,8 +6,6 @@
 package ec.edu.espe.arquitectura.dao;
 
 import ec.edu.espe.arquitectura.model.Usuario;
-import java.util.List;
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,11 +13,10 @@ import javax.persistence.Query;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Stateless
-@LocalBean
-public class UsuarioFacade extends AbstractFacade<Usuario> {
+public class UsuarioFacade extends AbstractFacade<Usuario>  {
 
     @PersistenceContext(unitName = "com.mycompany_Modulo_Cuentas-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;
@@ -32,7 +29,7 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public UsuarioFacade() {
         super(Usuario.class);
     }
-    
+        
     public String iniciarSesion(Usuario us) {
         String usuario="";
         String consulta;
@@ -56,5 +53,4 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
 
         return usuario;
     }
-    
 }

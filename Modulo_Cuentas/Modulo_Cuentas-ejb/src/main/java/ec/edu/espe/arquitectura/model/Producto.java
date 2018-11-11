@@ -6,11 +6,13 @@
 package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,12 +20,12 @@ import javax.persistence.Table;
  * @author Juan
  */
 @Entity
-@Table(name = "PRODUCTO", catalog = "", schema = "AGENTECUENTAS")
+@Table(name = "PRODUCTO")
+
 public class Producto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    
     @Column(name = "ID_PRODUCTO")
     private Integer idProducto;
     
@@ -33,11 +35,18 @@ public class Producto implements Serializable {
     @Column(name = "NOMBRE_PRODUCTO")
     private String nombreProducto;
     
+
     @Column(name = "RESTRICCION_PRODUCTO")
     private String restriccionProducto;
-   
-    
-    @JoinColumn(name = "ID_TIPO_PRODUCTO", referencedColumnName = "ID_TIPO_PRODUCTO", insertable = false, updatable = false)
+    @OneToMany(mappedBy = "idProducto")
+    private List<ComisionProducto> comisionProductoList;
+    @OneToMany(mappedBy = "idProducto")
+    private List<HistoricoProducto> historicoProductoList;
+    @OneToMany(mappedBy = "idProducto")
+    private List<Cuenta> cuentaList;
+    @OneToMany(mappedBy = "idProducto")
+    private List<InteresProducto> interesProductoList;
+    @JoinColumn(name = "ID_TIPO_PRODUCTO", referencedColumnName = "ID_TIPO_PRODUCTO")
     @ManyToOne
     private TipoProducto idTipoProducto;
 
@@ -78,7 +87,37 @@ public class Producto implements Serializable {
         this.restriccionProducto = restriccionProducto;
     }
 
- 
+    public List<ComisionProducto> getComisionProductoList() {
+        return comisionProductoList;
+    }
+
+    public void setComisionProductoList(List<ComisionProducto> comisionProductoList) {
+        this.comisionProductoList = comisionProductoList;
+    }
+
+    public List<HistoricoProducto> getHistoricoProductoList() {
+        return historicoProductoList;
+    }
+
+    public void setHistoricoProductoList(List<HistoricoProducto> historicoProductoList) {
+        this.historicoProductoList = historicoProductoList;
+    }
+
+    public List<Cuenta> getCuentaList() {
+        return cuentaList;
+    }
+
+    public void setCuentaList(List<Cuenta> cuentaList) {
+        this.cuentaList = cuentaList;
+    }
+
+    public List<InteresProducto> getInteresProductoList() {
+        return interesProductoList;
+    }
+
+    public void setInteresProductoList(List<InteresProducto> interesProductoList) {
+        this.interesProductoList = interesProductoList;
+    }
 
     public TipoProducto getIdTipoProducto() {
         return idTipoProducto;
@@ -87,16 +126,6 @@ public class Producto implements Serializable {
     public void setIdTipoProducto(TipoProducto idTipoProducto) {
         this.idTipoProducto = idTipoProducto;
     }
-
-    public Integer getCodTipoProducto() {
-        return codTipoProducto;
-    }
-
-    public void setCodTipoProducto(Integer codTipoProducto) {
-        this.codTipoProducto = codTipoProducto;
-    }
-
-   
 
     @Override
     public int hashCode() {
