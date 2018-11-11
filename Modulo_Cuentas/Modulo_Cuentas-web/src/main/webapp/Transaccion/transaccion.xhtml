@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"> 
+      
+      <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+          
+          <ui:define name="content">
+              <p:panel id="mainPnl" header="Transaccion:" style="width: 50%; margin: auto;">
+                  <p:panel header="#{transaccionController.titulo} Transaccion" visible="#{transaccionController.habilitarForm}">
+                      <p:panelGrid columns="4">
+                          <p:outputLabel for="TipoTransaccion" value="Tipo Transaccion" />
+                          <p:selectOneMenu id="tipoTransaccioncmb" value="TipoTransaccion" />
+                          
+                          <f:selectItems value="#{transaccionController.tiposTransaccion}" var="tipo" itemValue="#{tipo.codigo}" itemLabel="#{tipo.nombreTipoTransaccion}"/>
+                          </p:selectOneMenu>
+                          
+                          <p:outputLabel for="cuenta" value="Cuenta" />
+                          <p:inputTextarea id="cuenta" value="#{cuantaController.cuenta.codigoCuenta}" rows="2" cols="20" />
+                          <p:outputLabel for="cliente" value="Cliente" />
+                          <h:outputText value="#{item.idCuenta.idCiente.nombreCliente} #{item.idCuenta.idCliente.apellidoCliente}"/>
+                          <p:outputLabel for="Producto" value="Producto" />
+                          <p:inputText id="Producto" value="#{productoController.producto.nombreProducto}" />
+                          
+                          <p:outputLabel for="Valor" value="Valor" />
+                          <p:inputText id="Valor" value="#{transaccionController.transaccion.montoTransaccion}" />
+                   
+                          <p:commandButton value="Guardar" actionListener="#{transaccionController.guardar}" update="@form" />
+                      </p:panelGrid>
+                  
+                  </p:panel>
+                  
+              </p:panel>
+    
+  
+          </ui:define>
+          </ui:composition>
+</html>
+
