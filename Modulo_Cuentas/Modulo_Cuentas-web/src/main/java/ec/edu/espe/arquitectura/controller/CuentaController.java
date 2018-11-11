@@ -5,21 +5,27 @@
  */
 package ec.edu.espe.arquitectura.controller;
 
-import ec.edu.espe.arquitectura.dao.ClienteFacade;
-import ec.edu.espe.arquitectura.dao.CuentaFacade;
-import ec.edu.espe.arquitectura.dao.ProductoFacade;
 import ec.edu.espe.arquitectura.model.Cliente;
 import ec.edu.espe.arquitectura.model.Cuenta;
 import ec.edu.espe.arquitectura.model.Producto;
 import ec.edu.espe.arquitectura.model.TipoProducto;
+import ec.edu.espe.arquitectura.model.Transaccion;
 import ec.edu.espe.arquitectura.service.ClienteService;
 import ec.edu.espe.arquitectura.service.CuentaService;
 import ec.edu.espe.arquitectura.service.ProductoService;
 import ec.edu.espe.arquitectura.service.TipoProductoService;
+import ec.edu.espe.arquitectura.service.TransaccionService;
+import ec.edu.espe.arquitectura.web.util.FacesUtil;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -42,32 +48,24 @@ public class CuentaController extends BaseController implements Serializable{
     private Producto producto;
     private TipoProducto tipo;
     private TipoProducto tipos;
-
-    public TipoProducto getTipos() {
-        return tipos;
-    }
-
-    public void setTipos(TipoProducto tipos) {
-        this.tipos = tipos;
-    }
-    
-    
+    private Transaccion transaccion;    
     
     private String mes;
-    private List<String>meses;
+    private List<List<String>>mesesList;
     private String anio;
     private List<String> anios;
     private String identificacion;
-    private String clientenombre;
     
     private boolean formCuenta;
     
     private List<Cliente> clientes;
     private List<Cuenta> cuentas;
+    private List<Cuenta> cuentasSelec;
     private List<Producto> productos;
     private List<TipoProducto> tiposProducto;
-    private List<Cuenta> cuentasSelec;
-
+    private List<Transaccion> transacciones;
+    private List<Transaccion> transaccionesSelec;
+    
     @Inject
     private CuentaService cuentaService;
     
@@ -79,6 +77,9 @@ public class CuentaController extends BaseController implements Serializable{
     
     @Inject
     private TipoProductoService tipoProductoService;
+    
+    @Inject
+    private TransaccionService transaccionService;
 
     /**
      * Creates a new instance of CuentaController
@@ -88,29 +89,31 @@ public class CuentaController extends BaseController implements Serializable{
         cuenta = new Cuenta();
         producto = new Producto();
         tipo = new TipoProducto();
+        transaccion = new Transaccion();
         clientes = clienteService.obtenerTodos();
         cuentas = cuentaService.obtenerTodos();
         tiposProducto = tipoProductoService.obtenerTodos();
         productos = productoService.obtenerTodos();
+        transacciones = transaccionService.obtenerTodos();
         
-        
-        meses = new ArrayList<String>();
+        mesesList = new ArrayList<List<String>>();
         anios = new ArrayList<String>();
         cuentasSelec = new ArrayList<Cuenta>();
+        transaccionesSelec = new ArrayList<Transaccion>();
         
-        meses.add("Enero");
-        meses.add("Febrero");
-        meses.add("Marzo");
-        meses.add("Abril");
-        meses.add("Mayo");
-        meses.add("Junio");
-        meses.add("Julio");
-        meses.add("Agosto");
-        meses.add("Septiembre");
-        meses.add("Octubre");
-        meses.add("Noviembre");
-        meses.add("Diciembre");
-       
+        String meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        
+        for(int i=1; i<13; i++){
+            List<String> mesPosicion = new ArrayList<String>();
+            if(i<10){
+                mesPosicion.add("0"+i);
+            }else{
+                mesPosicion.add(String.valueOf(i));
+            }
+            mesPosicion.add(meses[i-1]);
+            mesesList.add(mesPosicion);
+        }
+    
         anios.add("2016");
         anios.add("2017");
         anios.add("2018");
@@ -134,14 +137,6 @@ public class CuentaController extends BaseController implements Serializable{
 
     public void setIdentificacion(String identificacion) {
         this.identificacion = identificacion;
-    }
-
-    public String getClientenombre() {
-        return clientenombre;
-    }
-
-    public void setClientenombre(String clientenombre) {
-        this.clientenombre = clientenombre;
     }
 
     public Cuenta getCuenta() {
@@ -168,12 +163,12 @@ public class CuentaController extends BaseController implements Serializable{
         this.mes = mes;
     }
 
-    public List<String> getMeses() {
-        return meses;
+    public List<List<String>> getMesesList() {
+        return mesesList;
     }
 
-    public void setMeses(List<String> meses) {
-        this.meses = meses;
+    public void setMesesList(List<List<String>> mesesList) {
+        this.mesesList = mesesList;
     }
 
     public String getAnio() {
@@ -248,13 +243,43 @@ public class CuentaController extends BaseController implements Serializable{
         this.cuentasSelec = cuentasSelec;
     }
      
-    
-    
+    public TipoProducto getTipos() {
+        return tipos;
+    }
+
+    public void setTipos(TipoProducto tipos) {
+        this.tipos = tipos;
+    }
+
+    public Transaccion getTransaccion() {
+        return transaccion;
+    }
+
+    public void setTransaccion(Transaccion transaccion) {
+        this.transaccion = transaccion;
+    }
+
+    public List<Transaccion> getTransacciones() {
+        return transacciones;
+    }
+
+    public void setTransacciones(List<Transaccion> transacciones) {
+        this.transacciones = transacciones;
+    }
+
+    public List<Transaccion> getTransaccionesSelec() {
+        return transaccionesSelec;
+    }
+
+    public void setTransaccionesSelec(List<Transaccion> transaccionesSelec) {
+        this.transaccionesSelec = transaccionesSelec;
+    }
+
     
     @Override
     public void buscar(){
         super.buscar();
-        formCuenta = buscarCliente ();
+        formCuenta = buscarCliente (); 
     }
     
     public void filtrarProductos(){
@@ -270,14 +295,32 @@ public class CuentaController extends BaseController implements Serializable{
     }
     
     
-    public void buscarCuenta() {
+    public void buscarCuenta() throws ParseException {
+        buscarCliente();
+        System.out.println(this.mes);
+        
+        SimpleDateFormat inputFecha = new SimpleDateFormat("yyyy");
+        SimpleDateFormat formatFecha = new SimpleDateFormat("yy");
+        String fechaFormato= formatFecha.format(inputFecha.parse(this.anio));
+        
+     
+        System.out.println(fechaFormato);
+        int numcuenta=0;
         
         for (Cuenta cunt : cuentas){
            // cuentasSelec.add(cunt);
             if (cunt.getIdCliente().getCodCliente().equals(identificacion)) { 
                 cuentasSelec.add(cunt);
+                numcuenta = cunt.getIdCuenta();
             }
         }
+        
+        for (Transaccion trans : transacciones){
+            if(trans.getIdCuenta().getIdCuenta() == numcuenta){
+                transaccionesSelec.add(trans);
+            }
+        }
+        System.out.println(transaccionesSelec);
     }
      
     public boolean buscarCliente(){
@@ -293,23 +336,28 @@ public class CuentaController extends BaseController implements Serializable{
 
     }
     
-    public void cargarDatos(){
-            anios.add("Enero");
-            anios.add("Febrero");
-            anios.add("Marzo");
-            anios.add("Abril");
-            anios.add("Mayo");
-            anios.add("Junio");
-            anios.add("Julio");
-            anios.add("Agosto");
-            anios.add("Septiembre");
-            anios.add("Octubre");
-            anios.add("Noviembre");
-            anios.add("Diciembre");
-       
-            meses.add("2016");
-            meses.add("2017");
-            meses.add("2018");
-            
+    public void guardar() {
+        buscarCliente();
+        System.out.println(this.cliente);
+        System.out.println(producto);
+        try {
+            if (buscarCliente()) {
+                this.cuenta.setIdCuenta(0);
+                this.cuenta.setIdCliente(cliente);
+                this.cuenta.setIdProducto(producto);
+                this.cuenta.setSaldoCuenta(BigDecimal.valueOf(200));
+                this.cuentaService.crear(this.cuenta);
+                FacesUtil.addMessageInfo("Se agreg\u00f3 Correctamente la Cuenta ");
+            } 
+        } catch (Exception ex) {
+        }
+
+        super.reset();
+        this.cuenta = new Cuenta();
+        this.cliente = new Cliente();
+        this.tipo = new TipoProducto();
+        this.producto = new Producto();
+        this.cuentas = this.cuentaService.obtenerTodos();
     }
+    
 }

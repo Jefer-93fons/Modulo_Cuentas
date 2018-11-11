@@ -21,14 +21,18 @@
                         <p:outputLabel style="margin-right: 25px">Cliente</p:outputLabel>
                     <p:inputText value="#{cuentaController.cliente.nombreCliente} #{cuentaController.cliente.apellidoCliente}" disabled="true"></p:inputText>
                     </p:column>
+                    <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                 </p:panelGrid>
-                    <p:panel id="mainRango" header="Fecha" visible="#{cuentaController.habilitaForm}">
+                    <p:panel id="mainRango" header="Fecha">
                         <p:panelGrid columns="2" style="margin: 0 auto;" layout="grid">
                             <p:column colspan="2">
                                 <p:outputLabel style="margin-right: 30px" for="mes" value="Mes" />
                                 <p:selectOneMenu id="mes" value="#{cuentaController.mes}" style="width:150px">
                                  <f:selectItem itemLabel="Seleccione el periodo" itemValue="" />
-                                 <f:selectItems value="#{cuentaController.meses}" />
+                                 <c:forEach items="#{cuentaController.mesesList}" var="meses">
+                                     <f:selectItems value="#{meses.subList(0, 1)}" itemLabel="#{meses.subList(1, 2).get(0)}" />
+                                 </c:forEach>
+                                 
                             <!-- <p:ajax listener="#{cuentaController.cargarDatos()}" process="mes" update="anio">
                              </p:ajax> -->
                                 </p:selectOneMenu> 
