@@ -40,8 +40,8 @@ and open the template in the editor.
                         <p:outputLabel for="nombre" value="Nombre" />
                         <p:inputTextarea id="nombre" value="#{productoController.producto.nombreProducto}" rows="2" cols="20" />
                         <p:outputLabel for="tipoProductocmb" value="Tipo Producto" />
-                        <p:selectOneMenu id="tipoProductocmb" value="#{productoController.tipo.codigo}">
-                            <f:selectItems value="#{productoController.tiposProducto}" var="tipo" itemValue="#{tipo.codigo}" itemLabel="#{tipo.nombreTipoProducto}"/>
+                        <p:selectOneMenu id="tipoProductocmb" value="#{productoController.tipo.idTipoProducto}">
+                            <f:selectItems value="#{productoController.tiposProducto}" var="tipo" itemValue="#{tipo.idTipoProducto}" itemLabel="#{tipo.nombreTipoProducto}"/>
                         </p:selectOneMenu>
 
 

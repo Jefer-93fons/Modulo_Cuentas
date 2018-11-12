@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
  * @author Juan
  */
 @Stateless
-public class TipoProcesoFacade extends AbstractFacade<TipoProceso> {
+public class TipoProcesoFacade extends AbstractFacade<TipoProceso>  {
 
     @PersistenceContext(unitName = "com.mycompany_Modulo_Cuentas-ejb_ejb_1.0-SNAPSHOTPU")
     private EntityManager em;

@@ -7,33 +7,47 @@ package ec.edu.espe.arquitectura.model;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
  * @author Juan
  */
 @Entity
-@Table(name = "CLIENTE", catalog = "", schema = "AGENTECUENTAS")
+@Table(name = "CLIENTE")
+@NamedQueries({
+    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")})
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "ID_CLIENTE")
     private Integer idCliente;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 13)
     @Column(name = "COD_CLIENTE")
     private String codCliente;
+    
     @Column(name = "NOMBRE_CLIENTE")
     private String nombreCliente;
+    @Size(max = 50)
     @Column(name = "APELLIDO_CLIENTE")
     private String apellidoCliente;
+    @Size(max = 50)
     @Column(name = "RAZON_SOCIAL")
     private String razonSocial;
     @OneToMany(mappedBy = "idCliente")
@@ -95,7 +109,6 @@ public class Cliente implements Serializable {
         this.razonSocial = razonSocial;
     }
 
-    @XmlTransient
     public List<Cuenta> getCuentaList() {
         return cuentaList;
     }

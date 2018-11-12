@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+        <ui:define name="content">
+            <p:panel id="mainPnlEstadoCuenta" header="Estado de Cuenta" style="width: 50%; margin: auto; margin-top: 40px">
+            <h:panelGrid id="idCliente" columns="2">
+                <p:column>
+                    <p:outputLabel style="margin-right: 25px" >CI/RUC*</p:outputLabel>
+                    <p:inputText value="#{cuentaController.identificacion}"></p:inputText>
+                    <p:commandButton actionListener="#{cuentaController.buscar()}" icon="ui-icon-search" update="@form">
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:outputLabel style="margin-left: 25px; margin-right: 25px">Cliente</p:outputLabel>
+                    <p:inputText value="#{cuentaController.cliente.nombreCliente} #{cuentaController.cliente.apellidoCliente}" disabled="true"></p:inputText>
+                </p:column>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            </h:panelGrid>
+                <p:panel id="mainRango" header="Fecha" visible="#{cuentaController.formCuenta}">
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="tipoProductocmb" value="Tipo Producto" />
+                    <p:selectOneMenu id="tipoProductocmb" value="#{cuentaController.tipo.idTipoProducto}">
+                        <f:selectItems value="#{cuentaController.tiposProducto}" var="tipo" itemValue="#{tipo.idTipoProducto}" itemLabel="#{tipo.nombreTipoProducto}"/>
+                        <p:ajax listener="#{cuentaController.filtrarProductos()}" process="tipoProductocmb" update="productocm">
+                        </p:ajax>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:panelGrid id="productocm" columns="2">
+                    <p:outputLabel for="productocmb" value="Producto" />
+                    <p:selectOneMenu id="productocmb" value="#{cuentaController.producto.idProducto}">
+                        <f:selectItems value="#{cuentaController.productos}" var="producto" itemValue="#{producto.idProducto}" itemLabel="#{producto.nombreProducto}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                    <p:commandButton style="margin-left : auto; display: block" value="Guardar" update="mainRango" actionListener="#{cuentaController.guardar()}"/>
+            </p:panel>
+            </p:panel>
+        </ui:define>
+
+    </ui:composition>
+</html>

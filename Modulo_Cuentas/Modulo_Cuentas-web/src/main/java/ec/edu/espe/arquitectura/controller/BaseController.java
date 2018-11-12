@@ -18,6 +18,7 @@ public class BaseController implements Serializable{
     protected boolean enAgregar;
     protected boolean enModificar;
     protected boolean enDetalles;
+    protected boolean enBuscar;
     
     protected String titulo;
 
@@ -36,6 +37,14 @@ public class BaseController implements Serializable{
     public String getTitulo() {
         return titulo;
     }
+
+    public boolean isEnBuscar() {
+        return enBuscar;
+    }
+
+    public void setEnBuscar(boolean enBuscar) {
+        this.enBuscar = enBuscar;
+    }
     
     public void agregar() {
         this.enAgregar = true;
@@ -52,13 +61,19 @@ public class BaseController implements Serializable{
         this.titulo = "Detalles - ";
     }
     
+    public void buscar(){
+        this.enBuscar = true;
+        this.titulo = "Buscar";
+    }
+    
     public void reset() {
         this.enAgregar = false;
         this.enModificar = false;
         this.enDetalles = false;
+        this.enBuscar = false;
     }
     
     public boolean isHabilitaForm() {
-        return this.enAgregar || this.enDetalles || this.enModificar;
+        return this.enAgregar || this.enDetalles || this.enModificar || this.enBuscar;
     }
 }

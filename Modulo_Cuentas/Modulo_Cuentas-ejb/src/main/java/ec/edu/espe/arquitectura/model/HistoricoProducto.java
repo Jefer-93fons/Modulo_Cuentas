@@ -19,7 +19,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -27,11 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "HISTORICO_PRODUCTO")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "HistoricoProducto.findAll", query = "SELECT h FROM HistoricoProducto h")
-    , @NamedQuery(name = "HistoricoProducto.findByIdHistoricoProducto", query = "SELECT h FROM HistoricoProducto h WHERE h.idHistoricoProducto = :idHistoricoProducto")
-    , @NamedQuery(name = "HistoricoProducto.findByFechaVigencia", query = "SELECT h FROM HistoricoProducto h WHERE h.fechaVigencia = :fechaVigencia")})
+    @NamedQuery(name = "HistoricoProducto.findAll", query = "SELECT h FROM HistoricoProducto h")})
 public class HistoricoProducto implements Serializable {
 
     private static final long serialVersionUID = 1L;

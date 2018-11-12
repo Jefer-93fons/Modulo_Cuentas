@@ -4,45 +4,48 @@
  * and open the template in the editor.
  */
 package ec.edu.espe.arquitectura.service;
+
+import ec.edu.espe.arquitectura.dao.TransaccionFacade;
+import ec.edu.espe.arquitectura.model.Cuenta;
+import ec.edu.espe.arquitectura.model.Transaccion;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import ec.edu.espe.arquitectura.model.Transaccion;
-import ec.edu.espe.arquitectura.dao.TransaccionFacade;
+
 /**
  *
- * @author Victoria
+ * @author DAVID
  */
 @Stateless
 @LocalBean
 public class TransaccionService {
+
     @EJB
     private TransaccionFacade transaccionFacade;
-    
-    public List<Transaccion> obtenerTodos(){
+
+    public List<Transaccion> obtenerTodos() {
         return this.transaccionFacade.findAll();
     }
     
-    public Transaccion obtenerPorCodigo(Integer codigo){
-        return this.transaccionFacade.find(codigo);
+    public List<Transaccion> porCuenta(int accountCode){
+        List<Transaccion> transacciones=obtenerTodos();
+        List<Transaccion> transaccionsDevuletas=new ArrayList<>();
+        for(Transaccion auxTrans:transacciones){
+            if (auxTrans.getIdCuenta().getIdCuenta()==accountCode) {
+                transaccionsDevuletas.add(auxTrans);
+            }
+        }
+        return transaccionsDevuletas;
     }
-    
-    public void crear(Transaccion transaccion){
+
+    public void crear(Transaccion transaccion) {
         this.transaccionFacade.create(transaccion);
     }
-    
-    public void modificar (Transaccion transaccion){
+
+    public void modificar(Transaccion transaccion) {
         this.transaccionFacade.edit(transaccion);
     }
-    
-    public void eliminar(Integer codigo){
-        Transaccion transaccion=this.transaccionFacade.find(codigo);
-        this.transaccionFacade.remove(transaccion);
-    }
-    
-    
+
 }
-
-
-

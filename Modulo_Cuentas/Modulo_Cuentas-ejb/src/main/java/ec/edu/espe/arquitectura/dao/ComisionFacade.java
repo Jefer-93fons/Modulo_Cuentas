@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author Jefferson
+ * @author Juan
  */
 @Stateless
 public class ComisionFacade extends AbstractFacade<Comision> {
