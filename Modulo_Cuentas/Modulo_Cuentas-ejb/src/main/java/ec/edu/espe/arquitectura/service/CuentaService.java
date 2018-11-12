@@ -6,10 +6,12 @@
 package ec.edu.espe.arquitectura.service;
 
 
+
 import ec.edu.espe.arquitectura.dao.ClienteFacade;
 import ec.edu.espe.arquitectura.dao.CuentaFacade;
 import ec.edu.espe.arquitectura.model.Cliente;
 import ec.edu.espe.arquitectura.model.Cuenta;
+
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
