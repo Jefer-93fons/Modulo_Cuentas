@@ -125,7 +125,8 @@ public class FechaController extends BaseController implements Serializable {
                 this.fechaTrabajoService.crear(this.fecha);
                 FacesUtil.addMessageInfo("Se agreg\u00f3 la nueva fecha: " + this.fecha.getFechaProceso());
             } else {
-
+                ProcesosController controller=new ProcesosController();
+                controller.CerrarDias();
                 this.fechaTrabajoService.modificar(fecha);
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                 FacesUtil.addMessageInfo("Se cambio la fecha del sistema a : " + format.format(this.fecha.getFechaProceso()));

@@ -5,10 +5,8 @@
  */
 package ec.edu.espe.arquitectura.service;
 
-import ec.edu.espe.arquitectura.dao.FechaTrabajoFacade;
 import ec.edu.espe.arquitectura.model.Producto;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
@@ -20,8 +18,6 @@ import javax.ejb.Stateless;
 @LocalBean
 public class CierreService {
 
-    @EJB
-    private FechaTrabajoFacade fechaTrabajoFacade;
 
     public void calcularInteres() {
         ProductoService productoService = new ProductoService();
@@ -31,5 +27,6 @@ public class CierreService {
             System.out.println("Producto: " + prod.getNombreProducto());
         }
     }
+    
 
 }
