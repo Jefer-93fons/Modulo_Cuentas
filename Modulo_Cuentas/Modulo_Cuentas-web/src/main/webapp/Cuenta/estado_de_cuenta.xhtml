@@ -19,11 +19,11 @@
                     </p:column>
                     <p:column>
                         <p:outputLabel style="margin-right: 25px">Cliente</p:outputLabel>
-                    <p:inputText value="#{cuentaController.cliente.nombreCliente} #{cuentaController.cliente.apellidoCliente}" disabled="true"></p:inputText>
+                        <p:inputText value="#{cuentaController.cliente.nombreCliente} #{cuentaController.cliente.apellidoCliente}" disabled="true"></p:inputText>
                     </p:column>
                     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                 </p:panelGrid>
-                    <p:panel id="mainRango" header="Fecha">
+                    <p:panel id="mainRango" header="Fecha" visible="#{cuentaController.habilitaForm}" >
                         <p:panelGrid columns="2" style="margin: 0 auto;" layout="grid">
                             <p:column colspan="2">
                                 <p:outputLabel style="margin-right: 30px" for="mes" value="Mes" />
@@ -57,7 +57,7 @@
                     </p:panel>
                 
                 <p:panel id="mainPnlEstadoCuenta" header="Estado de Cuenta" >
-                    <p:dataTable value="#{cuentaController.cuentasSelec}" var="item">
+                    <p:dataTable value="#{cuentaController.cuentasSelec}" var="item" rowIndexVar="index">
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Cuenta"/>
@@ -80,13 +80,13 @@
                             <f:facet name="header">
                                 <h:outputText value="Saldo Cuenta"/>
                             </f:facet>
-                            <h:outputText value="#{cuentaController.saldo}"/>
+                            <h:outputText value="#{cuentaController.saldo[index]}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Interes"/>
                             </f:facet>
-                            <h:outputText value="#{cuentaController.interes}"/>
+                            <h:outputText value="#{cuentaController.interes[index]}"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

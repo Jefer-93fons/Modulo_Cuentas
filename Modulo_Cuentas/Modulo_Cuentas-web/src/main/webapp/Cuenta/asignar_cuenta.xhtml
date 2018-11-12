@@ -14,7 +14,7 @@
                 <p:column>
                     <p:outputLabel style="margin-right: 25px" >CI/RUC*</p:outputLabel>
                     <p:inputText value="#{cuentaController.identificacion}"></p:inputText>
-                    <p:commandButton partialSubmit="#{cuentaController.buscar()}" icon="ui-icon-search" update="@form">
+                    <p:commandButton actionListener="#{cuentaController.buscar()}" icon="ui-icon-search" update="@form">
                     </p:commandButton>
                 </p:column>
                 <p:column>

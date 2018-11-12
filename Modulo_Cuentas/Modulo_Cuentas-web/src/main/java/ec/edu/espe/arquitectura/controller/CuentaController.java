@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -59,8 +60,8 @@ public class CuentaController extends BaseController implements Serializable{
     private String identificacion;
     
     private boolean formCuenta;
-    private BigDecimal interes;
-    private BigDecimal saldo;
+    private BigDecimal[] interes;
+    private BigDecimal[] saldo;
     
     private List<Cliente> clientes;
     private List<Cuenta> cuentas;
@@ -99,9 +100,6 @@ public class CuentaController extends BaseController implements Serializable{
         tiposProducto = tipoProductoService.obtenerTodos();
         productos = productoService.obtenerTodos();
         transacciones = transaccionService.obtenerTodos();
-        
-        interes = new BigDecimal(BigInteger.ZERO);
-        saldo = new BigDecimal(BigInteger.ZERO);
         
         mesesList = new ArrayList<List<String>>();
         anios = new ArrayList<String>();
@@ -282,32 +280,35 @@ public class CuentaController extends BaseController implements Serializable{
         this.transaccionesSelec = transaccionesSelec;
     }
 
-    public BigDecimal getInteres() {
+    public BigDecimal[] getInteres() {
         return interes;
     }
 
-    public void setInteres(BigDecimal interes) {
+    public void setInteres(BigDecimal[] interes) {
         this.interes = interes;
     }
 
-    public BigDecimal getSaldo() {
+    public BigDecimal[] getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(BigDecimal saldo) {
+    public void setSaldo(BigDecimal[] saldo) {
         this.saldo = saldo;
     }
 
-    
-    
     @Override
     public void buscar(){
-        super.buscar();
         formCuenta = buscarCliente (); 
+        if(cliente !=null){
+            super.buscar();
+            
+        }else{
+            FacesUtil.addMessageError(null,"No existe el cliente !");
+        }
+        
     }
     
     public void filtrarProductos(){
-        //productos = productoService.obtenerTodos();
         List<Producto> auxproductos  = new ArrayList<Producto>();
         
         for (Producto pro : productos){
@@ -320,87 +321,90 @@ public class CuentaController extends BaseController implements Serializable{
     
     
     public void buscarCuenta() throws ParseException {
-        buscarCliente();
-        String fechaBusqueda = "";
-        fechaBusqueda = this.mes+"/"+this.anio;
-        System.out.println("Fecha busqueda:");
-        
-       // SimpleDateFormat inputFecha = new SimpleDateFormat("yyyy");
-      //  SimpleDateFormat formatFecha = new SimpleDateFormat("yy");
-      //  String fechaFormato= formatFecha.format(inputFecha.parse(this.anio));
-        
-        SimpleDateFormat inputFecha = new SimpleDateFormat("MM/yyyy");
-     
-        System.out.println(fechaBusqueda);
-        int[] numcuenta = new int[10];
-        BigDecimal[] valortotaltransc = new BigDecimal[10];
-        BigDecimal[] valornestranscbusq = new BigDecimal[10];
-       // Arrays.fill(valortotaltransc, BigDecimal.ZERO);
-       // Arrays.fill(valornestranscbusq, BigDecimal.ZERO);
-        
-        int num = 0;
-        
-        for (Cuenta cunt : cuentas){
-            if (cunt.getIdCliente().getCodCliente().equals(identificacion)) { 
-                cuentasSelec.add(cunt);
-                numcuenta[num] = cunt.getIdCuenta();
-                num ++;
-            }
-        }
+        if(mes!=null && anio!=null){
+            buscarCliente();
 
-        for (int i=0; i<numcuenta.length; i++){
-            if(numcuenta[i]!=0){
-                valortotaltransc[i] = BigDecimal.ZERO;
-                valornestranscbusq[i] = BigDecimal.ZERO;
+            SimpleDateFormat inputFecha = new SimpleDateFormat("MM/yyyy");  
+            Date fechabusqueda = inputFecha.parse(this.mes+"/"+this.anio);
+            Date fechainput;
+            int[] numcuenta = new int[10];
+            interes = new BigDecimal[10];
+            saldo = new BigDecimal[10];
+            BigDecimal[] valortotaltransc = new BigDecimal[10];
+            BigDecimal[] valornestranscbusq = new BigDecimal[10];
+
+           // Arrays.fill(valortotaltransc, BigDecimal.ZERO);
+           // Arrays.fill(valornestranscbusq, BigDecimal.ZERO);
+
+            int num = 0;
+
+            for (Cuenta cunt : cuentas){
+                if (cunt.getIdCliente().getCodCliente().equals(identificacion)) { 
+                    cuentasSelec.add(cunt);
+                    numcuenta[num] = cunt.getIdCuenta();
+                    num ++;
+                }
             }
-        }
-        
-        for (Transaccion trans : transacciones){
+
             for (int i=0; i<numcuenta.length; i++){
-                if(trans.getIdCuenta().getIdCuenta() == numcuenta[i]){
-                    transaccionesSelec.add(trans);
-                    System.out.println(inputFecha.format(trans.getFechaTransaccion()));
-                    if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 1){
-                        valortotaltransc[i] = valortotaltransc[i].add(trans.getValorTransaccion());
-                    }
-                    if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 2 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 4){
-                        valortotaltransc[i] = valortotaltransc[i].subtract(trans.getValorTransaccion());
-                    }
-                    if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3){
-                       // interes = interes.add(trans.getValorTransaccion());
+                if(numcuenta[i]!=0){
+                    valortotaltransc[i] = BigDecimal.ZERO;
+                    valornestranscbusq[i] = BigDecimal.ZERO;
+                    interes[i] = BigDecimal.ZERO;
+                    saldo[i] = BigDecimal.ZERO;
+                }
+            }
+
+            int test=0;
+            for (Transaccion trans : transacciones){
+                for (int i=0; i<numcuenta.length; i++){
+                    if(trans.getIdCuenta().getIdCuenta() == numcuenta[i]){
+                        transaccionesSelec.add(trans);
+                        fechainput =  inputFecha.parse(inputFecha.format(trans.getFechaTransaccion()));
+                         if(fechainput.equals(fechabusqueda) || fechainput.before(fechabusqueda)){
+                           if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 1){
+                                valortotaltransc[i] = valortotaltransc[i].add(trans.getValorTransaccion());
+                            }
+                            if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 2 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 4){
+                                valortotaltransc[i] = valortotaltransc[i].subtract(trans.getValorTransaccion());
+                            }
+                            if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3){
+                                //interes[i] = interes[i].add(trans.getValorTransaccion());
+                            } 
+                        }     
                     }
                 }
             }
-        }
-        
-        for (Transaccion trans : transaccionesSelec){
-            for (int i=0; i<numcuenta.length; i++){
-                if(trans.getIdCuenta().getIdCuenta() == numcuenta[i]){
-                    if(fechaBusqueda.equals(inputFecha.format(trans.getFechaTransaccion()))){
-                        System.out.println("Tipo: " + trans.getIdTipoTransaccion().getIdTipoTransaccion());
-                        if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 1){
-                            valornestranscbusq[i] = valornestranscbusq[i].add(trans.getValorTransaccion());
-                        }
-                        if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 2 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 4){
-                            valornestranscbusq[i] = valornestranscbusq[i].subtract(trans.getValorTransaccion());
-                        }
-                        if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3){
-                            interes = interes.add(trans.getValorTransaccion());
+
+            for (Transaccion trans : transaccionesSelec){
+                for (int i=0; i<numcuenta.length; i++){
+                    if(trans.getIdCuenta().getIdCuenta() == numcuenta[i]){
+                        fechainput =  inputFecha.parse(inputFecha.format(trans.getFechaTransaccion()));
+                        if(fechainput.equals(fechabusqueda)){
+    //                        System.out.println("Tipo: " + trans.getIdTipoTransaccion().getIdTipoTransaccion());
+    //                        if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 1){
+    //                            valornestranscbusq[i] = valornestranscbusq[i].add(trans.getValorTransaccion());
+    //                        }
+    //                        if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 2 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 4){
+    //                            valornestranscbusq[i] = valornestranscbusq[i].subtract(trans.getValorTransaccion());
+    //                        }
+                            if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3){
+                                interes[i] = interes[i].add(trans.getValorTransaccion());
+                            }
                         }
                     }
                 }
             }
-        }
-        saldo = valornestranscbusq[1];
-        
-        System.out.println(valortotaltransc[0]);
-        System.out.println(valortotaltransc[1]);
-        System.out.println(valornestranscbusq[0]);
-        System.out.println(valornestranscbusq[1]);
+            saldo = valortotaltransc;
 
-                
-        System.out.println(interes);
-        System.out.println(transaccionesSelec);
+         //   System.out.println(valortotaltransc[0]);
+         //   System.out.println(valortotaltransc[1]);
+        //    System.out.println(valornestranscbusq[0]);
+        //    System.out.println(valornestranscbusq[1]);
+
+        }else{
+            FacesUtil.addMessageError(null,"Campos Incompletos!");
+        }
     }
      
     public boolean buscarCliente(){
