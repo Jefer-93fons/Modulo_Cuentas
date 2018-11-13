@@ -88,7 +88,9 @@
                                 <f:facet name="header">
                                     <h:outputText value="Fecha" />
                                 </f:facet>
-                                <h:outputText value="#{trans.fechaTransaccion}" />
+                                <h:outputText value="#{trans.fechaTransaccion}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
                             </p:column>
 
 
