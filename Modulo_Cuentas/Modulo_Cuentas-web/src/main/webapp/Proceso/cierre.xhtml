@@ -48,9 +48,37 @@
                     <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </p:confirmDialog>
                 <h:outputScript library="js" name="spanishLocale.js"/>
-                <p:commandButton value="Otros" actionListener="#{procesosController.CerrarDias()}" />
+                    <p:panel id="mainPnl1" header="Interes Ganado:" style="width: 60%; height: 100%; margin: auto;">
+                    <h:form>
+                        <p:dataTable id="tbl" var="inter" value="#{fechaController.interesFechas}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                                     paginator="true" rows="10" style="margin-bottom:20px">
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha" />
+                                </f:facet>
+                                <h:outputText value="#{inter.fecha}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="valor"/>
+                                </f:facet>
+                                <h:outputText value="$ #{inter.interes}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+                    </h:form>
+
+
+                </p:panel>
+                
             </ui:define>
             
+            
+        
         </ui:composition>
 
     </body>

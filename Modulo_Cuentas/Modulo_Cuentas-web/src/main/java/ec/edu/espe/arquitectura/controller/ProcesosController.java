@@ -229,7 +229,7 @@ public class ProcesosController implements Serializable {
             System.out.println(interes.getPorcentajeInteres() + "\t" + Min + "\t" + Max);
 
             if (Min <= Base && Max >= Base) {
-                interest = ((float) interes.getIdInteres().intValueExact() / 100);
+                interest = ((float) interes.getIdInteres() / 100);
             }
         }
         return interest * Base;

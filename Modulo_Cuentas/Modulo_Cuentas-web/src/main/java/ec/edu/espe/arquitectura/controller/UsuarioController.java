@@ -52,7 +52,6 @@ public class UsuarioController implements Serializable {
     
     
     public String iniciarSesion(){
-        String permisos;
         String us;
         
         String redireccion = null;

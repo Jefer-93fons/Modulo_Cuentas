@@ -9,39 +9,38 @@
     
     <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
         <ui:define name="content">
-                    <div>
-                        <div>
-                        <h2>Asignacion Cuenta</h2>
-                        </div>
-                        <p:panel id="mainPnlEstadoCuenta" header="Estado de Cuenta" style="width: 50%; margin: auto; margin-top: 40px">
-                        <h:panelGrid columns="2">
-                            <p:column>
-                                <p:outputLabel style="margin-right: 25px" >CI/RUC*</p:outputLabel>
-                                <p:inputText value="#{cuentaController.identificacion}"></p:inputText>
-                                 <p:commandButton actionListener="#{cuentaController.buscarCliente()}" icon="ui-icon-search" update="@form">
-                                </p:commandButton>
-                            </p:column>
-                            <p:column>
-                                <p:outputLabel style="margin-left: 25px; margin-right: 25px">Cliente</p:outputLabel>
-                            <p:inputText value="#{cuentaController.clientenombre}" disabled="true"></p:inputText>
-                            </p:column>
-                        </h:panelGrid>
-                        <p:panelGrid columns="2">
-                            <p:outputLabel for="tipoProductocmb" value="Tipo Producto" />
-                            <p:selectOneMenu id="tipoProductocmb" value="#{asignacionController.tipo.codigo}">
-                                <f:selectItems value="#{productoController.tiposProducto}" var="tipo" itemValue="#{tipo.codigo}" itemLabel="#{tipo.nombreTipoProducto}"/>
-                            </p:selectOneMenu>
-                        </p:panelGrid>
-                        <p:panelGrid columns="2">
-                            <p:outputLabel for="productocmb" value="Producto" />
-                            <p:selectOneMenu id="productocmb" value="#{asignacionController.producto.idProducto}">
-                                <f:selectItems value="#{productoController.productos}" var="producto" itemValue="#{producto.idProducto}" itemLabel="#{producto.nombreProducto}"/>
-                            </p:selectOneMenu>
-                        </p:panelGrid>
-                        <p:commandButton value="Guardar" actionListener="#{asignacionController.guardar}" update="@form" />
-
-                        </p:panel>
-                    </div>
+            <p:panel id="mainPnlEstadoCuenta" header="Estado de Cuenta" style="width: 50%; margin: auto; margin-top: 40px">
+            <h:panelGrid id="idCliente" columns="2">
+                <p:column>
+                    <p:outputLabel style="margin-right: 25px" >CI/RUC*</p:outputLabel>
+                    <p:inputText value="#{cuentaController.identificacion}"></p:inputText>
+                    <p:commandButton actionListener="#{cuentaController.buscar()}" icon="ui-icon-search" update="@form">
+                    </p:commandButton>
+                </p:column>
+                <p:column>
+                    <p:outputLabel style="margin-left: 25px; margin-right: 25px">Cliente</p:outputLabel>
+                    <p:inputText value="#{cuentaController.cliente.nombreCliente} #{cuentaController.cliente.apellidoCliente}" disabled="true"></p:inputText>
+                </p:column>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+            </h:panelGrid>
+                <p:panel id="mainRango" header="Fecha" visible="#{cuentaController.formCuenta}">
+                <p:panelGrid columns="2">
+                    <p:outputLabel for="tipoProductocmb" value="Tipo Producto" />
+                    <p:selectOneMenu id="tipoProductocmb" value="#{cuentaController.tipo.idTipoProducto}">
+                        <f:selectItems value="#{cuentaController.tiposProducto}" var="tipo" itemValue="#{tipo.idTipoProducto}" itemLabel="#{tipo.nombreTipoProducto}"/>
+                        <p:ajax listener="#{cuentaController.filtrarProductos()}" process="tipoProductocmb" update="productocm">
+                        </p:ajax>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:panelGrid id="productocm" columns="2">
+                    <p:outputLabel for="productocmb" value="Producto" />
+                    <p:selectOneMenu id="productocmb" value="#{cuentaController.producto.idProducto}">
+                        <f:selectItems value="#{cuentaController.productos}" var="producto" itemValue="#{producto.idProducto}" itemLabel="#{producto.nombreProducto}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                    <p:commandButton style="margin-left : auto; display: block" value="Guardar" update="mainRango" actionListener="#{cuentaController.guardar()}"/>
+            </p:panel>
+            </p:panel>
         </ui:define>
 
     </ui:composition>
