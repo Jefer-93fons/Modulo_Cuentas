@@ -15,6 +15,19 @@ and open the template in the editor.
         <ui:define name="content">
 
             <p:panel id="mainPnl" header="Producto:" style="width: 50%; margin: auto;">
+                `<p:panel id="buscPnl" header="Busqueda">
+                    <p:outputLabel for="filtroCmb" value="Buscar:" />
+                    <p:selectOneMenu id="filtroCmb" value="#{productoController.filtro}" required="true"  >
+                        <p:ajax update="@form"/>
+                        <f:selectItem itemLabel="Tipo Producto" itemValue="TIP" />
+                        
+                    </p:selectOneMenu>
+                    <p:selectOneMenu id="tiposCmb" value="#{productoController.tipoBusqueda}" rendered="#{productoController.enBusquedaPorTipo}">
+                        <f:selectItems var="tipoProducto" value="#{productoController.tiposProducto}" itemLabel="#{tipoProducto.nombreTipoProducto}" itemValue="#{tipoProducto.idTipoProducto}" />
+                    </p:selectOneMenu>
+                   
+                    <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{productoController.buscar()}" update="@form" />
+                </p:panel>
                 <p:dataTable var="producto" value="#{productoController.productos}" 
                              selectionMode="single" selection="#{productoController.productoSel}" rowKey="#{producto.idProducto}">
                     <p:ajax event="rowSelect" update="@form" />
@@ -28,7 +41,9 @@ and open the template in the editor.
                     <p:column headerText="Tipo">
                         <h:outputText value="#{producto.idTipoProducto.nombreTipoProducto}" />
                     </p:column>
+          
                 </p:dataTable>
+                
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                 <p:commandButton value="Agregar" actionListener="#{productoController.agregar()}" update="@form"  />
                 <p:commandButton id="modBtn" value="Modificar" actionListener="#{productoController.modificar()}" update="@form" disabled="#{productoController.productoSel eq null}"/>
@@ -47,6 +62,10 @@ and open the template in the editor.
 
                         <p:outputLabel for="restriccion" value="Restriccion" />
                         <p:inputText id="restriccion" value="#{productoController.producto.restriccionProducto}"  />
+                        
+                        
+                        
+                    
                     </p:panelGrid>
                     <p:commandButton value="Aceptar" actionListener="#{productoController.guardar}" update="@form" />
                     <p:commandButton value="Cancelar" actionListener="#{productoController.cancelar}" update="@form" />

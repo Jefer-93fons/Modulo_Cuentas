@@ -77,6 +77,7 @@ public class InteresController extends BaseController implements Serializable {
     public void modificar() {
         super.modificar();
         this.interes = new Interes();
+        this.interes.setIdInteres(this.interesSel.getIdInteres());
         this.interes.setPorcentajeInteres(this.interesSel.getPorcentajeInteres());
         this.interes.setValorMax(this.interesSel.getValorMax());
         this.interes.setValorMin(this.interesSel.getValorMin());

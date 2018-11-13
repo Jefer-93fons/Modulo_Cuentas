@@ -41,7 +41,7 @@ public class Producto implements Serializable {
     private List<Cuenta> cuentaList;
     @OneToMany(mappedBy = "idProducto")
     private List<InteresProducto> interesProductoList;
-    @JoinColumn(name = "ID_TIPO_PRODUCTO", referencedColumnName = "ID_TIPO_PRODUCTO")
+    @JoinColumn(name = "ID_TIPO_PRODUCTO", referencedColumnName = "ID_TIPO_PRODUCTO",nullable = false, insertable = false, updatable = false)
     @ManyToOne
     private TipoProducto idTipoProducto;
 

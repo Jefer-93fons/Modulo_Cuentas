@@ -6,9 +6,11 @@
 package ec.edu.espe.arquitectura.dao;
 
 import ec.edu.espe.arquitectura.model.InteresProducto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,12 @@ public class InteresProductoFacade extends AbstractFacade<InteresProducto>  {
 
     public InteresProductoFacade() {
         super(InteresProducto.class);
+    }
+    
+    public List<InteresProducto> findByCodigo(Integer codigo) {
+        Query qry = this.em.createQuery("SELECT obj FROM InteresProducto obj WHERE obj.idInteresProducto=?1");
+        qry.setParameter(1, codigo);
+        return qry.getResultList();
     }
     
 }

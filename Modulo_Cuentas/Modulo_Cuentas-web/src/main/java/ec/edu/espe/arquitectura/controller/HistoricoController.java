@@ -15,6 +15,8 @@ import ec.edu.espe.arquitectura.service.ProductoService;
 import ec.edu.espe.arquitectura.service.TipoProductoService;
 import ec.edu.espe.arquitectura.web.util.FacesUtil;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -27,27 +29,31 @@ import javax.inject.Named;
  */
 @Named
 @ViewScoped
-public class ProductoController extends BaseController implements Serializable {
+public class HistoricoController extends BaseController implements Serializable {
 
     private String filtro;
     private Integer tipoBusqueda;
     private boolean enBusquedaPorTipo;
     
+    private Date date3;
+    
+    private Integer n;
+    
     private List<Producto> productos;
-    
+
     private List<EstadoProducto> estados;
-    
+
     private List<HistoricoProducto> historicos;
 
     private Producto producto;
 
     private TipoProducto tipo;
-    
+
     private EstadoProducto estado;
-    
+
     private HistoricoProducto historico;
 
-    private Producto productoSel;
+    private HistoricoProducto historicoproductoSel;
 
     private List<TipoProducto> tiposProducto;
 
@@ -57,10 +63,10 @@ public class ProductoController extends BaseController implements Serializable {
 
     @Inject
     private TipoProductoService tipoProductoService;
-    
+
     @Inject
     private EstadoProductoService estadoProductoService;
-    
+
     @Inject
     private HistoricoProductoService historicoProductoService;
 
@@ -76,6 +82,7 @@ public class ProductoController extends BaseController implements Serializable {
         this.tiposProducto = this.tipoProductoService.obtenerTodos();
         this.estados = this.estadoProductoService.obtenerTodos();
         this.historicos = this.historicoProductoService.obtenerTodos();
+        this.n = 200;
 
     }
 
@@ -94,8 +101,6 @@ public class ProductoController extends BaseController implements Serializable {
     public List<HistoricoProducto> getHistoricos() {
         return historicos;
     }
-    
-   
 
     public String getFiltro() {
         return filtro;
@@ -121,40 +126,39 @@ public class ProductoController extends BaseController implements Serializable {
         this.enBusquedaPorTipo = enBusquedaPorTipo;
     }
     
-     public void buscar() {
+    public void buscar() {
         if (this.enBusquedaPorTipo) {
-            this.productos = this.productoService.buscarPorTipo(this.tipoBusqueda);}
-        
+            this.historicos = this.historicoProductoService.buscarPorTipo(this.tipoBusqueda);}
     }
 
     @Override
     public void agregar() {
-        this.producto = new Producto();
+        this.historico = new HistoricoProducto();
         super.agregar();
     }
 
     @Override
     public void modificar() {
         super.modificar();
-        this.producto = new Producto();
-        this.producto.setIdProducto(this.productoSel.getIdProducto());
-        this.producto.setNombreProducto(this.productoSel.getNombreProducto());
-        this.producto.setRestriccionProducto(this.productoSel.getRestriccionProducto());
-        this.producto.setIdTipoProducto(this.tipo);
+        this.historico = new HistoricoProducto();
+        this.historico.setIdHistoricoProducto(this.historicoproductoSel.getIdHistoricoProducto());
+        this.historico.setIdEstadoProducto(this.estado);
+        this.historico.setIdProducto(this.producto);
+        this.historico.setFechaVigencia(this.historicoproductoSel.getFechaVigencia());
 
     }
 
     public void eliminar() {
         try {
-            this.productoService.eliminar(this.productoSel.getIdProducto());
+            this.historicoProductoService.eliminar(this.historicoproductoSel.getIdHistoricoProducto());
             this.productos = this.productoService.obtenerTodos();
             FacesUtil.addMessageInfo("Se elimino el registro.");
-            this.productoSel = null;
+            this.historicoproductoSel = null;
         } catch (Exception e) {
             FacesUtil.addMessageError(null, "No se puede eliminar el registro seleccionado. Verifique que no tenga informacion relacionada.");
         }
     }
-    
+
     public void cancelar() {
         super.reset();
         this.producto = new Producto();
@@ -163,28 +167,30 @@ public class ProductoController extends BaseController implements Serializable {
     public void guardar() {
         try {
             if (this.enAgregar) {
-                //para la tabla producto
-                this.producto.setIdProducto(0);
-                this.producto.setNombreProducto(this.producto.getNombreProducto());
-                this.producto.setRestriccionProducto(this.producto.getRestriccionProducto());
-                this.producto.setIdTipoProducto(this.tipo);
-                
-                this.productoService.crear(this.producto);
-                
-                FacesUtil.addMessageInfo("Se agreg\u00f3 el Producto: " + this.producto.getNombreProducto());
+
+                //para la tabla estado
+                int numero = (int) (Math.random() * n) + 1;
+                this.historico.setIdHistoricoProducto(numero);
+                this.historico.setIdProducto(this.producto);
+                this.historico.setIdEstadoProducto(this.estado);
+
+                this.historico.setFechaVigencia(date3);
+                this.historicoProductoService.crear(this.historico);
+
+                FacesUtil.addMessageInfo("Se agreg\u00f3 el Estado al producto: " + this.historico.getIdProducto().getNombreProducto());
             } else {
-                this.productoService.modificar(this.producto);
-                FacesUtil.addMessageInfo("Se modific\u00f3 el Producto: " + this.producto.getNombreProducto());
+                this.historicoProductoService.modificar(this.historico);
+                FacesUtil.addMessageInfo("Se modific\u00f3 el Estado al Producto: " + this.historico.getIdProducto().getNombreProducto());
             }
         } catch (Exception ex) {
             FacesUtil.addMessageError(null, "Ocurrí\u00f3 un error al actualizar la informaci\u00f3n");
         }
 
         super.reset();
-        this.producto = new Producto();
-        this.productos = this.productoService.obtenerTodos();
+        this.historico = new HistoricoProducto();
+        this.historicos = this.historicoProductoService.obtenerTodos();
     }
-       
+
     public Producto getProducto() {
         return producto;
     }
@@ -193,12 +199,12 @@ public class ProductoController extends BaseController implements Serializable {
         this.producto = producto;
     }
 
-    public Producto getProductoSel() {
-        return productoSel;
+    public HistoricoProducto getHistoricoproductoSel() {
+        return historicoproductoSel;
     }
 
-    public void setProductoSel(Producto productoSel) {
-        this.productoSel = productoSel;
+    public void setHistoricoproductoSel(HistoricoProducto historicoproductoSel) {
+        this.historicoproductoSel = historicoproductoSel;
     }
 
     public ProductoService getProductoService() {
@@ -249,6 +255,12 @@ public class ProductoController extends BaseController implements Serializable {
         this.fecha = fecha;
     }
     
-    
+     public Date getDate3() {
+        return date3;
+    }
+ 
+    public void setDate3(Date date3) {
+        this.date3 = date3;
+    }
 
 }
