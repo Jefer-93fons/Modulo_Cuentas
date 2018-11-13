@@ -7,16 +7,20 @@ package ec.edu.espe.arquitectura.controller;
 
 import ec.edu.espe.arquitectura.model.Cliente;
 import ec.edu.espe.arquitectura.model.Cuenta;
+
 import ec.edu.espe.arquitectura.model.EstadoCuenta;
 import ec.edu.espe.arquitectura.model.Historico;
+
 import ec.edu.espe.arquitectura.model.Producto;
 import ec.edu.espe.arquitectura.model.TipoProducto;
 import ec.edu.espe.arquitectura.model.Transaccion;
 import ec.edu.espe.arquitectura.service.ClienteService;
 import ec.edu.espe.arquitectura.service.CuentaService;
+
 import ec.edu.espe.arquitectura.service.EstadoCuentaService;
 import ec.edu.espe.arquitectura.service.FechaTrabajoService;
 import ec.edu.espe.arquitectura.service.HistoricoService;
+
 import ec.edu.espe.arquitectura.service.ProductoService;
 import ec.edu.espe.arquitectura.service.TipoProductoService;
 import ec.edu.espe.arquitectura.service.TransaccionService;
@@ -31,6 +35,7 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
@@ -39,6 +44,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
 
 /**
  *
@@ -53,6 +59,7 @@ public class CuentaController extends BaseController implements Serializable{
     private Producto producto;
     private TipoProducto tipo;
     private TipoProducto tipos;
+
     private Transaccion transaccion; 
     private Historico historico;
     private EstadoCuenta estadocuenta;
@@ -76,10 +83,11 @@ public class CuentaController extends BaseController implements Serializable{
     private List<TipoProducto> tiposProducto;
     private List<Transaccion> transacciones;
     private List<Transaccion> transaccionesSelec;
+
     private List<EstadoCuenta> estadoscuenta;
     private List<Historico> historicos;
     
-    
+
     @Inject
     private CuentaService cuentaService;
     
@@ -94,6 +102,7 @@ public class CuentaController extends BaseController implements Serializable{
     
     @Inject
     private TransaccionService transaccionService;
+
     
     @Inject
     private HistoricoService historicoService;
@@ -104,6 +113,7 @@ public class CuentaController extends BaseController implements Serializable{
     @Inject
     private FechaTrabajoService fechaTrabajoService;
 
+
     /**
      * Creates a new instance of CuentaController
      */
@@ -113,16 +123,19 @@ public class CuentaController extends BaseController implements Serializable{
         producto = new Producto();
         tipo = new TipoProducto();
         transaccion = new Transaccion();
+
         estadocuenta = new EstadoCuenta();
         historico = new Historico();
-        
+
         clientes = clienteService.obtenerTodos();
         cuentas = cuentaService.obtenerTodos();
         tiposProducto = tipoProductoService.obtenerTodos();
         productos = productoService.obtenerTodos();
         transacciones = transaccionService.obtenerTodos();
+
         estadoscuenta = estadoCuentaService.obtenerTodos();
         historicos = historicoService.obtenerTodos();
+
         
         mesesList = new ArrayList<List<String>>();
         anios = new ArrayList<String>();
@@ -189,6 +202,7 @@ public class CuentaController extends BaseController implements Serializable{
 
     public void setMes(String mes) {
         this.mes = mes;
+
     }
 
     public List<List<String>> getMesesList() {
@@ -301,6 +315,7 @@ public class CuentaController extends BaseController implements Serializable{
 
     public void setTransaccionesSelec(List<Transaccion> transaccionesSelec) {
         this.transaccionesSelec = transaccionesSelec;
+
     }
 
     public BigDecimal[] getInteres() {
@@ -359,12 +374,13 @@ public class CuentaController extends BaseController implements Serializable{
         this.historicoSelec = historicoSelec;
     }
 
-    
+
     @Override
     public void buscar(){
         formCuenta = buscarCliente (); 
         if(cliente !=null){
             super.buscar();
+
             buscarHistoricos();
         }else{
             FacesUtil.addMessageError(null,"No existe el cliente !");
@@ -393,6 +409,7 @@ public class CuentaController extends BaseController implements Serializable{
 
 //    }
     
+
     public void filtrarProductos(){
         List<Producto> auxproductos  = new ArrayList<Producto>();
         
@@ -575,12 +592,14 @@ public class CuentaController extends BaseController implements Serializable{
         }
         
 
+
         super.reset();
         this.cuenta = new Cuenta();
         this.cliente = new Cliente();
         this.tipo = new TipoProducto();
         this.producto = new Producto();
         this.cuentas = this.cuentaService.obtenerTodos();
+
     }
     
     public void guardarHistorico() {
