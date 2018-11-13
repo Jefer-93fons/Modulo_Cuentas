@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
+    <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+        <ui:define name="content">
+            <p:panel id="mainCli" header="Estado de Cuenta" style="width: 50%; margin: auto;">
+                <p:panelGrid columns="2" style="margin: 0 auto;" layout="grid">
+                    <p:column>
+                        <p:outputLabel style="margin-right: 25px" >CI/RUC*</p:outputLabel>
+                        <p:inputText value="#{cuentaController.identificacion}"></p:inputText>
+                        <p:commandButton actionListener="#{cuentaController.buscar()}" icon="ui-icon-search" update="@form:main:hist">
+                        </p:commandButton>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel style="margin-right: 25px">Cliente</p:outputLabel>
+                        <p:inputText value="#{cuentaController.cliente.nombreCliente} #{cuentaController.cliente.apellidoCliente}" disabled="true"></p:inputText>
+                    </p:column>
+                </p:panelGrid>
+            </p:panel>
+            <p:panel id="main" header="Estado de Cuenta" style="width: 50%; margin: auto;">
+                <p:dataTable  id="hist" var="historico" value="#{cuentaController.historicos}" selectionMode="single" selection="#{cuentaController.historicoSelec}" rowKey="#{historico.idHistorico}">
+                    <p:ajax event="rowSelect" update="@form:datosh" />
+                    <p:ajax event="rowUnselect" update="@form:datosh"  />
+                    <p:column headerText="N° Cuenta">
+                        <h:outputText value="#{historico.idCuenta.idCuenta}" />
+                    </p:column>
+                    <p:column headerText="Cliente">
+                        <h:outputText value="#{historico.idCuenta.idCliente.nombreCliente} #{historico.idCuenta.idCliente.apellidoCliente}" />
+                    </p:column>
+                    <p:column headerText="Estado">
+                        <h:outputText value="#{historico.idEstadoCuenta.nombreEstadoCuenta}" />
+                    </p:column>
+                    <p:column headerText="Fecha">
+                        <h:outputText value="#{historico.fechaHistorico}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{cuentaController.modificar()}" update="@form:datosh"/>
+                <p:panel id="datosh" header="Cuenta" visible="#{cuentaController.habilitaForm}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="numcuenta" value="N° Cuenta" />
+                        <p:inputText id="numcuenta" value="#{cuentaController.historico.idCuenta.idCuenta}" disabled="true" />
+                        <p:outputLabel for="estado" value="Estado" />
+                        <p:selectOneMenu id="estado" value="#{cuentaController.estadocuenta.idEstadoCuenta}">
+                            <f:selectItems value="#{cuentaController.estadoscuenta}" var="estadocuenta" itemValue="#{estadocuenta.idEstadoCuenta}" itemLabel="#{estadocuenta.nombreEstadoCuenta}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{cuentaController.guardarHistorico}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{cuentaController.cancelar}" update="@form" />
+                </p:panel>
+            </p:panel>
+        </ui:define>
+    </ui:composition>
+</html>

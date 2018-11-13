@@ -7,11 +7,16 @@ package ec.edu.espe.arquitectura.controller;
 
 import ec.edu.espe.arquitectura.model.Cliente;
 import ec.edu.espe.arquitectura.model.Cuenta;
+import ec.edu.espe.arquitectura.model.EstadoCuenta;
+import ec.edu.espe.arquitectura.model.Historico;
 import ec.edu.espe.arquitectura.model.Producto;
 import ec.edu.espe.arquitectura.model.TipoProducto;
 import ec.edu.espe.arquitectura.model.Transaccion;
 import ec.edu.espe.arquitectura.service.ClienteService;
 import ec.edu.espe.arquitectura.service.CuentaService;
+import ec.edu.espe.arquitectura.service.EstadoCuentaService;
+import ec.edu.espe.arquitectura.service.FechaTrabajoService;
+import ec.edu.espe.arquitectura.service.HistoricoService;
 import ec.edu.espe.arquitectura.service.ProductoService;
 import ec.edu.espe.arquitectura.service.TipoProductoService;
 import ec.edu.espe.arquitectura.service.TransaccionService;
@@ -26,17 +31,14 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -51,7 +53,11 @@ public class CuentaController extends BaseController implements Serializable{
     private Producto producto;
     private TipoProducto tipo;
     private TipoProducto tipos;
-    private Transaccion transaccion;    
+    private Transaccion transaccion; 
+    private Historico historico;
+    private EstadoCuenta estadocuenta;
+    private Historico historicoSelec;
+
     
     private String mes;
     private List<List<String>>mesesList;
@@ -70,6 +76,9 @@ public class CuentaController extends BaseController implements Serializable{
     private List<TipoProducto> tiposProducto;
     private List<Transaccion> transacciones;
     private List<Transaccion> transaccionesSelec;
+    private List<EstadoCuenta> estadoscuenta;
+    private List<Historico> historicos;
+    
     
     @Inject
     private CuentaService cuentaService;
@@ -85,6 +94,12 @@ public class CuentaController extends BaseController implements Serializable{
     
     @Inject
     private TransaccionService transaccionService;
+    
+    @Inject
+    private HistoricoService historicoService;
+    
+    @Inject
+    private EstadoCuentaService estadoCuentaService;
 
     /**
      * Creates a new instance of CuentaController
@@ -95,11 +110,16 @@ public class CuentaController extends BaseController implements Serializable{
         producto = new Producto();
         tipo = new TipoProducto();
         transaccion = new Transaccion();
+        estadocuenta = new EstadoCuenta();
+        historico = new Historico();
+        
         clientes = clienteService.obtenerTodos();
         cuentas = cuentaService.obtenerTodos();
         tiposProducto = tipoProductoService.obtenerTodos();
         productos = productoService.obtenerTodos();
         transacciones = transaccionService.obtenerTodos();
+        estadoscuenta = estadoCuentaService.obtenerTodos();
+        historicos = historicoService.obtenerTodos();
         
         mesesList = new ArrayList<List<String>>();
         anios = new ArrayList<String>();
@@ -296,17 +316,79 @@ public class CuentaController extends BaseController implements Serializable{
         this.saldo = saldo;
     }
 
+    public Historico getHistorico() {
+        return historico;
+    }
+
+    public void setHistorico(Historico historico) {
+        this.historico = historico;
+    }
+
+    public EstadoCuenta getEstadocuenta() {
+        return estadocuenta;
+    }
+
+    public void setEstadocuenta(EstadoCuenta estadocuenta) {
+        this.estadocuenta = estadocuenta;
+    }
+
+    public List<EstadoCuenta> getEstadoscuenta() {
+        return estadoscuenta;
+    }
+
+    public void setEstadoscuenta(List<EstadoCuenta> estadoscuenta) {
+        this.estadoscuenta = estadoscuenta;
+    }
+
+    public List<Historico> getHistoricos() {
+        return historicos;
+    }
+
+    public void setHistoricos(List<Historico> historicos) {
+        this.historicos = historicos;
+    }
+
+    public Historico getHistoricoSelec() {
+        return historicoSelec;
+    }
+
+    public void setHistoricoSelec(Historico historicoSelec) {
+        this.historicoSelec = historicoSelec;
+    }
+
+    
     @Override
     public void buscar(){
         formCuenta = buscarCliente (); 
         if(cliente !=null){
             super.buscar();
-            
+            buscarHistoricos();
         }else{
             FacesUtil.addMessageError(null,"No existe el cliente !");
         }
-        
     }
+    
+    @Override
+    public void modificar() {
+        super.modificar();
+        formCuenta=true;
+        this.historico.setIdHistorico(this.historicoSelec.getIdHistorico());
+        this.historico.setIdEstadoCuenta(this.getEstadocuenta());
+        this.historico.setIdCuenta(this.historicoSelec.getIdCuenta());
+        this.historico.setFechaHistorico(this.historicoSelec.getFechaHistorico());
+
+    }
+    
+//    @Override
+//    public void modificar() {
+//        super.modificar();
+//        this.historico = new Historico();
+//        this.historico.setIdHistorico(this.historicoSelec.getIdHistorico());
+//        this.historico.setIdEstadoCuenta(estadocuenta);
+//        this.historico.setIdCuenta(this.historicoSelec.getIdCuenta());
+//        this.historico.setFechaHistorico(this.historicoSelec.getFechaHistorico());
+
+//    }
     
     public void filtrarProductos(){
         List<Producto> auxproductos  = new ArrayList<Producto>();
@@ -361,16 +443,16 @@ public class CuentaController extends BaseController implements Serializable{
                     if(trans.getIdCuenta().getIdCuenta() == numcuenta[i]){
                         transaccionesSelec.add(trans);
                         fechainput =  inputFecha.parse(inputFecha.format(trans.getFechaTransaccion()));
-                         if(fechainput.equals(fechabusqueda) || fechainput.before(fechabusqueda)){
-                           if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 1){
+                         if(fechainput.after(fechabusqueda)){
+//                           if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 1){
                                 valortotaltransc[i] = valortotaltransc[i].add(trans.getValorTransaccion());
-                            }
-                            if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 2 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 4){
-                                valortotaltransc[i] = valortotaltransc[i].subtract(trans.getValorTransaccion());
-                            }
-                            if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3){
+//                            }
+//                            if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 2 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3 || trans.getIdTipoTransaccion().getIdTipoTransaccion() == 4){
+//                                valortotaltransc[i] = valortotaltransc[i].subtract(trans.getValorTransaccion());
+//                            }
+//                            if(trans.getIdTipoTransaccion().getIdTipoTransaccion() == 3){
                                 //interes[i] = interes[i].add(trans.getValorTransaccion());
-                            } 
+//                            } 
                         }     
                     }
                 }
@@ -395,7 +477,13 @@ public class CuentaController extends BaseController implements Serializable{
                     }
                 }
             }
-            saldo = valortotaltransc;
+            
+            for (int i=0; i<numcuenta.length; i++){
+                if(numcuenta[i]!=0){
+                    saldo[i] = cuentasSelec.get(i).getSaldoCuenta().subtract(valortotaltransc[i]);
+                }
+            }
+            
 
          //   System.out.println(valortotaltransc[0]);
          //   System.out.println(valortotaltransc[1]);
@@ -420,21 +508,69 @@ public class CuentaController extends BaseController implements Serializable{
 
     }
     
-    public void guardar() {
+    public void buscarHistoricos(){
         buscarCliente();
-        System.out.println(this.cliente);
-        System.out.println(producto);
-        try {
-            if (buscarCliente()) {
-                this.cuenta.setIdCuenta(0);
-                this.cuenta.setIdCliente(cliente);
-                this.cuenta.setIdProducto(producto);
-                this.cuenta.setSaldoCuenta(BigDecimal.valueOf(200));
-                this.cuentaService.crear(this.cuenta);
-                FacesUtil.addMessageInfo("Se agreg\u00f3 Correctamente la Cuenta ");
-            } 
-        } catch (Exception ex) {
+        List<Historico> auxhistoricos  = new ArrayList<Historico>();
+        
+        for (Historico auxhist : historicos) {
+            if (auxhist.getIdCuenta().getIdCliente().getIdCliente() == (cliente.getIdCliente())) {
+                auxhistoricos.add(auxhist);
+            }
         }
+        
+        this.historicos = auxhistoricos;
+    }
+    
+    public void guardar() throws ParseException {
+        buscarCliente();
+        boolean validarCuentaUnica = true;
+        Date fechaActual = new Date();
+        
+        
+        for (Cuenta cnt : cuentas){
+            if(cnt.getIdCliente().getCodCliente().equals(identificacion)){
+                if(producto.getIdProducto() == cnt.getIdProducto().getIdProducto()){
+                    validarCuentaUnica = false;
+                }
+            }
+        }
+        if(validarCuentaUnica){
+            try {
+                if (buscarCliente()) {
+                    try{
+                        this.cuenta.setIdCuenta(0);
+                        this.cuenta.setIdCliente(cliente);
+                        this.cuenta.setIdProducto(producto);
+                        this.cuenta.setSaldoCuenta(BigDecimal.valueOf(200));
+                        this.cuentaService.crear(this.cuenta);
+
+                        FacesUtil.addMessageInfo("Se agreg\u00f3 Correctamente la Cuenta "); 
+                    }catch(Exception e){
+
+                    }
+
+
+                    try{
+                        cuentas = cuentaService.obtenerTodos();
+                        this.historico.setIdHistorico(0);
+                        this.historico.setIdCuenta(this.cuentas.get(this.cuentas.size() - 1));
+                        this.historico.setIdEstadoCuenta(estadoscuenta.get(0));
+                        this.historico.setFechaHistorico(fechaActual);
+                        this.historicoService.crear(this.historico);
+
+                    }catch(Exception e){
+
+                    }
+
+
+
+                } 
+            } catch (Exception ex) {
+            }
+        }else{
+            FacesUtil.addMessageError(null,"Ya existe una cuenta con dicho Producto "); 
+        }
+        
 
         super.reset();
         this.cuenta = new Cuenta();
@@ -442,6 +578,25 @@ public class CuentaController extends BaseController implements Serializable{
         this.tipo = new TipoProducto();
         this.producto = new Producto();
         this.cuentas = this.cuentaService.obtenerTodos();
+    }
+    
+    public void guardarHistorico() {
+        
+        this.historico.setIdHistorico(this.historicoSelec.getIdHistorico());
+        this.historico.setIdCuenta(this.historicoSelec.getIdCuenta());
+        this.historico.setFechaHistorico(this.historicoSelec.getFechaHistorico());
+        this.historico.setIdEstadoCuenta(this.estadocuenta);        
+        this.historicoService.modificar(this.historico);
+        FacesUtil.addMessageInfo("Se modific\u00f3 la cuenta!");
+
+        super.reset();
+        this.historico = new Historico();
+        this.historicos = this.historicoService.obtenerTodos();
+    }
+    
+     public void cancelar() {
+        super.reset();
+        this.producto = new Producto();
     }
     
 }
