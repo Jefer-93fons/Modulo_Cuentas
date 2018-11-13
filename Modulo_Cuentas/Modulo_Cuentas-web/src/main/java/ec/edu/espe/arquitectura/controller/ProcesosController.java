@@ -78,6 +78,7 @@ public class ProcesosController implements Serializable {
 
         for (Cuenta auxCuenta : cuentas) {
 
+
             //System.out.println(auxCuenta.getIdCuenta() + "\t" + auxCuenta.getIdProducto().getNombreProducto());
             List<Historico> fechasDestacadas = obtFechasDestacadas(auxCuenta.getIdCuenta());
             //Revisar si la cuenta esta habilitada
@@ -202,6 +203,7 @@ public class ProcesosController implements Serializable {
                     } else {
                         return false;
                     }
+
 
                 }
             } else {
