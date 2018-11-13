@@ -19,6 +19,7 @@
                         <p:outputLabel for="txtNumCuenta" value="Cuenta" />
                         <p:inputText id="txtNumCuenta" value="#{verTransaccionController.cuentaDigitada}"/>
                         <p:commandButton icon="ui-icon-search" actionListener="#{verTransaccionController.agregar()}" update="@form"  />
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                     </p:panelGrid>
                     <p:panel visible="#{verTransaccionController.habilitaForm}" >
                         <p:panelGrid columns="2" layout="grid">

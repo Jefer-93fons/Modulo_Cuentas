@@ -183,6 +183,7 @@ public class verTransaccionController extends BaseController implements Serializ
     }
     
     public void buscarTransaccion() throws ParseException {
+        this.transacciones = this.transaccionService.porCuenta(cuentaDigitada);
         if(mes!=null && anio!=null){
             SimpleDateFormat inputFecha = new SimpleDateFormat("MM/yyyy");  
             Date fechabusqueda = inputFecha.parse(this.mes+"/"+this.anio);
@@ -197,6 +198,8 @@ public class verTransaccionController extends BaseController implements Serializ
                 
             }
             transacciones = transaccionSel;
+        }else{
+            FacesUtil.addMessageError(null,"Campos Incompletos!");
         }
     }
 }
