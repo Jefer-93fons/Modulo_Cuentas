@@ -100,6 +100,9 @@ public class CuentaController extends BaseController implements Serializable{
     
     @Inject
     private EstadoCuentaService estadoCuentaService;
+    
+    @Inject
+    private FechaTrabajoService fechaTrabajoService;
 
     /**
      * Creates a new instance of CuentaController
@@ -525,7 +528,7 @@ public class CuentaController extends BaseController implements Serializable{
         buscarCliente();
         boolean validarCuentaUnica = true;
         Date fechaActual = new Date();
-        
+        fechaActual = fechaTrabajoService.obtenerActual().getFechaProceso();
         
         for (Cuenta cnt : cuentas){
             if(cnt.getIdCliente().getCodCliente().equals(identificacion)){
