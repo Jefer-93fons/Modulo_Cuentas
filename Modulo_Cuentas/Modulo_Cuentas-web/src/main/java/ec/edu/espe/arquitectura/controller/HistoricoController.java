@@ -31,6 +31,10 @@ import javax.inject.Named;
 @ViewScoped
 public class HistoricoController extends BaseController implements Serializable {
 
+    private String filtro;
+    private Integer tipoBusqueda;
+    private boolean enBusquedaPorTipo;
+    
     private Date date3;
     
     private Integer n;
@@ -68,6 +72,8 @@ public class HistoricoController extends BaseController implements Serializable 
 
     @PostConstruct
     public void init() {
+        this.filtro = "TIP";
+        this.enBusquedaPorTipo = true;
         this.producto = new Producto();
         this.tipo = new TipoProducto();
         this.estado = new EstadoProducto();
@@ -94,6 +100,35 @@ public class HistoricoController extends BaseController implements Serializable 
 
     public List<HistoricoProducto> getHistoricos() {
         return historicos;
+    }
+
+    public String getFiltro() {
+        return filtro;
+    }
+
+    public void setFiltro(String filtro) {
+        this.filtro = filtro;
+    }
+
+    public Integer getTipoBusqueda() {
+        return tipoBusqueda;
+    }
+
+    public void setTipoBusqueda(Integer tipoBusqueda) {
+        this.tipoBusqueda = tipoBusqueda;
+    }
+
+    public boolean isEnBusquedaPorTipo() {
+        return enBusquedaPorTipo;
+    }
+
+    public void setEnBusquedaPorTipo(boolean enBusquedaPorTipo) {
+        this.enBusquedaPorTipo = enBusquedaPorTipo;
+    }
+    
+    public void buscar() {
+        if (this.enBusquedaPorTipo) {
+            this.historicos = this.historicoProductoService.buscarPorTipo(this.tipoBusqueda);}
     }
 
     @Override

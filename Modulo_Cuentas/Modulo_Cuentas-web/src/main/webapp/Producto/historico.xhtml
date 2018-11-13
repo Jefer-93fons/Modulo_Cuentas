@@ -15,6 +15,19 @@ and open the template in the editor.
         <ui:define name="content">
 
             <p:panel id="mainPnl" header="Historico" style="width: 50%; margin: auto;">
+                <p:panel id="buscPnl" header="Busqueda">
+                    <p:outputLabel for="filtroCmb" value="Buscar:" />
+                    <p:selectOneMenu id="filtroCmb" value="#{historicoController.filtro}" required="true"  >
+                        <p:ajax update="@form"/>
+                        <f:selectItem itemLabel="Estado" itemValue="TIP" />
+                        
+                    </p:selectOneMenu>
+                    <p:selectOneMenu id="tiposCmb" value="#{historicoController.tipoBusqueda}" rendered="#{historicoController.enBusquedaPorTipo}">
+                        <f:selectItems var="estadoProducto" value="#{historicoController.estados}" itemLabel="#{estadoProducto.nombreEstadoProducto}" itemValue="#{estadoProducto.idEstadoProducto}" />
+                    </p:selectOneMenu>
+                   
+                    <p:commandButton id="buscarCmd" value="Buscar" actionListener="#{historicoController.buscar()}" update="@form" />
+                </p:panel>
                 <p:dataTable var="historico" value="#{historicoController.historicos}" 
                              selectionMode="single" selection="#{historicoController.historicoproductoSel}" rowKey="#{historico.idHistoricoProducto}">
                     <p:ajax event="rowSelect" update="@form" />

@@ -95,11 +95,7 @@ public class ProductoController extends BaseController implements Serializable {
         return historicos;
     }
     
-    public void buscar() {
-        
-            this.productos = this.productoService.buscarPorTipo(this.tipoBusqueda);
-        
-    }
+   
 
     public String getFiltro() {
         return filtro;
@@ -125,6 +121,11 @@ public class ProductoController extends BaseController implements Serializable {
         this.enBusquedaPorTipo = enBusquedaPorTipo;
     }
     
+     public void buscar() {
+        if (this.enBusquedaPorTipo) {
+            this.productos = this.productoService.buscarPorTipo(this.tipoBusqueda);}
+        
+    }
 
     @Override
     public void agregar() {

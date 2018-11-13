@@ -22,7 +22,7 @@ and open the template in the editor.
                         <f:selectItem itemLabel="Tipo Producto" itemValue="TIP" />
                         
                     </p:selectOneMenu>
-                    <p:selectOneMenu id="tiposTourCmb" value="#{productoController.tipoBusqueda}" rendered="#{productoController.enBusquedaPorTipo}">
+                    <p:selectOneMenu id="tiposCmb" value="#{productoController.tipoBusqueda}" rendered="#{productoController.enBusquedaPorTipo}">
                         <f:selectItems var="tipoProducto" value="#{productoController.tiposProducto}" itemLabel="#{tipoProducto.nombreTipoProducto}" itemValue="#{tipoProducto.idTipoProducto}" />
                     </p:selectOneMenu>
                    

@@ -42,4 +42,8 @@ public class HistoricoProductoService {
         this.historicoProductoFacade.remove(producto);
     }
     
+    public List<HistoricoProducto> buscarPorTipo(Integer tipoBusqueda) {
+        return this.historicoProductoFacade.findByTipo(tipoBusqueda);
+    }
+    
 }

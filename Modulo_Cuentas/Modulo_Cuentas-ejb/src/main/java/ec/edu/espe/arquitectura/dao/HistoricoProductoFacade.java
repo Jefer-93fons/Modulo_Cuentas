@@ -6,6 +6,7 @@
 package ec.edu.espe.arquitectura.dao;
 
 import ec.edu.espe.arquitectura.model.HistoricoProducto;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,4 +37,12 @@ public class HistoricoProductoFacade extends AbstractFacade<HistoricoProducto> {
         qry.setParameter(1, codigo);
         return qry.getResultList();
     }
+    
+    public List<HistoricoProducto> findByTipo(Integer estado){
+        Query qry=this.em.createQuery("SELECT obj FROM HistoricoProducto obj WHERE obj.idEstadoProducto.idEstadoProducto=?1");
+        qry.setParameter(1, estado);
+        return qry.getResultList();
+    } 
+    
+    
 }

@@ -38,7 +38,7 @@ public class ProductoFacade extends AbstractFacade<Producto> {
     }
     
      public List<Producto> findByTipo(Integer tipo){
-        Query qry=this.em.createQuery("SELECT obj FROM Producto obj WHERE obj.idTipoProducto=?1");
+        Query qry=this.em.createQuery("SELECT obj FROM Producto obj WHERE obj.idTipoProducto.idTipoProducto=?1");
         qry.setParameter(1, tipo);
         return qry.getResultList();
     } 
