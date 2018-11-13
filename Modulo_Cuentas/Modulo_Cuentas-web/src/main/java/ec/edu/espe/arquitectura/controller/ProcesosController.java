@@ -73,7 +73,7 @@ public class ProcesosController implements Serializable {
 
                 if (Min <= Saldo && Max >= Saldo) {
                     float ganancia = 0;
-                    ganancia = Saldo * ((float) interes.getIdInteres().intValueExact() / 100);
+                //    ganancia = Saldo * ((float) interes.getIdInteres().intValueExact() / 100);
                     System.out.println("GANO: " + ganancia);
                     Transaccion transaccion = new Transaccion();
                     Date date = new Date(2018, 11, 8);

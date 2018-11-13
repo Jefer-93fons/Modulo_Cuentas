@@ -29,8 +29,6 @@ public class InteresProducto implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_INTERES_PRODUCTO")
     private Integer idInteresProducto;
     @JoinColumn(name = "ID_INTERES", referencedColumnName = "ID_INTERES")

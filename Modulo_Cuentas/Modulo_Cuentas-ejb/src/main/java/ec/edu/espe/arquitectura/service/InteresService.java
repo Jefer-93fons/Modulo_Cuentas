@@ -7,7 +7,6 @@ package ec.edu.espe.arquitectura.service;
 
 import ec.edu.espe.arquitectura.dao.InteresFacade;
 import ec.edu.espe.arquitectura.model.Interes;
-import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -38,7 +37,7 @@ public class InteresService {
         this.interesFacade.edit(interes);
     }
     
-    public void eliminar(BigDecimal codigo){
+    public void eliminar(Integer codigo){
         Interes interes = this.interesFacade.find(codigo);
         this.interesFacade.remove(interes);
     }

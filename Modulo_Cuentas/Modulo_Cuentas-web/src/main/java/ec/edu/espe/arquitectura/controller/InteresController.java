@@ -11,6 +11,7 @@ import ec.edu.espe.arquitectura.service.InteresService;
 import ec.edu.espe.arquitectura.service.PeriodoService;
 import ec.edu.espe.arquitectura.web.util.FacesUtil;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -102,10 +103,10 @@ public class InteresController extends BaseController implements Serializable {
     public void guardar() {
         try {
             if (this.enAgregar) {
-                //this.interes.setIdProducto(0);
-                this.interes.setPorcentajeInteres(this.interesSel.getPorcentajeInteres());
-                this.interes.setValorMax(this.interesSel.getValorMax());
-                this.interes.setValorMin(this.interesSel.getValorMin());
+                this.interes.setIdInteres(0);
+                this.interes.setPorcentajeInteres(this.interes.getPorcentajeInteres());
+                this.interes.setValorMax(this.interes.getValorMax());
+                this.interes.setValorMin(this.interes.getValorMin());
                 this.interes.setIdPeriodo(this.periodo);
                 this.interesService.crear(this.interes);
                 FacesUtil.addMessageInfo("Se agreg\u00f3 el Interes con Porcentaje: " + this.interes.getPorcentajeInteres());

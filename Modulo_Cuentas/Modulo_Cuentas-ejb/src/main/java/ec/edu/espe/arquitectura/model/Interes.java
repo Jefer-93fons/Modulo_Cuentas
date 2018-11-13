@@ -30,7 +30,7 @@ public class Interes implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Column(name = "ID_INTERES")
-    private BigDecimal idInteres;
+    private Integer idInteres;
     
     @Column(name = "PORCENTAJE_INTERES")
     private BigDecimal porcentajeInteres;
@@ -49,24 +49,26 @@ public class Interes implements Serializable {
     public Interes() {
     }
 
-    public Interes(BigDecimal idInteres) {
+    public Interes(Integer idInteres) {
         this.idInteres = idInteres;
     }
 
-    public Interes(BigDecimal idInteres, BigDecimal porcentajeInteres, BigDecimal valorMin, BigDecimal valorMax) {
+    public Interes(Integer idInteres, BigDecimal porcentajeInteres, BigDecimal valorMin, BigDecimal valorMax) {
         this.idInteres = idInteres;
         this.porcentajeInteres = porcentajeInteres;
         this.valorMin = valorMin;
         this.valorMax = valorMax;
     }
 
-    public BigDecimal getIdInteres() {
+    public Integer getIdInteres() {
         return idInteres;
     }
 
-    public void setIdInteres(BigDecimal idInteres) {
+    public void setIdInteres(Integer idInteres) {
         this.idInteres = idInteres;
     }
+
+    
 
     public BigDecimal getPorcentajeInteres() {
         return porcentajeInteres;
