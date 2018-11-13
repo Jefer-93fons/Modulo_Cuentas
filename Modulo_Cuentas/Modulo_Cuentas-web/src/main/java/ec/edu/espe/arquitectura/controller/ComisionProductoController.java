@@ -99,6 +99,7 @@ public class ComisionProductoController extends BaseController implements Serial
     public void modificar() {
         super.modificar();
         this.comisionProducto = new ComisionProducto();
+        this.comisionProducto.setIdComisionProducto(this.comisionProductoSel.getIdComisionProducto());
         this.comisionProducto.setIdComision(this.comision);
         this.comisionProducto.setIdProducto(this.producto);
         this.comisionProducto.setValorComisionProducto(this.comisionProductoSel.getValorComisionProducto());

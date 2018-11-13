@@ -6,9 +6,11 @@
 package ec.edu.espe.arquitectura.dao;
 
 import ec.edu.espe.arquitectura.model.HistoricoProducto;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,9 @@ public class HistoricoProductoFacade extends AbstractFacade<HistoricoProducto> {
         super(HistoricoProducto.class);
     }
     
+    public List<HistoricoProducto> findByCodigo(Integer codigo) {
+        Query qry = this.em.createQuery("SELECT obj FROM HistoricoProducto obj WHERE obj.idHistoricoProducto=?1");
+        qry.setParameter(1, codigo);
+        return qry.getResultList();
+    }
 }

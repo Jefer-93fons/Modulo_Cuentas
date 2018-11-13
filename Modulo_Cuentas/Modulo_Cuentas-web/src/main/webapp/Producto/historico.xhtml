@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+        <ui:define name="content">
+
+            <p:panel id="mainPnl" header="Historico" style="width: 50%; margin: auto;">
+                <p:dataTable var="historico" value="#{historicoController.historicos}" 
+                             selectionMode="single" selection="#{historicoController.historicoproductoSel}" rowKey="#{historico.idHistoricoProducto}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form"  />
+                    <p:column headerText="Nombre Producto">
+                        <h:outputText value="#{historico.idProducto.nombreProducto}" />
+                    </p:column>
+                    <p:column headerText="Estado Producto">
+                        <h:outputText value="#{historico.idEstadoProducto.nombreEstadoProducto}" />
+                    </p:column>
+                    <p:column headerText="Fecha Vigencia">
+                        <h:outputText value="#{historico.fechaVigencia}" />
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:commandButton value="Agregar Estado" actionListener="#{historicoController.agregar()}" update="@form"  />
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{historicoController.modificar()}" update="@form" disabled="#{historicoController.historicoproductoSel eq null}"/>
+                
+                <p:panel header="#{historicoController.titulo} Historico" visible="#{historicoController.habilitaForm}">
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel for="Productocmb" value="Nombre Producto" />
+                        <p:selectOneMenu id="Productocmb" value="#{historicoController.producto.idProducto}">
+                            <f:selectItems value="#{historicoController.productos}" var="producto" itemValue="#{producto.idProducto}" itemLabel="#{producto.nombreProducto}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="estadocmb" value="Estado Producto" />
+                        <p:selectOneMenu id="estadocmb" value="#{historicoController.estado.idEstadoProducto}">
+                            <f:selectItems value="#{historicoController.estados}" var="estado" itemValue="#{estado.idEstadoProducto}" itemLabel="#{estado.nombreEstadoProducto}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="button" value="Fecha Vigente" />
+                        
+                        <p:calendar id="button" value="#{historicoController.date3}" showOn="button" pattern="MM/dd/yyyy"/>
+                        
+
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{historicoController.guardar}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{historicoController.cancelar}" update="@form" />
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -97,6 +97,7 @@ public class InteresProductoController extends BaseController implements Seriali
     public void modificar() {
         super.modificar();
         this.interesProducto = new InteresProducto();
+        this.interesProducto.setIdInteresProducto(this.interesProductoSel.getIdInteresProducto());
         this.interesProducto.setIdInteres(this.interes);
         this.interesProducto.setIdProducto(this.producto);
 
