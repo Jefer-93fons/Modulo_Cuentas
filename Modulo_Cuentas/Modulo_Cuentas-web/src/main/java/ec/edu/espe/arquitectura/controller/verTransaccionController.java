@@ -117,4 +117,8 @@ public class verTransaccionController extends BaseController implements Serializ
         this.cuenta.setIdCliente(new Cliente());
         this.cuenta.setIdProducto(new Producto());
     }
+    
+    public void buscar(){
+        
+    }
 }
