@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,27 +24,20 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "INTERES")
-@NamedQueries({
-    @NamedQuery(name = "Interes.findAll", query = "SELECT i FROM Interes i")})
 public class Interes implements Serializable {
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "ID_INTERES")
     private BigDecimal idInteres;
-    @Basic(optional = false)
-    @NotNull
+    
     @Column(name = "PORCENTAJE_INTERES")
     private BigDecimal porcentajeInteres;
-    @Basic(optional = false)
-    @NotNull
+    
     @Column(name = "VALOR_MIN")
     private BigDecimal valorMin;
-    @Basic(optional = false)
-    @NotNull
+    
     @Column(name = "VALOR_MAX")
     private BigDecimal valorMax;
     @JoinColumn(name = "ID_PERIODO", referencedColumnName = "ID_PERIODO")
