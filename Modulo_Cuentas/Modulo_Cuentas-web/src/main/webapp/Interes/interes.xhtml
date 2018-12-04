@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+        <ui:define name="content">
+
+            <p:panel id="mainPnl" header="Interes:" style="width: 50%; margin: auto;">
+                <p:dataTable var="interes" value="#{interesController.intereses}" 
+                             selectionMode="single" selection="#{interesController.interesSel}" rowKey="#{interes.idInteres}">
+                    <p:ajax event="rowSelect" update="@form" />
+                    <p:ajax event="rowUnselect" update="@form"  />
+                    <p:column headerText="Porcentaje">
+                        <h:outputText value="#{interes.porcentajeInteres}" />
+                    </p:column>
+                    <p:column headerText="Valor Maximo">
+                        <h:outputText value="#{interes.valorMax}" />
+                    </p:column>
+                    <p:column headerText="Valor Minimo">
+                        <h:outputText value="#{interes.valorMin}" />
+                    </p:column>
+                    <p:column headerText="Periodo">
+                        <h:outputText value="#{interes.idPeriodo.nombrePeriodo}" />
+                    </p:column>
+                </p:dataTable>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                <p:commandButton value="Agregar" actionListener="#{interesController.agregar()}" update="@form"  />
+                <p:commandButton id="modBtn" value="Modificar" actionListener="#{interesController.modificar()}" update="@form" disabled="#{interesController.interesSel eq null}"/>
+                <p:commandButton value="Eliminar" actionListener="#{interesController.eliminar()}" update="@form" disabled="#{interesController.interesSel eq null}" >
+                    <p:confirm header="Confirmaci&#243;n" message="Desea eliminar el Interes: #{interesController.interesSel.porcentajeInteres}" icon="ui-icon-alert" />
+                </p:commandButton>
+                <p:panel header="#{interesController.titulo} Interes" visible="#{interesController.habilitaForm}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="porcentaje" value="Porcentaje" />
+                        <p:inputTextarea id="porcentaje" value="#{interesController.interes.porcentajeInteres}" rows="2" cols="20" />
+                        <p:outputLabel for="periodocmb" value="Periodo" />
+                        <p:selectOneMenu id="periodocmb" value="#{interesController.periodo.idPeriodo}">
+                            <f:selectItems value="#{interesController.periodos}" var="periodo" itemValue="#{periodo.idPeriodo}" itemLabel="#{periodo.nombrePeriodo}"/>
+                        </p:selectOneMenu>
+
+
+                        <p:outputLabel for="valorMaximo" value="Valor Maximo" />
+                        <p:inputText id="valorMaximo" value="#{interesController.interes.valorMax}"  />
+                        <p:outputLabel for="valorMinimo" value="Valor Minimo" />
+                        <p:inputText id="valorMinimo" value="#{interesController.interes.valorMin}"  />
+                    </p:panelGrid>
+                    <p:commandButton value="Aceptar" actionListener="#{interesController.guardar}" update="@form" />
+                    <p:commandButton value="Cancelar" actionListener="#{interesController.cancelar}" update="@form" />
+                </p:panel>
+            </p:panel>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </ui:define>
+    </ui:composition>
+</html>

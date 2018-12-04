@@ -42,4 +42,8 @@ public class ProductoService {
         this.productoFacade.remove(producto);
     }
     
+    public List<Producto> buscarPorTipo(Integer tipoBusqueda) {
+        return this.productoFacade.findByTipo(tipoBusqueda);
+    }
+    
 }

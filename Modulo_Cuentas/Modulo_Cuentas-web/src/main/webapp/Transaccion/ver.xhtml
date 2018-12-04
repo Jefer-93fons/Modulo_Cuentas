@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../WEB-INF/templates/plantilla.xhtml">
+
+            <ui:define name="content">
+
+                <p:growl id="growl" life="3500" showSummary="true" showDetail="true"/>
+                <p:panel id="dataPnl" header="Cuenta:" style="width: 40%; height: 100%; margin: auto;">
+                    <p:panelGrid columns="3" layout="grid">
+                        <p:outputLabel for="txtNumCuenta" value="Cuenta" />
+                        <p:inputText id="txtNumCuenta" value="#{verTransaccionController.cuentaDigitada}"/>
+                        <p:commandButton icon="ui-icon-search" actionListener="#{verTransaccionController.agregar()}" update="@form"  />
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                    </p:panelGrid>
+                    <p:panel visible="#{verTransaccionController.habilitaForm}" >
+                        <p:panelGrid columns="2" layout="grid">
+                            <p:outputLabel for="txtNomCuenta" value="Cliente" />
+                            <p:inputText id="txtNomCuenta" value="#{verTransaccionController.cuenta.idCliente.nombreCliente}"/>
+
+                            <p:outputLabel for="txtProducto" value="Producto" />
+                            <p:inputText id="txtProducto" value="#{verTransaccionController.cuenta.idProducto.nombreProducto}"/>
+                            
+                            <p:outputLabel for="txtSaldo" value="Saldo Actual" />
+                            <p:inputText id="txtSaldo" value="#{verTransaccionController.cuenta.saldoCuenta}"/>
+
+                        </p:panelGrid>
+
+
+                    </p:panel>
+                    <p:panel id="mainRango" header="Fecha" >
+                        <p:panelGrid columns="2" style="margin: 0 auto;" layout="grid">
+                            <p:column colspan="2">
+                                <p:outputLabel style="margin-right: 30px" for="mes" value="Mes" />
+                                <p:selectOneMenu id="mes" value="#{verTransaccionController.mes}" style="width:150px">
+                                 <f:selectItem itemLabel="Seleccione el periodo" itemValue="" />
+                                 <c:forEach items="#{verTransaccionController.mesesList}" var="meses">
+                                     <f:selectItems value="#{meses.subList(0, 1)}" itemLabel="#{meses.subList(1, 2).get(0)}" />
+                                 </c:forEach>
+                                </p:selectOneMenu> 
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel style="margin-right: 32px" for="anio" value="Año " />
+                                <p:selectOneMenu id="anio" value="#{verTransaccionController.anio}" style="width:150px">
+                                 <f:selectItem itemLabel="Seleccione el año" itemValue="" />
+                                 <f:selectItems value="#{verTransaccionController.anios}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            
+                            <p:column>
+              
+                            </p:column>
+           
+                            <p:column>
+                                <p:commandButton style="margin-left : auto; display: block" value="Buscar" actionListener="#{verTransaccionController.buscarTransaccion()}" icon="ui-icon-star" update="mainPnl">
+                                </p:commandButton>
+                            </p:column>
+                        </p:panelGrid>
+                    </p:panel>
+
+                </p:panel>
+
+                <p:panel id="mainPnl" header="Movimientos:" style="width: 60%; height: 100%; margin: auto;">
+                    <h:form>
+                        <p:dataTable id="tbl" var="trans" value="#{verTransaccionController.transacciones}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                                     paginator="true" rows="10" style="margin-bottom:20px">
+
+                            <f:facet name="{Exporters}">
+                                <h:commandLink>
+                                    <p:graphicImage name="/img/excel.png" width="24"/>
+                                    <p:dataExporter type="xls" target="tbl" fileName="trans-export" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/img/pdf.png" width="24"/>
+                                    <p:dataExporter type="pdf" target="tbl" fileName="trans"/>
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/img/csv.png" width="24"/>
+                                    <p:dataExporter type="csv" target="tbl" fileName="trans" />
+                                </h:commandLink>
+
+                                <h:commandLink>
+                                    <p:graphicImage name="/img/xml.png" width="24"/>
+                                    <p:dataExporter type="xml" target="tbl" fileName="trans" />
+                                </h:commandLink>
+                            </f:facet>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Num." />
+                                </f:facet>
+                                <h:outputText value="1" />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Tipo de Transacción" />
+                                </f:facet>
+                                <h:outputText value="#{trans.idTipoTransaccion.nombreTipoTransaccion}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="valor"/>
+                                </f:facet>
+                                <h:outputText value="$ #{trans.valorTransaccion}" />
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Fecha" />
+                                </f:facet>
+                                <h:outputText value="#{trans.fechaTransaccion}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>
+                            </p:column>
+
+
+                        </p:dataTable>
+
+                        <h3>Export Page Data Only</h3>
+                        <h:commandLink>
+                            <p:graphicImage name="/img/excel.png" width="30px"/>
+                            <p:dataExporter type="xls" target="tbl" fileName="cars" pageOnly="true"/>
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="img/pdf.png" width="30px"/>
+                            <p:dataExporter type="pdf" target="tbl" fileName="cars" pageOnly="true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/img/csv.png" width="30px" />
+                            <p:dataExporter type="csv" target="tbl" fileName="cars" pageOnly="true" />
+                        </h:commandLink>
+
+                        <h:commandLink>
+                            <p:graphicImage name="/img/xml.png" width="30px"/>
+                            <p:dataExporter type="xml" target="tbl" fileName="cars" pageOnly="true" />
+                        </h:commandLink>
+                    </h:form>
+
+
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+
+
